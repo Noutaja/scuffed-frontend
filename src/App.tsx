@@ -1,5 +1,4 @@
 import { ThemeProvider, createTheme } from "@mui/material";
-import React from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 
