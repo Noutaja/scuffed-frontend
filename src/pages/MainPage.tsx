@@ -9,7 +9,6 @@ export default function MainPage() {
 		(state) => state.productsReducer.products
 	);
 	const dispatch = useAppDispatch();
-  console.log(products)
 
 	useEffect(() => {
 		dispatch(fetchAllProducts());

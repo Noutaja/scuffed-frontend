@@ -1,22 +1,20 @@
 export type Product = {
   id: number,
   title: string,
-  price: number
-}
-
-/* export type Product = {
-  id: number,
-  title: string,
   price: number,
   description: string,
   category: Category,
-  images: string[]
-} */
+  images: string[],
+  creationAt: string,
+  updatedAt: string
+}
 
 export type Category = {
   id: number,
   name: string,
-  image: string
+  image: string,
+  creationAt: string,
+  updatedAt: string
 }
 
 export type User = {
