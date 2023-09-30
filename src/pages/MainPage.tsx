@@ -1,8 +1,10 @@
-import React, { useEffect} from "react";
+import React, { useEffect } from "react";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { fetchAllProducts } from "../redux/reducers/productsReducer";
 import { Product } from "../types/Types";
+import { Box, Stack, Typography } from "@mui/material";
+import ProductItem from "../components/ProductItem";
 
 export default function MainPage() {
 	const products: Product[] = useAppSelector(
@@ -15,13 +17,12 @@ export default function MainPage() {
 	}, [dispatch]);
 
 	return (
-		<div>
-			{products.map((p) => (
-				<div key={p.id}>
-					<p>{p.title}</p>
-					<p>{p.price}</p>
-				</div>
-			))}
-		</div>
+		<Box>
+			<Stack direction={"row"} flexWrap={"wrap"} useFlexGap gap={"1em"}>
+				{products.map((p) => (
+					<ProductItem product={p} key={p.id}/>
+				))}
+			</Stack>
+		</Box>
 	);
 }

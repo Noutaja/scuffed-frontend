@@ -18,7 +18,7 @@ afterAll(() => {
 	server.close();
 });
 
-describe("Test async thunk actions in productsReducer", () => {
+describe("productReducer async thunk", () => {
 	test("Should fetch all products from the API", async () => {
 		await store.dispatch(fetchAllProducts());
 		expect(store.getState().productsReducer.products.length).toBe(3);
