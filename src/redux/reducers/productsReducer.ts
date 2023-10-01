@@ -18,6 +18,7 @@ export const fetchAllProducts = createAsyncThunk(
 				`https://api.escuelajs.co/api/v1/products`
 			);
 			const products = await response.data;
+
 			return products;
 		} catch (e) {
 			const error = e as AxiosError;
@@ -55,6 +56,16 @@ const productsSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder.addCase(fetchAllProducts.fulfilled, (state, action) => {
+			if (!(action.payload instanceof AxiosError)) {
+				return {
+					...state,
+					products: action.payload,
+					status: "idle",
+				};
+			}
+		});
+
+		builder.addCase(fetchOneProduct.fulfilled, (state, action) => {
 			if (!(action.payload instanceof AxiosError)) {
 				return {
 					...state,

@@ -9,6 +9,11 @@ export type Product = {
   updatedAt: string
 }
 
+export type ItemWithId<T> = {
+  item: T,
+  id: number
+}
+
 export type Category = {
   id: number,
   name: string,

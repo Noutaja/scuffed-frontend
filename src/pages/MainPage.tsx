@@ -3,7 +3,7 @@ import { useAppSelector } from "../hooks/useAppSelector";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { fetchAllProducts } from "../redux/reducers/productsReducer";
 import { Product } from "../types/Types";
-import { Box, Stack, Typography } from "@mui/material";
+import { Container, Stack, } from "@mui/material";
 import ProductItem from "../components/ProductItem";
 
 export default function MainPage() {
@@ -17,12 +17,12 @@ export default function MainPage() {
 	}, [dispatch]);
 
 	return (
-		<Box>
-			<Stack direction={"row"} flexWrap={"wrap"} useFlexGap gap={"1em"}>
+		<Container component="main" maxWidth="lg">
+			<Stack direction="row" flexWrap="wrap" useFlexGap gap="1em" justifyContent="space-between">
 				{products.map((p) => (
 					<ProductItem product={p} key={p.id}/>
 				))}
 			</Stack>
-		</Box>
+		</Container>
 	);
 }
