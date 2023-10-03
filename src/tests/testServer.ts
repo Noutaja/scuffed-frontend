@@ -1,10 +1,10 @@
-import { rest } from "msw";
+import { RestContext, rest } from "msw";
 import { setupServer } from "msw/node";
-import { Product } from "../types/Types";
+import { Category, Product, ProductCreate } from "../types/Types";
 
 const products: Product[] = [
 	{
-		id: 2,
+		id: 1,
 		title: "Licensed Frozen Salad",
 		price: 686,
 		description:
@@ -25,7 +25,7 @@ const products: Product[] = [
 		},
 	},
 	{
-		id: 3,
+		id: 2,
 		title: "Oriental Rubber Towels",
 		price: 563,
 		description:
@@ -46,7 +46,7 @@ const products: Product[] = [
 		},
 	},
 	{
-		id: 8,
+		id: 3,
 		title: "Elegant Plastic Shirt",
 		price: 944,
 		description:
@@ -67,13 +67,126 @@ const products: Product[] = [
 		},
 	},
 ];
-const url= "https://api.escuelajs.co/api/v1";
+const categories: Category[] = [
+	{
+		id: 1,
+		name: "Books",
+		image: "https://i.imgur.com/lauPy0D.jpeg",
+		creationAt: "2023-10-03T12:35:14.000Z",
+		updatedAt: "2023-10-03T12:35:14.000Z",
+	},
+	{
+		id: 2,
+		name: "Computers",
+		image: "https://i.imgur.com/zjLVS8N.jpeg",
+		creationAt: "2023-10-03T12:35:14.000Z",
+		updatedAt: "2023-10-03T12:35:14.000Z",
+	},
+	{
+		id: 3,
+		name: "Clothes",
+		image: "https://i.imgur.com/xYO6uDv.jpeg",
+		creationAt: "2023-10-03T12:35:14.000Z",
+		updatedAt: "2023-10-03T12:35:14.000Z",
+	},
+];
+const url = "https://api.escuelajs.co/api/v1";
 
 export const handlers = [
 	rest.get(`${url}/products`, (req, res, ctx) => {
 		return res(ctx.json(products));
 	}),
+
+	rest.get(`${url}/products/:id`, (req, res, ctx) => {
+		const product = products.find((p) => p.id === Number(req.params.id));
+		return res(ctx.json(product));
+	}),
+
+	rest.delete(`${url}/products/:id`, (req, res, ctx) => {
+		const index = products.findIndex((p) => p.id === Number(req.params.id));
+		if (index <= 0) {
+			return res(ctx.json(true));
+		}
+		return res(
+			ctx.json({
+				path: `/api/v1/products/${req.params.id}`,
+				timestamp: Date.now(),
+				name: "EntityNotFoundError",
+				message: `Could not find any entity of type \"Product\" matching: {\n    \"relations\": [\n        \"category\"\n    ],\n    \"where\": {\n        \"id\": ${req.params.id}\n    }\n}`,
+			})
+		);
+	}),
+
+	rest.post(`${url}/products/`, async (req, res, ctx) => {
+		const input: ProductCreate = await req.json();
+		const category = categories.find((c) => c.id === input.category);
+
+		if (input.price <= 0) {
+			badRequest(ctx);
+			return;
+		}
+		if (input.images.length < 1) {
+			badRequest(ctx);
+			return;
+		}
+
+		if (category) {
+			const newProduct: Product = {
+				id: products.length + 1,
+				images: input.images,
+				title: input.title,
+				description: input.description,
+				category: category,
+				price: input.price,
+				creationAt: new Date().toUTCString(),
+				updatedAt: new Date().toUTCString(),
+			};
+			return res(ctx.json(newProduct));
+		}
+		badRequest(ctx);
+		return;
+	}),
+
+	rest.put(`${url}/products/:id`, async (req, res, ctx) => {
+		const input: ProductCreate = await req.json();
+		const index = products.findIndex((p) => p.id === Number(req.params.id));
+
+		if (input.price && input.price <= 0) {
+			badRequest(ctx);
+			return;
+		}
+		if (input.price && input.images.length < 1) {
+			badRequest(ctx);
+			return;
+		}
+
+		if (index >= 0) {
+			return res(
+				ctx.json({
+					...products[index],
+					...input,
+				})
+			);
+		}
+
+		badRequest(ctx);
+		return;
+	}),
 ];
+
+function badRequest(ctx: RestContext) {
+	ctx.status(400);
+	ctx.json({
+		message: [
+			"price must be a positive number",
+			"images must contain at least 1 elements",
+			"each value in images must be a URL address",
+			"images must be an array",
+		],
+		error: "Bad Request",
+		statusCode: 400,
+	});
+}
 
 const server = setupServer(...handlers);
 export default server;

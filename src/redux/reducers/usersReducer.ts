@@ -1,47 +1,38 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { User } from "../../types/Types";
+import { userReducerInitialState } from "../../types/Types";
 import axios, { AxiosError } from "axios";
 
-const initialState: {
-	products: User[];
-	status: string;
-} = {
+const initialState: userReducerInitialState = {
 	products: [],
 	status: "idle",
 };
 
-export const getAllUsers = createAsyncThunk(
-	"getAllUsers",
-	async () => {
-		try {
-			const response = await axios.get(
-				`https://api.escuelajs.co/api/v1/users`
-			);
-      const users = await response.data;
-			return users;
-		} catch (e) {
-			const error = e as AxiosError;
-			return error;
-		}
+export const getAllUsers = createAsyncThunk("getAllUsers", async () => {
+	try {
+		const response = await axios.get(`https://api.escuelajs.co/api/v1/users`);
+		const users = await response.data;
+		return users;
+	} catch (e) {
+		const error = e as AxiosError;
+		return error;
 	}
-);
+});
 
 const usersSlice = createSlice({
 	name: "users",
 	initialState,
 	reducers: {},
 	extraReducers: (builder) => {
-    builder.addCase(getAllUsers.fulfilled,
-      (state, action) => {
-        if (!(action.payload instanceof AxiosError)) {
-            return {
-                ...state,
-                users: action.payload,
-                loading: false
-            }
-        }
-    })
-  },
+		builder.addCase(getAllUsers.fulfilled, (state, action) => {
+			if (!(action.payload instanceof AxiosError)) {
+				return {
+					...state,
+					users: action.payload,
+					loading: false,
+				};
+			}
+		});
+	},
 });
 
 const usersReducer = usersSlice.reducer;

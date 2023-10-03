@@ -1,31 +1,54 @@
 export type Product = {
-  id: number,
-  title: string,
-  price: number,
-  description: string,
-  category: Category,
-  images: string[],
-  creationAt: string,
-  updatedAt: string
-}
+	id: number;
+	title: string;
+	price: number;
+	description: string;
+	category: Category;
+	images: string[];
+	creationAt: string;
+	updatedAt: string;
+};
+
+export type ProductCreate = {
+	title: string;
+	price: number;
+	description: string;
+	category: number;
+	images: string[];
+};
+
+export type ProductUpdate = {
+	id: number;
+	data: Partial<Product>;
+};
+
+export type productReducerInitialState = {
+	products: Product[];
+	status: "idle" | "loading" | "error";
+};
 
 export type ItemWithId<T> = {
-  item: T,
-  id: number
-}
+	item: T;
+	id: number;
+};
 
 export type Category = {
-  id: number,
-  name: string,
-  image: string,
-  creationAt: string,
-  updatedAt: string
-}
+	id: number;
+	name: string;
+	image: string;
+	creationAt: string;
+	updatedAt: string;
+};
 
 export type User = {
-  id: number,
-  name: string
-}
+	id: number;
+	name: string;
+};
+
+export type userReducerInitialState = {
+	products: User[];
+	status: "idle" | "loading" | "error";
+};
 
 /* export type User = {
   id: number,
