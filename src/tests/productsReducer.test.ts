@@ -7,7 +7,7 @@ import {
 } from "../redux/reducers/productsReducer";
 import { createStore } from "../redux/store";
 import { ProductCreate, ProductUpdate } from "../types/Types";
-import server from "./testServer";
+import server from "./productTestServer";
 
 let store = createStore();
 

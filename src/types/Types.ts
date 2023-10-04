@@ -41,20 +41,21 @@ export type Category = {
 };
 
 export type User = {
-	id: number;
-	name: string;
-};
-
-export type userReducerInitialState = {
-	products: User[];
-	status: "idle" | "loading" | "error";
-};
-
-/* export type User = {
   id: number,
   email: string,
   password: string,
   name: string,
   role: string,
   avatar: string
-} */
+}
+
+export type UserCredentials = {
+	email: string;
+	password: string;
+}
+
+export type userReducerInitialState = {
+	users: User[];
+	status: "idle" | "loading" | "error";
+	currentUser: User | undefined;
+};
