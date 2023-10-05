@@ -3,7 +3,8 @@ import { useAppSelector } from "../hooks/useAppSelector";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { fetchAllProducts } from "../redux/reducers/productsReducer";
 import { Product } from "../types/Types";
-import { Container, Stack } from "@mui/material";
+import { Container } from "@mui/material";
+import Grid from '@mui/material/Unstable_Grid2';
 import ProductItem from "../components/ProductItem";
 
 export default function MainPage() {
@@ -17,18 +18,17 @@ export default function MainPage() {
 	}, [dispatch]);
 
 	return (
-		<Container component="main" maxWidth="lg">
-			<Stack
-				direction="row"
-				flexWrap="wrap"
-				useFlexGap
-				gap="1em"
-				justifyContent="space-between"
+		<Container>
+			<Grid
+				container
+				spacing={{ xs: 2, md: 3 }}
 			>
 				{products.map((p) => (
-					<ProductItem product={p} key={p.id} />
+					<Grid xs={6} sm={4} md={3} lg={2} key={p.id}>
+						<ProductItem product={p} />
+					</Grid>
 				))}
-			</Stack>
+			</Grid>
 		</Container>
 	);
 }
