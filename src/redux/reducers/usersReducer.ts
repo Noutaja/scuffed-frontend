@@ -3,39 +3,21 @@ import { User, UserCredentials, userReducerInitialState } from "../../types/Type
 import axios, { AxiosError } from "axios";
 
 const initialState: userReducerInitialState = {
-	users: [],
 	status: "idle",
-	currentUser: undefined
+	currentUser: undefined,
+	accessToken: ""
 };
 
-export const fetchAllUsers = createAsyncThunk("getAllUsers", async () => {
-	try {
-		const response = await axios.get(`https://api.escuelajs.co/api/v1/users`);
-		const users = await response.data;
-		return users;
-	} catch (e) {
-		const error = e as AxiosError;
-		return error;
-	}
-});
-
 export const loginWithCredentials = createAsyncThunk(
-	"loginWithCredentials",
-	async (credentials: UserCredentials, { dispatch }) => {
+	"users/loginWithCredentials",
+	async (credentials: UserCredentials, {dispatch}) => {
 		try {
-			const response = await axios.post(
-				"https://api.escuelajs.co/api/v1/auth/login",
-				credentials
-			);
-			const accessToken = response.data;
-			const authenticatedResponse = await dispatch(
-				authenticateWithToken(accessToken)
-			);
-			if (typeof authenticatedResponse.payload === "string" || !authenticatedResponse.payload) {
-				throw Error(authenticatedResponse.payload || "Cannot login")
+			const authResponse = await dispatch(authWithCredentials(credentials));
+			const profile = await dispatch(fetchProfileWithToken(authResponse.payload));
+			if (typeof profile.payload === "string" || !profile.payload) {
+				throw Error(profile.payload || "Cannot login")
 		} else {
-				// localStorage.setItem("access_token", access_token)
-				return authenticatedResponse.payload as User
+				return profile.payload as User
 		}
 		} catch (e) {
 			const error = e as AxiosError;
@@ -44,8 +26,25 @@ export const loginWithCredentials = createAsyncThunk(
 	}
 );
 
-export const authenticateWithToken = createAsyncThunk(
-	"authenticateWithToken",
+export const authWithCredentials = createAsyncThunk(
+	"users/authWithCredentials",
+	async (credentials: UserCredentials,) => {
+		try {
+			const response = await axios.post(
+				"https://api.escuelajs.co/api/v1/auth/login",
+				credentials
+			);
+			const accessToken = response.data.access_token;
+			return accessToken;
+		} catch (e) {
+			const error = e as AxiosError;
+			return error;
+		}
+	}
+);
+
+export const fetchProfileWithToken = createAsyncThunk(
+	"users/fetchProfileWithToken",
 	async (accessToken:any) => {
 		try {
 			const response = await axios.get(
@@ -65,31 +64,37 @@ export const authenticateWithToken = createAsyncThunk(
 const usersSlice = createSlice({
 	name: "users/fetchAllUsers",
 	initialState,
-	reducers: {},
+	reducers: {
+		logoutUser: (state) => {
+			localStorage.setItem("access-token", "");
+			return {
+				...state,
+				accessToken: "",
+				currentUser: undefined,
+			};
+		}
+	},
 	extraReducers: (builder) => {
-		builder.addCase(fetchAllUsers.fulfilled, (state, action) => {
+		builder.addCase(authWithCredentials.fulfilled, (state, action) => {
 			if (!(action.payload instanceof AxiosError)) {
-				return {
-					...state,
-					users: action.payload,
-					status: "idle",
-				};
+				state.accessToken = action.payload;
+				state.status = "idle";
+			}
+		});
+
+		builder.addCase(fetchProfileWithToken.fulfilled, (state, action) => {
+			if (!(action.payload instanceof AxiosError)) {
+				state.currentUser = action.payload;
+				state.status = "idle";
 			}
 		});
 
 		builder.addCase(loginWithCredentials.fulfilled, (state, action) => {
-			if (!(action.payload instanceof AxiosError)) {
-				state.currentUser = action.payload;
-			}
-		});
 
-		builder.addCase(authenticateWithToken.fulfilled, (state, action) => {
-			if (!(action.payload instanceof AxiosError)) {
-				state.currentUser = action.payload;
-			}
 		});
 	},
 });
 
 const usersReducer = usersSlice.reducer;
+export const { logoutUser } = usersSlice.actions;
 export default usersReducer;

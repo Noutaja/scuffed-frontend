@@ -9,6 +9,7 @@ import UserPage from "./pages/UserPage";
 import CartPage from "./pages/CartPage";
 import Footer from "./components/Footer";
 import store from "./redux/store";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
 	return (
@@ -19,6 +20,7 @@ function App() {
 					<Routes>
 						<Route path="/" element={<MainPage />} />
 						<Route path="products/:productID" element={<SingleProductPage />} />
+						<Route path="login" element={<LoginPage />} />
 						<Route path="users/:userID" element={<UserPage />} />
 						<Route path="cart" element={<CartPage />} />
 					</Routes>

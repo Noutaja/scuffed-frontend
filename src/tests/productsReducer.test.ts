@@ -67,7 +67,6 @@ describe("productReducer async thunk", () => {
 			},
 		};
 		const action = await store.dispatch(updateProduct(updateP));
-		console.log(action);
 		expect(action.payload).toMatchObject({
 			id: 1,
 			title: "Frozen Salad",

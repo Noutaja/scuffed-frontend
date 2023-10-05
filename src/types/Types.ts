@@ -55,7 +55,7 @@ export type UserCredentials = {
 }
 
 export type userReducerInitialState = {
-	users: User[];
 	status: "idle" | "loading" | "error";
 	currentUser: User | undefined;
+	accessToken: string;
 };

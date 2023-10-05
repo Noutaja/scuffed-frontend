@@ -42,6 +42,18 @@ export const handlers = [
 		ctx.status(401);
 		return res(ctx.text("Cannot authenticate user"));
 	}),
+
+	rest.get("https://api.escuelajs.co/api/v1/auth/profile", (req, res, ctx) => {
+		const token = req.headers.get("authorization")?.split(" ")[1];
+		const authToken = token?.split("_")[0];
+		const id = token?.split("_")[1];
+		const match = users.find((u) => u.id === Number(id))
+		if(authToken === dummyAuthToken && match){
+			return res(ctx.json(match));
+		}
+		ctx.status(401);
+		return res(ctx.text("Cannot authenticate user"));
+	})
 ];
 
 const server = setupServer(...handlers);
