@@ -40,12 +40,21 @@ export type Category = {
 	updatedAt: string;
 };
 
+export type Role = "customer" | "admin";
+
 export type User = {
   id: number,
   email: string,
   password: string,
   name: string,
-  role: string,
+  role: Role,
+  avatar: string
+}
+
+export type UserCreate = {
+	email: string,
+  password: string,
+  name: string,
   avatar: string
 }
 

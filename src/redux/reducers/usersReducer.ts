@@ -1,24 +1,31 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { User, UserCredentials, userReducerInitialState } from "../../types/Types";
+import {
+	User,
+	UserCreate,
+	UserCredentials,
+	userReducerInitialState,
+} from "../../types/Types";
 import axios, { AxiosError } from "axios";
 
 const initialState: userReducerInitialState = {
 	status: "idle",
 	currentUser: undefined,
-	accessToken: ""
+	accessToken: "",
 };
 
-export const loginWithCredentials = createAsyncThunk(
+export const loginWithCredentials = createAsyncThunk<any, UserCredentials>(
 	"users/loginWithCredentials",
-	async (credentials: UserCredentials, {dispatch}) => {
+	async (credentials: UserCredentials, { dispatch }) => {
 		try {
 			const authResponse = await dispatch(authWithCredentials(credentials));
-			const profile = await dispatch(fetchProfileWithToken(authResponse.payload));
+			const profile = await dispatch(
+				fetchProfileWithToken(authResponse.payload)
+			);
 			if (typeof profile.payload === "string" || !profile.payload) {
-				throw Error(profile.payload || "Cannot login")
-		} else {
-				return profile.payload as User
-		}
+				throw Error(profile.payload || "Cannot login");
+			} else {
+				return profile.payload as User;
+			}
 		} catch (e) {
 			const error = e as AxiosError;
 			return error;
@@ -28,7 +35,7 @@ export const loginWithCredentials = createAsyncThunk(
 
 export const authWithCredentials = createAsyncThunk(
 	"users/authWithCredentials",
-	async (credentials: UserCredentials,) => {
+	async (credentials: UserCredentials) => {
 		try {
 			const response = await axios.post(
 				"https://api.escuelajs.co/api/v1/auth/login",
@@ -45,13 +52,15 @@ export const authWithCredentials = createAsyncThunk(
 
 export const fetchProfileWithToken = createAsyncThunk(
 	"users/fetchProfileWithToken",
-	async (accessToken:any) => {
+	async (accessToken: any) => {
 		try {
 			const response = await axios.get(
 				"https://api.escuelajs.co/api/v1/auth/profile",
-				{headers: {
-					Authorization: `Bearer ${accessToken}`
-				}}
+				{
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+				}
 			);
 			return response.data;
 		} catch (e) {
@@ -61,8 +70,31 @@ export const fetchProfileWithToken = createAsyncThunk(
 	}
 );
 
+export const createUser = createAsyncThunk(
+	"users/createUser",
+	async (newUser: UserCreate, { dispatch }) => {
+		try {
+			const response = await axios.post<User>(
+				"https://api.escuelajs.co/api/v1/users/",
+				newUser
+			);
+			const userProfile = response.data;
+			await dispatch(
+				authWithCredentials({
+					email: userProfile.email,
+					password: userProfile.password,
+				})
+			);
+			return userProfile;
+		} catch (e) {
+			const error = e as AxiosError;
+			return error;
+		}
+	}
+);
+
 const usersSlice = createSlice({
-	name: "users/fetchAllUsers",
+	name: "users",
 	initialState,
 	reducers: {
 		logoutUser: (state) => {
@@ -72,7 +104,7 @@ const usersSlice = createSlice({
 				accessToken: "",
 				currentUser: undefined,
 			};
-		}
+		},
 	},
 	extraReducers: (builder) => {
 		builder.addCase(authWithCredentials.fulfilled, (state, action) => {
@@ -89,8 +121,13 @@ const usersSlice = createSlice({
 			}
 		});
 
-		builder.addCase(loginWithCredentials.fulfilled, (state, action) => {
+		builder.addCase(loginWithCredentials.fulfilled, (state, action) => {});
 
+		builder.addCase(createUser.fulfilled, (state, action) => {
+			if (!(action.payload instanceof AxiosError)) {
+				state.currentUser = action.payload;
+				state.status = "idle";
+			}
 		});
 	},
 });

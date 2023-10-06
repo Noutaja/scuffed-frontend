@@ -1,7 +1,8 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import {
+	createUser,
 	loginWithCredentials,
 } from "../redux/reducers/usersReducer";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +10,10 @@ import { useNavigate } from "react-router-dom";
 export default function LoginForm() {
 	const [emailText, setEmailText] = useState("");
 	const [passwordText, setPasswordText] = useState("");
+	const [retypePwText, setRetypePwText] = useState("");
+	const [nameText, setNameText] = useState("");
+	const [avatarText, setAvatarText] = useState("");
+	const [registering, setRegistering] = useState(false);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
@@ -17,24 +22,44 @@ export default function LoginForm() {
 	) {
 		e.preventDefault();
 		if (validateInputs()) {
-			const user = await dispatch(loginWithCredentials({email: emailText, password: passwordText}));
-			if(user.payload){
+			const user = await dispatch(
+				loginWithCredentials({ email: emailText, password: passwordText })
+			);
+			if (user.payload) {
 				navigate("/");
 			}
 		}
+	}
 
-		function validateInputs() {
-			return true;
+	async function handleRegisterClick(
+		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+	) {
+		e.preventDefault();
+		if (!registering) {
+			setRegistering(true);
+		} else {
+			if (validateInputs()) {
+				const user = await dispatch(
+					createUser({ email: emailText, password: passwordText, name: nameText, avatar: avatarText })
+				);
+				if (user.payload) {
+					navigate("/");
+				}
+			}
 		}
 	}
+
+	function validateInputs() {
+		return true;
+	}
 	return (
-		<Box display="flex" flexDirection="column">
+		<Box display="flex" flexDirection="column" maxWidth="sm">
 			<Typography variant="h4">Login</Typography>
 			<TextField
 				variant="filled"
 				id="login-email"
 				type="email"
-				placeholder="Login"
+				placeholder="Email"
 				value={emailText}
 				onChange={(e) => setEmailText(e.target.value)}
 			/>
@@ -46,8 +71,39 @@ export default function LoginForm() {
 				value={passwordText}
 				onChange={(e) => setPasswordText(e.target.value)}
 			/>
+			{registering && (
+				<Box display="flex" flexDirection="column">
+					<TextField
+						variant="filled"
+						id="register-retype-password"
+						type="password"
+						placeholder="Retype password"
+						value={retypePwText}
+						onChange={(e) => setRetypePwText(e.target.value)}
+					/>
+					<TextField
+						variant="filled"
+						id="register-name"
+						type="text"
+						placeholder="Username"
+						value={nameText}
+						onChange={(e) => setNameText(e.target.value)}
+					/>
+					<TextField
+						variant="filled"
+						id="register-avatar"
+						type="text"
+						placeholder="Avatar url"
+						value={avatarText}
+						onChange={(e) => setAvatarText(e.target.value)}
+					/>
+				</Box>
+			)}
 			<Button variant="contained" onClick={handleLoginClick}>
 				LOGIN
+			</Button>
+			<Button variant="contained" onClick={handleRegisterClick}>
+				REGISTER
 			</Button>
 		</Box>
 	);

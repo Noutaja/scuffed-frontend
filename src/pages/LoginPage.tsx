@@ -1,24 +1,24 @@
-import { Box } from '@mui/material'
-import React, { useEffect } from 'react'
+import { Box, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import LoginForm from '../components/LoginForm'
-import RegisterForm from '../components/RegisterForm'
 import { useAppSelector } from '../hooks/useAppSelector'
 import { useNavigate } from 'react-router-dom'
 
 export default function LoginPage() {
   const currentUser = useAppSelector((state) => state.usersReducer.currentUser);
+  
   const navigate = useNavigate();
   
   useEffect(() => {
     if(currentUser){
+      console.log("AAAAAA",currentUser)
       navigate("/")
     }
   }, [currentUser])
   
   return (
-    <Box component="main" display="flex" flexDirection="row" justifyContent="space-around">
+    <Box component="main" display="flex" alignItems="center" flexDirection="column">
       <LoginForm/>
-      <RegisterForm/>
     </Box>
   )
 }

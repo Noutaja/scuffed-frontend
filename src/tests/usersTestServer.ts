@@ -1,6 +1,6 @@
 import { rest } from "msw";
 import { setupServer } from "msw/node";
-import { User } from "../types/Types";
+import { User, UserCreate } from "../types/Types";
 
 const url = "https://api.escuelajs.co/api/v1";
 export const users: User[] = [
@@ -53,8 +53,23 @@ export const handlers = [
 		}
 		ctx.status(401);
 		return res(ctx.text("Cannot authenticate user"));
+	}),
+
+	rest.post("https://api.escuelajs.co/api/v1/users/", async (req, res, ctx) => {
+		const input: UserCreate = await req.json();
+		const newUser: User = {
+			email: input.email,
+			password: input.password,
+			name: input.name,
+			avatar: input.avatar,
+			role: "customer",
+			id: users.length+1,
+		}
+		users.push(newUser);
+		return res(ctx.json(newUser));
 	})
 ];
+
 
 const server = setupServer(...handlers);
 export default server;
