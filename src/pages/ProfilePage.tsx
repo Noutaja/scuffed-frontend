@@ -1,15 +1,11 @@
 import { Box, Button, Container, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useNavigate } from "react-router-dom";
 
 export default function ProfilePage() {
 	const currentUser = useAppSelector((state) => state.usersReducer.currentUser);
 	const navigate = useNavigate();
-  const [emailText, setEmailText] = useState("");
-	const [passwordText, setPasswordText] = useState("");
-	const [nameText, setNameText] = useState("");
-	const [avatarText, setAvatarText] = useState("");
 
 	useEffect(() => {
 		if (!currentUser) {

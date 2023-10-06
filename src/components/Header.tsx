@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
-import { authWithCredentials, fetchProfileWithToken } from "../redux/reducers/usersReducer";
+import { fetchProfileWithToken } from "../redux/reducers/usersReducer";
 import ProfilePlate from "./ProfilePlate";
 
 export default function Header() {

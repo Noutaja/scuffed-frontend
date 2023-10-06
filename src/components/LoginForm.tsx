@@ -1,4 +1,4 @@
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import {
@@ -11,8 +11,6 @@ export default function LoginForm() {
 	const [emailText, setEmailText] = useState("");
 	const [passwordText, setPasswordText] = useState("");
 	const [retypePwText, setRetypePwText] = useState("");
-	const [nameText, setNameText] = useState("");
-	const [avatarText, setAvatarText] = useState("");
 	const [registering, setRegistering] = useState(false);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
