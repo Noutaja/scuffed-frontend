@@ -3,7 +3,7 @@ import React from "react";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { logoutUser } from "../redux/reducers/usersReducer";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function ProfilePlate() {
 	const currentUser = useAppSelector((state) => state.usersReducer.currentUser);
@@ -27,7 +27,17 @@ export default function ProfilePlate() {
 		<Box>
 			{currentUser ? (
 				<Box display="flex" flexDirection="row">
-					<Typography>{currentUser.name}</Typography>
+					<Link to="profile">
+						<Box display="flex" flexDirection="row" alignItems="center">
+							<Box
+								component="img"
+								src={currentUser.avatar}
+								maxWidth={40}
+								maxHeight="100%"
+							></Box>
+							<Typography>{currentUser.name}</Typography>
+						</Box>
+					</Link>
 					<Button variant="contained" onClick={logoutButtonClicked}>
 						Logout
 					</Button>

@@ -79,14 +79,14 @@ describe("userReducer async thunk", () => {
 		const newUser: UserCreate = {
 			email: "niko@gmail.com",
 			password: "1234",
-			name: "Nikolas",
-			avatar: "https://i.imgur.com/5mPmJYO.jpeg",
+			name: "niko",
+			avatar: "",
 		};
 		const fullNewUser = {
 			email: "niko@gmail.com",
 			password: "1234",
-			name: "Nikolas",
-			avatar: "https://i.imgur.com/5mPmJYO.jpeg",
+			name: "niko",
+			avatar: "",
 			role: "customer",
 			id: 4,
 		};

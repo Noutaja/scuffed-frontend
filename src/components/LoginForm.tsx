@@ -39,11 +39,12 @@ export default function LoginForm() {
 			setRegistering(true);
 		} else {
 			if (validateInputs()) {
+				const name = emailText.split("@")[0];
 				const user = await dispatch(
-					createUser({ email: emailText, password: passwordText, name: nameText, avatar: avatarText })
+					createUser({ email: emailText, password: passwordText, name: name, avatar: "" })
 				);
 				if (user.payload) {
-					navigate("/");
+					navigate("profile");
 				}
 			}
 		}
@@ -72,7 +73,6 @@ export default function LoginForm() {
 				onChange={(e) => setPasswordText(e.target.value)}
 			/>
 			{registering && (
-				<Box display="flex" flexDirection="column">
 					<TextField
 						variant="filled"
 						id="register-retype-password"
@@ -81,23 +81,6 @@ export default function LoginForm() {
 						value={retypePwText}
 						onChange={(e) => setRetypePwText(e.target.value)}
 					/>
-					<TextField
-						variant="filled"
-						id="register-name"
-						type="text"
-						placeholder="Username"
-						value={nameText}
-						onChange={(e) => setNameText(e.target.value)}
-					/>
-					<TextField
-						variant="filled"
-						id="register-avatar"
-						type="text"
-						placeholder="Avatar url"
-						value={avatarText}
-						onChange={(e) => setAvatarText(e.target.value)}
-					/>
-				</Box>
 			)}
 			<Button variant="contained" onClick={handleLoginClick}>
 				LOGIN
