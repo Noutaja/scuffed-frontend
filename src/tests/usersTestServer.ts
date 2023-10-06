@@ -52,7 +52,7 @@ export const handlers = [
 			return res(ctx.json(match));
 		}
 		ctx.status(401);
-		return res(ctx.text("Cannot authenticate user"));
+		return res(ctx.text("Cannot fetch profile"));
 	}),
 
 	rest.post("https://api.escuelajs.co/api/v1/users/", async (req, res, ctx) => {

@@ -44,9 +44,21 @@ describe("userReducer async thunk", () => {
 		);
 	});
 
+	test("Should not fetch a token with incorrect credentials", async () => {
+		await store.dispatch(
+			authWithCredentials({ email: "wrongn@mail.com", password: "no" })
+		);
+		expect(store.getState().usersReducer.accessToken).toBe("");
+	});
+
 	test("Should fetch the correct profile", async () => {
 		await store.dispatch(fetchProfileWithToken(dummyAuthToken + "_1"));
 		expect(store.getState().usersReducer.currentUser).toMatchObject(users[0]);
+	});
+
+	test("Should not fetch a profile with incorrect auth token", async () => {
+		await store.dispatch(fetchProfileWithToken("wrong-token"));
+		expect(store.getState().usersReducer.currentUser).toBe(undefined);
 	});
 
 	test("Should login with credentials", async () => {
@@ -54,6 +66,13 @@ describe("userReducer async thunk", () => {
 			loginWithCredentials({ email: "john@mail.com", password: "changeme" })
 		);
 		expect(store.getState().usersReducer.currentUser).toMatchObject(users[0]);
+	});
+
+	test("Should not login with wrong credentials", async () => {
+		await store.dispatch(
+			loginWithCredentials({ email: "wrong@mail.com", password: "no" })
+		);
+		expect(store.getState().usersReducer.currentUser).toBe(undefined);
 	});
 
 	test("Should create a new user", async () => {
@@ -73,6 +92,8 @@ describe("userReducer async thunk", () => {
 		};
 		const returnedUser = await store.dispatch(createUser(newUser));
 		expect(returnedUser.payload).toMatchObject(fullNewUser);
-		expect(store.getState().usersReducer.currentUser).toMatchObject(fullNewUser);
+		expect(store.getState().usersReducer.currentUser).toMatchObject(
+			fullNewUser
+		);
 	});
 });

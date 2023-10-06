@@ -11,48 +11,58 @@ const initialState: userReducerInitialState = {
 	status: "idle",
 	currentUser: undefined,
 	accessToken: "",
+	error: "",
 };
 
-export const loginWithCredentials = createAsyncThunk<any, UserCredentials>(
+export const loginWithCredentials = createAsyncThunk<
+	any,
+	UserCredentials,
+	{ rejectValue: string }
+>(
 	"users/loginWithCredentials",
-	async (credentials: UserCredentials, { dispatch }) => {
+	async (credentials: UserCredentials, { dispatch, rejectWithValue }) => {
 		try {
 			const authResponse = await dispatch(authWithCredentials(credentials));
-			const profile = await dispatch(
-				fetchProfileWithToken(authResponse.payload)
-			);
-			if (typeof profile.payload === "string" || !profile.payload) {
-				throw Error(profile.payload || "Cannot login");
-			} else {
-				return profile.payload as User;
-			}
+			await dispatch(fetchProfileWithToken(authResponse.payload));
 		} catch (e) {
 			const error = e as AxiosError;
-			return error;
+			return rejectWithValue(error.message);
 		}
 	}
 );
 
-export const authWithCredentials = createAsyncThunk(
+export const authWithCredentials = createAsyncThunk<
+	any,
+	UserCredentials,
+	{ rejectValue: string }
+>(
 	"users/authWithCredentials",
-	async (credentials: UserCredentials) => {
+	async (credentials: UserCredentials, { rejectWithValue }) => {
 		try {
 			const response = await axios.post(
 				"https://api.escuelajs.co/api/v1/auth/login",
 				credentials
 			);
 			const accessToken = response.data.access_token;
-			return accessToken;
+			if (accessToken === "" || !accessToken) {
+				throw Error("Failed to fetch access token!");
+			} else {
+				return accessToken;
+			}
 		} catch (e) {
 			const error = e as AxiosError;
-			return error;
+			return rejectWithValue(error.message);
 		}
 	}
 );
 
-export const fetchProfileWithToken = createAsyncThunk(
+export const fetchProfileWithToken = createAsyncThunk<
+	User,
+	string,
+	{ rejectValue: string }
+>(
 	"users/fetchProfileWithToken",
-	async (accessToken: any) => {
+	async (accessToken: any, { rejectWithValue }) => {
 		try {
 			const response = await axios.get(
 				"https://api.escuelajs.co/api/v1/auth/profile",
@@ -62,17 +72,25 @@ export const fetchProfileWithToken = createAsyncThunk(
 					},
 				}
 			);
-			return response.data;
+			if (typeof response.data === "string" || !response.data) {
+				throw Error(response.data || "Cannot login");
+			} else {
+				return response.data as User;
+			}
 		} catch (e) {
 			const error = e as AxiosError;
-			return error;
+			return rejectWithValue(error.message);
 		}
 	}
 );
 
-export const createUser = createAsyncThunk(
+export const createUser = createAsyncThunk<
+	any,
+	UserCreate,
+	{ rejectValue: string }
+>(
 	"users/createUser",
-	async (newUser: UserCreate, { dispatch }) => {
+	async (newUser: UserCreate, { dispatch, rejectWithValue }) => {
 		try {
 			const response = await axios.post<User>(
 				"https://api.escuelajs.co/api/v1/users/",
@@ -88,7 +106,7 @@ export const createUser = createAsyncThunk(
 			return userProfile;
 		} catch (e) {
 			const error = e as AxiosError;
-			return error;
+			return rejectWithValue(error.message);
 		}
 	}
 );
@@ -107,28 +125,48 @@ const usersSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
-		builder.addCase(authWithCredentials.fulfilled, (state, action) => {
-			if (!(action.payload instanceof AxiosError)) {
+		builder
+			.addCase(authWithCredentials.fulfilled, (state, action) => {
 				state.accessToken = action.payload;
 				state.status = "idle";
-			}
-		});
+			})
+			.addCase(authWithCredentials.rejected, (state, action) => {
+				state.accessToken = "";
+				state.status = "error";
+				state.error = action.payload;
+			})
+			.addCase(authWithCredentials.pending, (state, action) => {
+				state.status = "loading";
+			})
 
-		builder.addCase(fetchProfileWithToken.fulfilled, (state, action) => {
-			if (!(action.payload instanceof AxiosError)) {
+			.addCase(fetchProfileWithToken.fulfilled, (state, action) => {
 				state.currentUser = action.payload;
 				state.status = "idle";
-			}
-		});
+			})
+			.addCase(fetchProfileWithToken.rejected, (state, action) => {
+				state.status = "error";
+				state.error = action.payload;
+			})
+			.addCase(fetchProfileWithToken.pending, (state, action) => {
+				state.status = "loading";
+			})
 
-		builder.addCase(loginWithCredentials.fulfilled, (state, action) => {});
+			/**Do I even need more than .fulfilled since they only call other functions?
+			 */
+			.addCase(loginWithCredentials.fulfilled, (state, action) => {})
+			.addCase(loginWithCredentials.rejected, (state, action) => {})
 
-		builder.addCase(createUser.fulfilled, (state, action) => {
-			if (!(action.payload instanceof AxiosError)) {
+			.addCase(createUser.fulfilled, (state, action) => {
 				state.currentUser = action.payload;
 				state.status = "idle";
-			}
-		});
+			})
+			.addCase(createUser.rejected, (state, action) => {
+				state.status = "error";
+				state.error = action.payload;
+			})
+			.addCase(createUser.pending, (state, action) => {
+				state.status = "loading";
+			});
 	},
 });
 

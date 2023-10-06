@@ -67,4 +67,5 @@ export type userReducerInitialState = {
 	status: "idle" | "loading" | "error";
 	currentUser: User | undefined;
 	accessToken: string;
+	error: string | undefined;
 };
