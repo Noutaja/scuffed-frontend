@@ -1,4 +1,4 @@
-import { Box, Input } from "@mui/material";
+import { Box,  TextField } from "@mui/material";
 import { useState } from "react";
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -14,7 +14,7 @@ export default function Search() {
 			marginTop="1rem"
 		>
 			<SearchIcon />
-			<Input
+			<TextField
 				fullWidth
 				placeholder="Search"
 				value={searchText}

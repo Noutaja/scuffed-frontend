@@ -26,7 +26,7 @@ export default function SingleProductPage() {
 
 	return (
 		<Container component="main" maxWidth="lg">
-			<Box display="flex">
+			<Box display="flex" flexWrap="wrap">
 				{product && <ProductInfo product={product} />}
 				{product && <ProductImageDisplay images={product.images} />}
 			</Box>

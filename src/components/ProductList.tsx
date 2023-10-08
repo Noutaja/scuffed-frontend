@@ -21,7 +21,7 @@ export default function ProductList() {
 		<Container>
 			{/* Render products when ready */}
 			{status === "idle" && products.length && (
-				<Grid container spacing={{ xs: 2, md: 3 }}>
+				<Grid container spacing={{ xs: 2, md: 3 }} columns={{ lg: 10 }}>
 					{products.map((p) => (
 						<Grid xs={6} sm={4} md={3} lg={2} key={p.id}>
 							<ProductItem product={p} />

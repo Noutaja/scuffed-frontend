@@ -26,7 +26,13 @@ afterAll(() => {
 });
 
 describe("userReducer", () => {
-	test("Should  logout user", () => {
+	test("Should have an empty initial state", () => {
+		expect(store.getState().usersReducer.accessToken).toBe("");
+		expect(store.getState().usersReducer.currentUser).toBe(undefined);
+		expect(store.getState().usersReducer.status).toBe("idle");
+		expect(store.getState().usersReducer.error).toBe(undefined);
+	})
+	test("Should logout user", () => {
 		store.dispatch(logoutUser());
 		expect(store.getState().usersReducer.accessToken).toBe("");
 		expect(store.getState().usersReducer.currentUser).toBe(undefined);

@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import productsReducer from "./reducers/productsReducer";
 import usersReducer from "./reducers/usersReducer";
-import { userReducerInitialState } from "../types/Types";
+import { UserReducerState } from "../types/Types";
+import cartReducer from "./reducers/cartReducer";
 
-const preloadedUsersState: userReducerInitialState = {
+const preloadedUsersState: UserReducerState = {
 	currentUser: undefined,
 	accessToken: localStorage.getItem("access-token") || "",
 	status: "idle",
@@ -14,7 +15,7 @@ store.subscribe(updateLocalStorage);
 
 export function createStore() {
 	return configureStore({
-		reducer: { productsReducer, usersReducer },
+		reducer: { productsReducer, usersReducer, cartReducer },
 		preloadedState: {
 			usersReducer: preloadedUsersState,
 		},

@@ -5,10 +5,10 @@ import {
 	Product,
 	ProductCreate,
 	ProductUpdate,
-	ProductReducerInitialState,
+	ProductReducerState,
 } from "../../types/Types";
 
-const initialState: ProductReducerInitialState = {
+const initialState: ProductReducerState = {
 	products: [],
 	status: "idle",
 	error: undefined,
@@ -111,15 +111,7 @@ export const updateProduct = createAsyncThunk<
 const productsSlice = createSlice({
 	name: "products",
 	initialState,
-	reducers: {
-		getAllProducts: (state) => {
-			//Might not need this one
-			return {
-				...state,
-				products: state.products,
-			};
-		},
-	},
+	reducers: {},
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchAllProducts.fulfilled, (state, action) => {
@@ -195,5 +187,4 @@ const productsSlice = createSlice({
 });
 
 const productsReducer = productsSlice.reducer;
-export const { getAllProducts } = productsSlice.actions;
 export default productsReducer;

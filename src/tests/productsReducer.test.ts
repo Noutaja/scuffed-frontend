@@ -25,6 +25,14 @@ afterAll(() => {
 	server.close();
 });
 
+describe("productReducer", () => {
+	test("Should have an empty initial state", () => {
+		expect(store.getState().productsReducer.products.length).toBe(0);
+		expect(store.getState().productsReducer.status).toBe("idle");
+		expect(store.getState().productsReducer.error).toBe(undefined);
+	})
+})
+
 describe("productReducer async thunk", () => {
 	test("Should fetch all products from the API", async () => {
 		await store.dispatch(fetchAllProducts());

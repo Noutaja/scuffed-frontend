@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { fetchProfileWithToken } from "../redux/reducers/usersReducer";
-import ProfilePlate from "./ProfilePlate";
+import HeaderProfile from "./HeaderProfile";
+import HeaderCart from "./HeaderCart";
 
 export default function Header() {
 	const dispatch = useAppDispatch();
@@ -18,23 +19,24 @@ export default function Header() {
 	}, [dispatch]);
 	return (
 		<Box component="header" height={50}>
-			<Box
-			component="nav"
-			display="flex"
-			flexDirection="row"
-			justifyContent="space-between"
-			maxWidth="md"
-			margin="auto"
-		>
-			<Stack component="ul">
-				<Link to={""}>
-					<Typography>Home</Typography>
-				</Link>
-			</Stack>
-			<Box>
-				<ProfilePlate />
+			<Box display="flex" flexDirection="row" justifyContent="space-between">
+				<Box
+					component="nav"
+					display="flex"
+					flexDirection="row"
+					maxWidth="md"
+				>
+					<Stack component="ul">
+						<Link to={""}>
+							<Typography>Home</Typography>
+						</Link>
+					</Stack>
+				</Box>
+				<Box display="flex" flexDirection="row" justifyContent="space-between">
+					<HeaderCart />
+					<HeaderProfile />
+				</Box>
 			</Box>
-		</Box>
 		</Box>
 	);
 }

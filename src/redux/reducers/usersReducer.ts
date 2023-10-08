@@ -3,11 +3,11 @@ import {
 	User,
 	UserCreate,
 	UserCredentials,
-	userReducerInitialState,
+	UserReducerState,
 } from "../../types/Types";
 import axios, { AxiosError } from "axios";
 
-const initialState: userReducerInitialState = {
+const initialState: UserReducerState = {
 	status: "idle",
 	currentUser: undefined,
 	accessToken: "",

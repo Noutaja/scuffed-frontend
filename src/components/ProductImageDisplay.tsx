@@ -8,7 +8,7 @@ export default function ProductImageDisplay(props: ProductImageDisplayProps) {
 	const [activeImage, setActiveImage] = useState(0);
 
 	return (
-		<Box display="flex" flexDirection="column">
+		<Box display="flex" flexDirection="column" width="50%">
 			<Box component="img" src={images[activeImage].item} width="100%" />
 			<Stack flexDirection="row">
 				{images.map((img) => (
@@ -17,6 +17,7 @@ export default function ProductImageDisplay(props: ProductImageDisplayProps) {
 						src={img.item}
 						sx={{ maxWidth: 150 }}
 						key={img.id}
+						onClick={() => setActiveImage(img.id)}
 					/>
 				))}
 			</Stack>

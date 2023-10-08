@@ -5,7 +5,7 @@ import { useAppDispatch } from "../hooks/useAppDispatch";
 import { logoutUser } from "../redux/reducers/usersReducer";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function ProfilePlate() {
+export default function HeaderProfile() {
 	const currentUser = useAppSelector((state) => state.usersReducer.currentUser);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
