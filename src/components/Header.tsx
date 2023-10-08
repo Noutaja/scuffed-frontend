@@ -20,12 +20,7 @@ export default function Header() {
 	return (
 		<Box component="header" height={50}>
 			<Box display="flex" flexDirection="row" justifyContent="space-between">
-				<Box
-					component="nav"
-					display="flex"
-					flexDirection="row"
-					maxWidth="md"
-				>
+				<Box component="nav" display="flex" flexDirection="row" maxWidth="md">
 					<Stack component="ul">
 						<Link to={""}>
 							<Typography>Home</Typography>

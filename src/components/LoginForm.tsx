@@ -39,7 +39,12 @@ export default function LoginForm() {
 			if (validateInputs()) {
 				const name = emailText.split("@")[0];
 				const user = await dispatch(
-					createUser({ email: emailText, password: passwordText, name: name, avatar: "" })
+					createUser({
+						email: emailText,
+						password: passwordText,
+						name: name,
+						avatar: "",
+					})
 				);
 				if (user.payload) {
 					navigate("profile");
@@ -71,14 +76,14 @@ export default function LoginForm() {
 				onChange={(e) => setPasswordText(e.target.value)}
 			/>
 			{registering && (
-					<TextField
-						variant="filled"
-						id="register-retype-password"
-						type="password"
-						placeholder="Retype password"
-						value={retypePwText}
-						onChange={(e) => setRetypePwText(e.target.value)}
-					/>
+				<TextField
+					variant="filled"
+					id="register-retype-password"
+					type="password"
+					placeholder="Retype password"
+					value={retypePwText}
+					onChange={(e) => setRetypePwText(e.target.value)}
+				/>
 			)}
 			<Button variant="contained" onClick={handleLoginClick}>
 				LOGIN

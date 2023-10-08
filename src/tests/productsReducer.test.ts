@@ -30,8 +30,8 @@ describe("productReducer", () => {
 		expect(store.getState().productsReducer.products.length).toBe(0);
 		expect(store.getState().productsReducer.status).toBe("idle");
 		expect(store.getState().productsReducer.error).toBe(undefined);
-	})
-})
+	});
+});
 
 describe("productReducer async thunk", () => {
 	test("Should fetch all products from the API", async () => {

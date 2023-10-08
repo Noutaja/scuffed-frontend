@@ -33,11 +33,13 @@ export const dummyAuthToken = "auth-me";
 
 export const handlers = [
 	rest.post(`${url}/auth/login`, async (req, res, ctx) => {
-    const {email, password} = await req.json()
-		const match = users.find((u) => u.email === email && u.password === password)
+		const { email, password } = await req.json();
+		const match = users.find(
+			(u) => u.email === email && u.password === password
+		);
 		if (match) {
 			const token = dummyAuthToken + "_" + match.id;
-			return res(ctx.json({access_token: token}))
+			return res(ctx.json({ access_token: token }));
 		}
 		ctx.status(401);
 		return res(ctx.text("Cannot authenticate user"));
@@ -47,8 +49,8 @@ export const handlers = [
 		const token = req.headers.get("authorization")?.split(" ")[1];
 		const authToken = token?.split("_")[0];
 		const id = token?.split("_")[1];
-		const match = users.find((u) => u.id === Number(id))
-		if(authToken === dummyAuthToken && match){
+		const match = users.find((u) => u.id === Number(id));
+		if (authToken === dummyAuthToken && match) {
 			return res(ctx.json(match));
 		}
 		ctx.status(401);
@@ -63,13 +65,12 @@ export const handlers = [
 			name: input.name,
 			avatar: input.avatar,
 			role: "customer",
-			id: users.length+1,
-		}
+			id: users.length + 1,
+		};
 		users.push(newUser);
 		return res(ctx.json(newUser));
-	})
+	}),
 ];
-
 
 const server = setupServer(...handlers);
 export default server;

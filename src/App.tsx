@@ -5,7 +5,6 @@ import { Provider } from "react-redux";
 import MainPage from "./pages/MainPage";
 import SingleProductPage from "./pages/SingleProductPage";
 import Header from "./components/Header";
-import UserPage from "./pages/UserPage";
 import CartPage from "./pages/CartPage";
 import Footer from "./components/Footer";
 import store from "./redux/store";
@@ -23,7 +22,6 @@ function App() {
 						<Route path="products/:productID" element={<SingleProductPage />} />
 						<Route path="login" element={<LoginPage />} />
 						<Route path="profile" element={<ProfilePage />} />
-						<Route path="users/:userID" element={<UserPage />} />
 						<Route path="cart" element={<CartPage />} />
 					</Routes>
 					<Footer />

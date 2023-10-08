@@ -44,25 +44,25 @@ export type Category = {
 export type Role = "customer" | "admin";
 
 export type User = {
-  id: number,
-  email: string,
-  password: string,
-  name: string,
-  role: Role,
-  avatar: string
-}
+	id: number;
+	email: string;
+	password: string;
+	name: string;
+	role: Role;
+	avatar: string;
+};
 
 export type UserCreate = {
-	email: string,
-  password: string,
-  name: string,
-  avatar: string
-}
+	email: string;
+	password: string;
+	name: string;
+	avatar: string;
+};
 
 export type UserCredentials = {
 	email: string;
 	password: string;
-}
+};
 
 export type UserReducerState = {
 	status: "idle" | "loading";
@@ -75,9 +75,9 @@ export type CartReducerState = {
 	items: CartItem[];
 	status: "idle" | "loading";
 	error: string | undefined;
-}
+};
 
 export type CartItem = {
-	product: Product
-	amount: number
-}
+	product: Product;
+	amount: number;
+};

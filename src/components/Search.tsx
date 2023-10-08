@@ -1,10 +1,9 @@
-import { Box,  TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import { useState } from "react";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
 
 export default function Search() {
 	const [searchText, setSearchText] = useState("");
-
 
 	return (
 		<Box

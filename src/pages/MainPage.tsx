@@ -4,11 +4,10 @@ import ProductList from "../components/ProductList";
 import Search from "../components/Search";
 
 export default function MainPage() {
-
 	return (
 		<Container component="main">
-			<Search/>
-			<ProductList/>
+			<Search />
+			<ProductList />
 		</Container>
 	);
 }

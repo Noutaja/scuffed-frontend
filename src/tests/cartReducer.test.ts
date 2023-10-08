@@ -1,4 +1,8 @@
-import cartReducer, { addOneItem, getAllItems, removeOneItem } from "../redux/reducers/cartReducer";
+import cartReducer, {
+	addOneItem,
+	getAllItems,
+	removeOneItem,
+} from "../redux/reducers/cartReducer";
 import { createStore } from "../redux/store";
 import { CartItem, CartReducerState, Product } from "../types/Types";
 
@@ -68,8 +72,8 @@ const products: Product[] = [
 	},
 ];
 const cartItems: CartItem[] = [];
-for(let i = 0; i < products.length; i++){
-  cartItems.push({product:products[i], amount: i+1})
+for (let i = 0; i < products.length; i++) {
+	cartItems.push({ product: products[i], amount: i + 1 });
 }
 
 let store = createStore();
@@ -79,42 +83,62 @@ beforeEach(() => {
 });
 
 describe("cartReducer", () => {
-  test("Should have an empty initial state", () => {
-    expect(store.getState().cartReducer.items.length).toBe(0);
-    expect(store.getState().cartReducer.status).toBe("idle");
-    expect(store.getState().cartReducer.error).toBe(undefined);
-  })
+	test("Should have an empty initial state", () => {
+		expect(store.getState().cartReducer.items.length).toBe(0);
+		expect(store.getState().cartReducer.status).toBe("idle");
+		expect(store.getState().cartReducer.error).toBe(undefined);
+	});
 
-  test("Should get all items", () => {
-    const state : CartReducerState = {status:"idle", error: undefined, items: cartItems};
-    const cart = cartReducer(state, getAllItems())
-    expect(cart.items.length).toBe(3);
-  });
+	test("Should get all items", () => {
+		const state: CartReducerState = {
+			status: "idle",
+			error: undefined,
+			items: cartItems,
+		};
+		const cart = cartReducer(state, getAllItems());
+		expect(cart.items.length).toBe(3);
+	});
 
-  test("Adding should create a new cartItem", () => {
-    const state : CartReducerState = {status:"idle", error: undefined, items: []};
-    const cart = cartReducer(state, addOneItem(cartItems[0].product));
-    expect(cart.items.length).toBe(1);
-    expect(cart.items[0].amount).toBe(1);
-    expect(cart.items[0]).toMatchObject(cartItems[0]);
-  });
+	test("Adding should create a new cartItem", () => {
+		const state: CartReducerState = {
+			status: "idle",
+			error: undefined,
+			items: [],
+		};
+		const cart = cartReducer(state, addOneItem(cartItems[0].product));
+		expect(cart.items.length).toBe(1);
+		expect(cart.items[0].amount).toBe(1);
+		expect(cart.items[0]).toMatchObject(cartItems[0]);
+	});
 
-  test("Adding should only increase amount when cartItem exists", () => {
-    const state : CartReducerState = {status:"idle", error: undefined, items: cartItems};
-    const cart = cartReducer(state, addOneItem(cartItems[0].product));
-    expect(cart.items.length).toBe(3);
-    expect(cart.items[0].amount).toBe(2);
-  });
+	test("Adding should only increase amount when cartItem exists", () => {
+		const state: CartReducerState = {
+			status: "idle",
+			error: undefined,
+			items: cartItems,
+		};
+		const cart = cartReducer(state, addOneItem(cartItems[0].product));
+		expect(cart.items.length).toBe(3);
+		expect(cart.items[0].amount).toBe(2);
+	});
 
-  test("Removing should reduce amount by one", () => {
-    const state : CartReducerState = {status:"idle", error: undefined, items: cartItems};
-    const cart = cartReducer(state, removeOneItem(2));
-    expect(cart.items[1].amount).toBe(1);
-  });
+	test("Removing should reduce amount by one", () => {
+		const state: CartReducerState = {
+			status: "idle",
+			error: undefined,
+			items: cartItems,
+		};
+		const cart = cartReducer(state, removeOneItem(2));
+		expect(cart.items[1].amount).toBe(1);
+	});
 
-  test("Reducing amount to 0 should remove the item", () => {
-    const state : CartReducerState = {status:"idle", error: undefined, items: cartItems};
-    const cart = cartReducer(state, removeOneItem(1));
-    expect(cart.items.length).toBe(2);
-  })
-})
+	test("Reducing amount to 0 should remove the item", () => {
+		const state: CartReducerState = {
+			status: "idle",
+			error: undefined,
+			items: cartItems,
+		};
+		const cart = cartReducer(state, removeOneItem(1));
+		expect(cart.items.length).toBe(2);
+	});
+});

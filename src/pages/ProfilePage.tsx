@@ -16,12 +16,11 @@ export default function ProfilePage() {
 	return (
 		<Container>
 			<Typography variant="h3">User Profile</Typography>
-      <Box component="img" src={currentUser?.avatar}/>
-      <Typography>Name: {currentUser?.name}</Typography>
-      <Typography>Avatar URL: {currentUser?.avatar}</Typography>
-      <Typography>Email: {currentUser?.email}</Typography>
-      <Button variant="contained">EDIT PROFILE</Button>
-
+			<Box component="img" src={currentUser?.avatar} />
+			<Typography>Name: {currentUser?.name}</Typography>
+			<Typography>Avatar URL: {currentUser?.avatar}</Typography>
+			<Typography>Email: {currentUser?.email}</Typography>
+			<Button variant="contained">EDIT PROFILE</Button>
 		</Container>
 	);
 }

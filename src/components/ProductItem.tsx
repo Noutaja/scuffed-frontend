@@ -1,4 +1,11 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
+import {
+	Button,
+	Card,
+	CardActions,
+	CardContent,
+	CardMedia,
+	Typography,
+} from "@mui/material";
 import React from "react";
 
 import { ProductItemProps } from "../types/Props";
@@ -23,7 +30,12 @@ export default function ProductItem(props: ProductItemProps) {
 				<Typography>{p.category.name}</Typography>
 			</CardContent>
 			<CardActions>
-				<Button variant="contained" onClick={() => (store.dispatch(addOneItem(p)))}><ShoppingCart/></Button>
+				<Button
+					variant="contained"
+					onClick={() => store.dispatch(addOneItem(p))}
+				>
+					<ShoppingCart />
+				</Button>
 			</CardActions>
 		</Card>
 	);
