@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 export default function ProductItem(props: ProductItemProps) {
 	const p = props.product;
 	return (
-		<Card sx={{ width: 180, height: 250 }}>
+		<Card sx={{ height: 250 }}>
 			<Link to={`products/${p.id}`}>
 				<CardMedia sx={{ height: 150 }} image={p.images[0]} title={p.title} />
 			</Link>

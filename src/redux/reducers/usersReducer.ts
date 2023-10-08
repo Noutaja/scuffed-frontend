@@ -132,7 +132,7 @@ const usersSlice = createSlice({
 			})
 			.addCase(authWithCredentials.rejected, (state, action) => {
 				state.accessToken = "";
-				state.status = "error";
+				state.status = "idle";
 				state.error = action.payload;
 			})
 			.addCase(authWithCredentials.pending, (state, action) => {
@@ -144,14 +144,14 @@ const usersSlice = createSlice({
 				state.status = "idle";
 			})
 			.addCase(fetchProfileWithToken.rejected, (state, action) => {
-				state.status = "error";
+				state.status = "idle";
 				state.error = action.payload;
 			})
 			.addCase(fetchProfileWithToken.pending, (state, action) => {
 				state.status = "loading";
 			})
 
-			/**Do I even need more than .fulfilled since they only call other functions?
+			/**Do I even need more than .fulfilled since is only calls other functions?
 			 */
 			.addCase(loginWithCredentials.fulfilled, (state, action) => {})
 			.addCase(loginWithCredentials.rejected, (state, action) => {})
@@ -161,7 +161,7 @@ const usersSlice = createSlice({
 				state.status = "idle";
 			})
 			.addCase(createUser.rejected, (state, action) => {
-				state.status = "error";
+				state.status = "idle";
 				state.error = action.payload;
 			})
 			.addCase(createUser.pending, (state, action) => {

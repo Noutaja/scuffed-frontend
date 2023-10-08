@@ -43,7 +43,7 @@ describe("productReducer async thunk", () => {
 	});
 
 	test("Should create one product", async () => {
-		const newP: ProductCreate = {
+		const newProduct: ProductCreate = {
 			title: "Licensed Frozen Salad",
 			price: 686,
 			description:
@@ -55,7 +55,7 @@ describe("productReducer async thunk", () => {
 			],
 			category: 1,
 		};
-		await store.dispatch(createProduct(newP));
+		await store.dispatch(createProduct(newProduct));
 		expect(store.getState().productsReducer.products.length).toBe(1);
 	});
 
@@ -67,7 +67,7 @@ describe("productReducer async thunk", () => {
 			},
 		};
 		const action = await store.dispatch(updateProduct(updateP));
-		expect(action.payload).toMatchObject({
+		const testProduct = {
 			id: 1,
 			title: "Frozen Salad",
 			price: 686,
@@ -87,6 +87,7 @@ describe("productReducer async thunk", () => {
 				creationAt: "2023-09-29T23:39:06.000Z",
 				updatedAt: "2023-09-29T23:39:06.000Z",
 			},
-		});
+		};
+		expect(action.payload).toMatchObject(testProduct);
 	});
 });

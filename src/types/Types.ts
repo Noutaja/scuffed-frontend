@@ -22,9 +22,10 @@ export type ProductUpdate = {
 	data: Partial<Product>;
 };
 
-export type productReducerInitialState = {
+export type ProductReducerInitialState = {
 	products: Product[];
-	status: "idle" | "loading" | "error";
+	status: "idle" | "loading";
+	error: string | undefined;
 };
 
 export type ItemWithId<T> = {
@@ -64,7 +65,7 @@ export type UserCredentials = {
 }
 
 export type userReducerInitialState = {
-	status: "idle" | "loading" | "error";
+	status: "idle" | "loading";
 	currentUser: User | undefined;
 	accessToken: string;
 	error: string | undefined;

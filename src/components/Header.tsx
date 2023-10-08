@@ -17,11 +17,14 @@ export default function Header() {
 		}
 	}, [dispatch]);
 	return (
-		<Box
+		<Box component="header" height={50}>
+			<Box
 			component="nav"
 			display="flex"
 			flexDirection="row"
 			justifyContent="space-between"
+			maxWidth="md"
+			margin="auto"
 		>
 			<Stack component="ul">
 				<Link to={""}>
@@ -31,6 +34,7 @@ export default function Header() {
 			<Box>
 				<ProfilePlate />
 			</Box>
+		</Box>
 		</Box>
 	);
 }
