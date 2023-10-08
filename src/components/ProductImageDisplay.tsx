@@ -8,7 +8,7 @@ export default function ProductImageDisplay(props: ProductImageDisplayProps) {
 	const [activeImage, setActiveImage] = useState(0);
 
 	return (
-		<Box display="flex" flexDirection="column" width="50%">
+		<Box display="flex" flexDirection="column">
 			<Box component="img" src={images[activeImage].item} width="100%" />
 			<Stack flexDirection="row">
 				{images.map((img) => (
