@@ -5,18 +5,22 @@ import {
 	MenuItem,
 	Select,
 	TextField,
-	Typography,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { SearchProps } from "../types/Props";
+import { useAppSelector } from "../hooks/useAppSelector";
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { setSearchText } from "../redux/reducers/uiReducer";
 
-export default function Search(props: SearchProps) {
+export default function Search() {
+	const searchText = useAppSelector((state) => state.uiReducer.searchText);
+	const sortSearchBy: string = useAppSelector((state) => state.uiReducer.sortBy);
+	const dispatch = useAppDispatch();
 	return (
 		<Box>
 			<FormControl>
 				<InputLabel id="sort-category">Sort by:</InputLabel>
-				<Select autoWidth defaultValue="Title">
-					<MenuItem value="Title">Name</MenuItem>
+				<Select autoWidth defaultValue={sortSearchBy}>
+					<MenuItem value={sortSearchBy}>Name</MenuItem>
 				</Select>
 			</FormControl>
 			<Box
@@ -30,9 +34,9 @@ export default function Search(props: SearchProps) {
 				<TextField
 					fullWidth
 					placeholder="Search"
-					value={props.value}
+					value={searchText}
 					onChange={(e) => {
-						props.set(e.target.value);
+						dispatch(setSearchText(e.target.value));
 					}}
 				/>
 			</Box>

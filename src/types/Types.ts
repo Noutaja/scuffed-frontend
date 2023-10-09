@@ -81,3 +81,10 @@ export type CartItem = {
 	product: Product;
 	amount: number;
 };
+
+export type UiReducerState = {
+	searchText: string;
+	sortBy: string;
+}
+
+export type UiSortBy = "title"
