@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { AppBar, Box, Stack, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch } from "../hooks/useAppDispatch";
@@ -6,6 +6,7 @@ import { useAppSelector } from "../hooks/useAppSelector";
 import { fetchProfileWithToken } from "../redux/reducers/usersReducer";
 import HeaderProfile from "./HeaderProfile";
 import HeaderCart from "./HeaderCart";
+import { UnstyledLink } from "../componentsCustom/UnstyledLink";
 
 export default function Header() {
 	const dispatch = useAppDispatch();
@@ -18,13 +19,13 @@ export default function Header() {
 		}
 	}, [dispatch]);
 	return (
-		<Box component="header" height={50}>
+		<AppBar component="header">
 			<Box display="flex" flexDirection="row" justifyContent="space-between">
 				<Box component="nav" display="flex" flexDirection="row" maxWidth="md">
 					<Stack component="ul">
-						<Link to={""}>
+						<UnstyledLink to={""}>
 							<Typography>Home</Typography>
-						</Link>
+						</UnstyledLink>
 					</Stack>
 				</Box>
 				<Box display="flex" flexDirection="row" justifyContent="space-between">
@@ -32,6 +33,6 @@ export default function Header() {
 					<HeaderProfile />
 				</Box>
 			</Box>
-		</Box>
+		</AppBar>
 	);
 }

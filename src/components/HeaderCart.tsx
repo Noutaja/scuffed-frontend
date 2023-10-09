@@ -1,18 +1,30 @@
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import React from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useAppSelector } from "../hooks/useAppSelector";
-import { Link } from "react-router-dom";
+import { UnstyledLink } from "../componentsCustom/UnstyledLink";
 
 export default function HeaderCart() {
 	const items = useAppSelector((state) => state.cartReducer.items);
-	let totalCost = items.reduce((x, y) => y.product.price * y.amount + x, 0);
+	let totalCost = items.reduce(
+		(prev, curr) => curr.product.price * curr.amount + prev,
+		0
+	);
 	return (
-		<Link to="cart">
-			<Box display="flex" flexDirection="row" justifyContent="space-between">
-				<Typography>{totalCost}€</Typography>
-				<ShoppingCartIcon />
-			</Box>
-		</Link>
+		<Box
+			display="flex"
+			flexDirection="row"
+			justifyContent="space-between"
+			alignItems="center"
+		>
+			<Typography>{totalCost}€</Typography>
+			<Tooltip title="Shopping Cart">
+				<UnstyledLink to="cart">
+					<IconButton>
+						<ShoppingCartIcon />
+					</IconButton>
+				</UnstyledLink>
+			</Tooltip>
+		</Box>
 	);
 }

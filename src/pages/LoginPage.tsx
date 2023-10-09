@@ -21,6 +21,7 @@ export default function LoginPage() {
 			display="flex"
 			alignItems="center"
 			flexDirection="column"
+			marginTop="4rem"
 		>
 			<LoginForm />
 		</Box>

@@ -12,3 +12,8 @@ export type ProductInfoProps = {
 export type ProductImageDisplayProps = {
 	images: string[];
 };
+
+export type SearchProps = {
+	value: string;
+	set: React.Dispatch<React.SetStateAction<string>>;
+};
