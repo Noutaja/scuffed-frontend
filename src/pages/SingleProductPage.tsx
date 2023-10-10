@@ -25,7 +25,7 @@ export default function SingleProductPage() {
 	}, [dispatch]);
 
 	return (
-		<Container component="main" maxWidth="lg">
+		<Container component="main" maxWidth="lg" sx={{marginTop:"4rem"}}>
 			<Box display="flex" flexDirection="row">
 				{product && <ProductInfo product={product} />}
 				{product && <ProductImageDisplay images={product.images} />}

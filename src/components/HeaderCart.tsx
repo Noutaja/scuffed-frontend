@@ -19,7 +19,7 @@ export default function HeaderCart() {
 		>
 			<Typography>{totalCost}€</Typography>
 			<Tooltip title="Shopping Cart">
-				<UnstyledLink to="cart">
+				<UnstyledLink to="/cart">
 					<IconButton>
 						<ShoppingCartIcon />
 					</IconButton>

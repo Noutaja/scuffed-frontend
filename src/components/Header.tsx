@@ -23,7 +23,7 @@ export default function Header() {
 			<Box display="flex" flexDirection="row" justifyContent="space-between">
 				<Box component="nav" display="flex" flexDirection="row" maxWidth="md">
 					<Stack component="ul">
-						<UnstyledLink to={""}>
+						<UnstyledLink to={"/"}>
 							<Typography>Home</Typography>
 						</UnstyledLink>
 					</Stack>

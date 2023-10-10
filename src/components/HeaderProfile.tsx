@@ -23,13 +23,13 @@ export default function HeaderProfile() {
 		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
 	) {
 		e.preventDefault();
-		navigate("login");
+		navigate("/login");
 	}
 	return (
 		<Box display="flex" flexDirection="row" alignItems="center">
 			{currentUser ? (
 				<Box display="flex" flexDirection="row" alignItems="center">
-					<UnstyledLink to="profile">
+					<UnstyledLink to="/profile">
 						<Box display="flex" flexDirection="row" alignItems="center" columnGap="1rem">
 							<Avatar src={currentUser.avatar} />
 							<Typography>{currentUser.name}</Typography>
