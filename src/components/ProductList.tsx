@@ -1,7 +1,7 @@
 import { Container, Typography } from "@mui/material";
 import React, { memo } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
-import { Product } from "../types/Types";
+import { Product, UiSortBy } from "../types/Types";
 import { useAppSelector } from "../hooks/useAppSelector";
 import ProductItem from "./ProductItem";
 import useDebounce from "../helpers/debounce";
@@ -10,9 +10,9 @@ import { fetchAllProducts } from "../redux/reducers/productsReducer";
 
 function ProductList() {
 	const searchText: string = useAppSelector((state) => state.uiReducer.searchText);
-	const sortSearchBy: string = useAppSelector((state) => state.uiReducer.sortBy);
+	const sortSearchBy: UiSortBy = useAppSelector((state) => state.uiReducer.sortBy);
 	const products: Product[] = useAppSelector(
-		(state) => state.productsReducer.products.filter((p) => p.title.toLowerCase().includes(searchText))
+		(state) => state.productsReducer.products.filter((p) => p.title.toLowerCase().includes(searchText)).sort((a, b) => a[sortSearchBy] - b[sortSearchBy])
 	);
 	const status = useAppSelector((state) => state.productsReducer.status);
 	const dispatch = useAppDispatch();

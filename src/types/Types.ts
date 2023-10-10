@@ -84,7 +84,7 @@ export type CartItem = {
 
 export type UiReducerState = {
 	searchText: string;
-	sortBy: string;
+	sortBy: UiSortBy;
 }
 
-export type UiSortBy = "title"
+export type UiSortBy = "price"

@@ -3,19 +3,13 @@ import { UiReducerState } from "../../types/Types";
 
 const initialState: UiReducerState = {
 	searchText: "",
-	sortBy: "title",
+	sortBy: "price",
 };
 
 const uiSlice = createSlice({
 	name: "ui",
 	initialState,
 	reducers: {
-		getSearchText: (state) => {
-			return {
-				...state,
-				searchText: state.searchText
-			};
-		},
     setSearchText: (state, action: PayloadAction<string>) => {
       state.searchText = action.payload
     }
@@ -23,5 +17,5 @@ const uiSlice = createSlice({
 });
 
 const uiReducer = uiSlice.reducer;
-export const { getSearchText, setSearchText } = uiSlice.actions;
+export const { setSearchText } = uiSlice.actions;
 export default uiReducer;
