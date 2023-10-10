@@ -41,6 +41,11 @@ export type Category = {
 	updatedAt: string;
 };
 
+export type PaginationOptions = {
+	limit: number;
+	offset: number;
+}
+
 export type Role = "customer" | "admin";
 
 export type User = {
@@ -56,6 +61,7 @@ export type UserCreate = {
 	email: string;
 	password: string;
 	name: string;
+	role: "customer" | "admin"
 	avatar: string;
 };
 
@@ -85,6 +91,8 @@ export type CartItem = {
 export type UiReducerState = {
 	searchText: string;
 	sortBy: UiSortBy;
+	paginPage: number;
+	paginPerPage: number;
 }
 
 export type UiSortBy = "price"

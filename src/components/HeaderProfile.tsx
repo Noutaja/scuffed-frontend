@@ -3,7 +3,7 @@ import React from "react";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { logoutUser } from "../redux/reducers/usersReducer";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UnstyledLink } from "../componentsCustom/UnstyledLink";
 
 export default function HeaderProfile() {
@@ -16,6 +16,7 @@ export default function HeaderProfile() {
 	) {
 		e.preventDefault();
 		dispatch(logoutUser());
+		navigate("/");
 	}
 
 	function loginButtonClicked(

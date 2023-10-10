@@ -64,7 +64,7 @@ export const handlers = [
 			password: input.password,
 			name: input.name,
 			avatar: input.avatar,
-			role: "customer",
+			role: input.role,
 			id: users.length + 1,
 		};
 		users.push(newUser);

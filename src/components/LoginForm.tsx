@@ -38,10 +38,12 @@ export default function LoginForm() {
 						email: emailText,
 						password: passwordText,
 						name: name,
-						avatar: "",
+						role: "customer",
+						avatar: "https://i.pravatar.cc/300", //placeholder url
 					})
 				);
 				if (user.payload) {
+					await dispatch(loginWithCredentials({email: emailText, password: passwordText}));
 					navigate("/profile");
 				}
 			}

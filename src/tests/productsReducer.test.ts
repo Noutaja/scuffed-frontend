@@ -3,6 +3,7 @@ import {
 	deleteOneProduct,
 	fetchAllProducts,
 	fetchOneProduct,
+	fetchProductsWithPagination,
 	updateProduct,
 } from "../redux/reducers/productsReducer";
 import { createStore } from "../redux/store";

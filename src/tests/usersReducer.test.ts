@@ -86,13 +86,14 @@ describe("userReducer async thunk", () => {
 			email: "niko@gmail.com",
 			password: "1234",
 			name: "niko",
-			avatar: "",
+			role: "customer",
+			avatar: "https://i.pravatar.cc/300",
 		};
 		const fullNewUser = {
 			email: "niko@gmail.com",
 			password: "1234",
 			name: "niko",
-			avatar: "",
+			avatar: "https://i.pravatar.cc/300",
 			role: "customer",
 			id: 4,
 		};

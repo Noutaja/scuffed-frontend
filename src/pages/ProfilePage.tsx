@@ -7,11 +7,11 @@ export default function ProfilePage() {
 	const currentUser = useAppSelector((state) => state.usersReducer.currentUser);
 	const navigate = useNavigate();
 
-	useEffect(() => {
+	/* useEffect(() => {
 		if (!currentUser) {
 			navigate("/login");
 		}
-	}, [currentUser]);
+	}, [currentUser]); */
 
 	return (
 		<Container>

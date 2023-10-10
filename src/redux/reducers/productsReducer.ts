@@ -6,6 +6,7 @@ import {
 	ProductCreate,
 	ProductUpdate,
 	ProductReducerState,
+	PaginationOptions,
 } from "../../types/Types";
 
 const initialState: ProductReducerState = {
@@ -23,6 +24,22 @@ export const fetchAllProducts = createAsyncThunk(
 			);
 			const products = await response.data;
 
+			return products;
+		} catch (e) {
+			const error = e as AxiosError;
+			return rejectWithValue(error.message);
+		}
+	}
+);
+
+export const fetchProductsWithPagination = createAsyncThunk(
+	"products/fetchProductsWithPagination",
+	async (options: PaginationOptions, { rejectWithValue }) => {
+		try {
+			const response = await axios.get(
+				`https://api.escuelajs.co/api/v1/products?offset=${options.offset}&limit=${options.limit}`
+			);
+			const products = await response.data;
 			return products;
 		} catch (e) {
 			const error = e as AxiosError;
@@ -128,6 +145,29 @@ const productsSlice = createSlice({
 				};
 			})
 			.addCase(fetchAllProducts.rejected, (state, action) => {
+				const error = action.payload as string;
+				return {
+					...state,
+					status: "idle",
+					error: error,
+				};
+			});
+
+		builder
+			.addCase(fetchProductsWithPagination.fulfilled, (state, action) => {
+				return {
+					...state,
+					products: action.payload,
+					status: "idle",
+				};
+			})
+			.addCase(fetchProductsWithPagination.pending, (state, action) => {
+				return {
+					...state,
+					status: "loading",
+				};
+			})
+			.addCase(fetchProductsWithPagination.rejected, (state, action) => {
 				const error = action.payload as string;
 				return {
 					...state,

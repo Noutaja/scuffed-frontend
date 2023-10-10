@@ -93,6 +93,7 @@ const categories: Category[] = [
 const url = "https://api.escuelajs.co/api/v1";
 
 export const handlers = [
+
 	rest.get(`${url}/products`, (req, res, ctx) => {
 		return res(ctx.json(products));
 	}),
