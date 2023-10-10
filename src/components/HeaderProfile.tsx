@@ -30,7 +30,7 @@ export default function HeaderProfile() {
 			{currentUser ? (
 				<Box display="flex" flexDirection="row" alignItems="center">
 					<UnstyledLink to="profile">
-						<Box display="flex" flexDirection="row" alignItems="center">
+						<Box display="flex" flexDirection="row" alignItems="center" columnGap="1rem">
 							<Avatar src={currentUser.avatar} />
 							<Typography>{currentUser.name}</Typography>
 						</Box>

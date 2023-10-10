@@ -1,9 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { UiReducerState } from "../../types/Types";
+import { UiReducerState, UiSortBy, UiSortDirection } from "../../types/Types";
 
 const initialState: UiReducerState = {
 	searchText: "",
 	sortBy: "price",
+	sortDirection: "asc",
 	paginPage: 1,
 	paginPerPage: 20,
 };
@@ -22,9 +23,15 @@ const uiSlice = createSlice({
 		setPaginPerPage: (state, action: PayloadAction<number>) => {
 			state.paginPerPage = action.payload;
 		},
+		setSortBy: (state, action: PayloadAction<UiSortBy>) => {
+			state.sortBy = action.payload;
+		},
+		setSortDirection: (state, action: PayloadAction<UiSortDirection>) => {
+			state.sortDirection = action.payload;
+		},
 	},
 });
 
 const uiReducer = uiSlice.reducer;
-export const { setSearchText, setPaginPage } = uiSlice.actions;
+export const { setSearchText, setPaginPage, setPaginPerPage, setSortBy, setSortDirection } = uiSlice.actions;
 export default uiReducer;

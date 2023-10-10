@@ -1,7 +1,6 @@
-import { Container, Pagination, Typography } from "@mui/material";
-import React, { memo, useState } from "react";
+import { Box, Pagination, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import { Product, UiSortBy } from "../types/Types";
+import { Product, UiSortBy, UiSortDirection } from "../types/Types";
 import { useAppSelector } from "../hooks/useAppSelector";
 import ProductItem from "./ProductItem";
 import useDebounce from "../helpers/debounce";
@@ -9,33 +8,43 @@ import { useAppDispatch } from "../hooks/useAppDispatch";
 import { fetchAllProducts } from "../redux/reducers/productsReducer";
 import { setPaginPage } from "../redux/reducers/uiReducer";
 
+export function searchSorting(direction: UiSortDirection, sortBy: UiSortBy) {
+	if (direction === "asc") {
+		return (a: Product, b: Product) => {
+			return a[sortBy] - b[sortBy];
+		};
+	} else if (direction === "desc") {
+		return (a: Product, b: Product) => {
+			return b[sortBy] - a[sortBy];
+		};
+	}
+}
+
 function ProductList() {
-	const searchText: string = useAppSelector(
-		(state) => state.uiReducer.searchText
-	);
-	const sortSearchBy: UiSortBy = useAppSelector(
-		(state) => state.uiReducer.sortBy
-	);
+	const uiReducer = useAppSelector((state) => state.uiReducer);
+	const searchText: string = uiReducer.searchText;
+	const sortSearchBy: UiSortBy = uiReducer.sortBy;
+	const sortDirection: UiSortDirection = uiReducer.sortDirection;
+
 	const products: Product[] = useAppSelector((state) =>
 		state.productsReducer.products
 			.filter((p) => p.title.toLowerCase().includes(searchText))
-			.sort((a, b) => a[sortSearchBy] - b[sortSearchBy])
+			.sort(searchSorting(sortDirection, sortSearchBy))
 	);
 	const status = useAppSelector((state) => state.productsReducer.status);
 	const dispatch = useAppDispatch();
-	
-	const paginPage = useAppSelector((state) => state.uiReducer.paginPage);
-	const paginPerPage = useAppSelector((state) => state.uiReducer.paginPerPage);
+
+	const paginPage = uiReducer.paginPage;
+	const paginPerPage = uiReducer.paginPerPage;
 	const paginEnd = paginPage * paginPerPage;
 	const displayProducts = products.slice(
 		(paginPage - 1) * paginPerPage,
 		paginEnd
 	);
-	
 
 	useDebounce(() => dispatch(fetchAllProducts()), null, 1000);
 	return (
-		<Container>
+		<Box display="flex" flexDirection="column" justifyItems="center">
 			{status === "idle" && products[0] && (
 				<Grid container spacing={{ xs: 2, md: 3 }} columns={{ lg: 10 }}>
 					{displayProducts.map((p) => (
@@ -54,8 +63,9 @@ function ProductList() {
 				onChange={(e, v) => dispatch(setPaginPage(v))}
 				count={Math.floor(products.length / 20)}
 				defaultPage={1}
+				sx={{ marginTop: "1rem", marginLeft: "auto", marginRight: "auto" }}
 			/>
-		</Container>
+		</Box>
 	);
 }
 

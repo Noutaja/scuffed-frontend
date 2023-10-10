@@ -9,7 +9,7 @@ export default function CartPage() {
 	const cartItems = useAppSelector((state) => state.cartReducer.items);
 
 	return (
-		<Box component="main">
+		<Box component="main" marginTop="4rem">
 			{
 				<Stack>
 					{cartItems.map((i) => (
