@@ -69,30 +69,15 @@ describe("productReducer async thunk", () => {
 	});
 
 	test("Should update product", async () => {
-		const updateP: Product = {
-			id: 1,
-			title: "Frozen Salad",
-			price: 686,
-			description:
-				"The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
-			images: [
-				"https://i.imgur.com/CCnU4YX.jpeg",
-				"https://i.imgur.com/JANnz25.jpeg",
-				"https://i.imgur.com/ioc7lwM.jpeg",
-			],
-			category: {
-				id: 2,
-				name: "Electronics",
-				image: "https://i.imgur.com/uDpzwEk.jpeg",
-				creationAt: "2023-09-29T23:39:06.000Z",
-				updatedAt: "2023-09-29T23:39:06.000Z",
-			},
+		const updateP: ProductUpdate = {
+			id:1,
+			price: 687,
 		};
 		const action = await store.dispatch(updateProduct(updateP));
 		const testProduct = {
 			id: 1,
 			title: "Frozen Salad",
-			price: 686,
+			price: 687,
 			description:
 				"The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
 			images: [

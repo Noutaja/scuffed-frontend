@@ -45,7 +45,7 @@ export default function ProductInfo(props: ProductItemProps) {
 						<Box>
 							<Button
 								variant="contained"
-								onClick={() => setIsEditing(true)}
+								onClick={() => setIsEditing(!isEditing)}
 							>
 								<EditIcon />
 							</Button>

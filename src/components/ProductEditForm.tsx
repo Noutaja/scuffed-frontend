@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Product } from '../types/Types'
+import { Product, ProductUpdate } from '../types/Types'
 import { Button, TextField } from '@mui/material'
 import { updateProduct } from '../redux/reducers/productsReducer';
 import { useAppDispatch } from '../hooks/useAppDispatch';
@@ -15,7 +15,7 @@ const dispatch = useAppDispatch();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const updatedProduct: Product = {id: p.id, title: title, price: price, description: description, category: p.category, images: p.images};
+    const updatedProduct: ProductUpdate = {id: p.id, title: title, price: price, description: description, category: category, images: p.images};
     dispatch(updateProduct(updatedProduct));
     props.setIsEditing(false);
   }
@@ -24,8 +24,8 @@ const dispatch = useAppDispatch();
     <form onSubmit={handleSubmit}>
       <TextField value={title} onChange={(e) => setTitle(e.target.value)}></TextField>
       <TextField value={price} onChange={(e) => setPrice(Number(e.target.value))}></TextField>
-      <TextField value={description} onChange={(e) => setDescription(e.target.value)}></TextField>
       <TextField value={category} onChange={(e) => setCategory(Number(e.target.value))}></TextField>
+      <TextField multiline value={description} onChange={(e) => setDescription(e.target.value)}></TextField>
       <Button type="submit" variant="contained">UPDATE</Button>
       </form>
   )
