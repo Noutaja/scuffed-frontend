@@ -14,8 +14,6 @@ const products: Product[] = [
 			"https://i.imgur.com/JANnz25.jpeg",
 			"https://i.imgur.com/ioc7lwM.jpeg",
 		],
-		creationAt: "2023-09-29T23:39:06.000Z",
-		updatedAt: "2023-09-29T23:39:06.000Z",
 		category: {
 			id: 2,
 			name: "Electronics",
@@ -35,8 +33,6 @@ const products: Product[] = [
 			"https://i.imgur.com/G45P8tI.jpeg",
 			"https://i.imgur.com/Y5gHJMd.jpeg",
 		],
-		creationAt: "2023-09-29T23:39:06.000Z",
-		updatedAt: "2023-09-29T23:39:06.000Z",
 		category: {
 			id: 5,
 			name: "Others",
@@ -56,8 +52,6 @@ const products: Product[] = [
 			"https://i.imgur.com/OLKMwgP.jpeg",
 			"https://i.imgur.com/O1LUkwy.jpeg",
 		],
-		creationAt: "2023-09-29T23:39:06.000Z",
-		updatedAt: "2023-09-29T23:39:06.000Z",
 		category: {
 			id: 3,
 			name: "Hola que hace",
@@ -139,8 +133,6 @@ export const handlers = [
 				description: input.description,
 				category: category,
 				price: input.price,
-				creationAt: new Date().toUTCString(),
-				updatedAt: new Date().toUTCString(),
 			};
 			return res(ctx.json(newProduct));
 		}

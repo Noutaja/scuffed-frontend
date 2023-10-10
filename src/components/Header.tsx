@@ -1,6 +1,5 @@
-import { AppBar, Box, Stack, Typography } from "@mui/material";
+import { AppBar, Box, Button, Stack, Typography } from "@mui/material";
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { fetchProfileWithToken } from "../redux/reducers/usersReducer";
@@ -19,13 +18,21 @@ export default function Header() {
 		}
 	}, [dispatch]);
 	return (
-		<AppBar component="header">
+		<AppBar component="header" sx={{height: 60}}>
 			<Box display="flex" flexDirection="row" justifyContent="space-between">
-				<Box component="nav" display="flex" flexDirection="row" maxWidth="md">
-					<Stack component="ul">
+				<Box component="nav">
+					<Stack
+						component="ul"
+						display="flex"
+						flexDirection="row"
+						maxWidth="md"
+					>
 						<UnstyledLink to={"/"}>
-							<Typography>Home</Typography>
+							<Button color="inherit">Home</Button>
 						</UnstyledLink>
+						{currentUser && currentUser.role === "admin" && (
+							<Button color="inherit">Add product</Button>
+						)}
 					</Stack>
 				</Box>
 				<Box display="flex" flexDirection="row" justifyContent="space-between">

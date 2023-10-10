@@ -5,8 +5,6 @@ export type Product = {
 	description: string;
 	category: Category;
 	images: string[];
-	creationAt: string;
-	updatedAt: string;
 };
 
 export type ProductCreate = {
@@ -19,7 +17,7 @@ export type ProductCreate = {
 
 export type ProductUpdate = {
 	id: number;
-	data: Partial<Product>;
+	data: Product;
 };
 
 export type ProductReducerState = {

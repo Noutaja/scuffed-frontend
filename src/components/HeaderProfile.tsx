@@ -35,7 +35,7 @@ export default function HeaderProfile() {
 							<Typography>{currentUser.name}</Typography>
 						</Box>
 					</UnstyledLink>
-					<Button color="inherit" onClick={logoutButtonClicked}>
+					<Button color="inherit" onClick={logoutButtonClicked} sx={{marginLeft:"1rem", marginRight:"1rem"}}>
 						Logout
 					</Button>
 				</Box>

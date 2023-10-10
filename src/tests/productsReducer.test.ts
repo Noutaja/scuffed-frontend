@@ -7,7 +7,7 @@ import {
 	updateProduct,
 } from "../redux/reducers/productsReducer";
 import { createStore } from "../redux/store";
-import { ProductCreate, ProductUpdate } from "../types/Types";
+import { Product, ProductCreate, ProductUpdate } from "../types/Types";
 import server from "./productTestServer";
 
 let store = createStore();
@@ -69,10 +69,23 @@ describe("productReducer async thunk", () => {
 	});
 
 	test("Should update product", async () => {
-		const updateP: ProductUpdate = {
+		const updateP: Product = {
 			id: 1,
-			data: {
-				title: "Frozen Salad",
+			title: "Frozen Salad",
+			price: 686,
+			description:
+				"The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
+			images: [
+				"https://i.imgur.com/CCnU4YX.jpeg",
+				"https://i.imgur.com/JANnz25.jpeg",
+				"https://i.imgur.com/ioc7lwM.jpeg",
+			],
+			category: {
+				id: 2,
+				name: "Electronics",
+				image: "https://i.imgur.com/uDpzwEk.jpeg",
+				creationAt: "2023-09-29T23:39:06.000Z",
+				updatedAt: "2023-09-29T23:39:06.000Z",
 			},
 		};
 		const action = await store.dispatch(updateProduct(updateP));
@@ -87,8 +100,6 @@ describe("productReducer async thunk", () => {
 				"https://i.imgur.com/JANnz25.jpeg",
 				"https://i.imgur.com/ioc7lwM.jpeg",
 			],
-			creationAt: "2023-09-29T23:39:06.000Z",
-			updatedAt: "2023-09-29T23:39:06.000Z",
 			category: {
 				id: 2,
 				name: "Electronics",

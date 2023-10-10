@@ -107,15 +107,15 @@ export const createProduct = createAsyncThunk<
 
 export const updateProduct = createAsyncThunk<
 	Product,
-	ProductUpdate,
+	Product,
 	{ rejectValue: string }
 >(
 	"products/updateProduct",
-	async ({ id, data }: ProductUpdate, { rejectWithValue }) => {
+	async (product: Product, { rejectWithValue }) => {
 		try {
 			const response = await axios.put<Product>(
-				`https://api.escuelajs.co/api/v1/products/${id}`,
-				data
+				`https://api.escuelajs.co/api/v1/products/${product.id}`,
+				product
 			);
 			return response.data;
 		} catch (e) {
