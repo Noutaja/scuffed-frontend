@@ -42,7 +42,7 @@ export default function LoginForm() {
 					})
 				);
 				if (user.payload) {
-					navigate("profile");
+					navigate("/profile");
 				}
 			}
 		}
@@ -59,6 +59,9 @@ export default function LoginForm() {
 		if (passwordText.length < 8) {
 			dispatch(setError("Password is too short!"));
 			return false;
+		}
+		if(passwordText === retypePwText){
+			dispatch(setError("Passwords must match!"))
 		}
 		dispatch(setError(undefined));
 		return true;
