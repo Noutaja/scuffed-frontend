@@ -1,6 +1,6 @@
 import { RestContext, rest } from "msw";
 import { setupServer } from "msw/node";
-import { Category, Product, ProductCreate } from "../types/Types";
+import { Category, Product, ProductCreate, ProductUpdate } from "../types/Types";
 
 const products: Product[] = [
 	{
@@ -141,14 +141,14 @@ export const handlers = [
 	}),
 
 	rest.put(`${url}/products/:id`, async (req, res, ctx) => {
-		const input: ProductCreate = await req.json();
+		const input: ProductUpdate = await req.json();
 		const index = products.findIndex((p) => p.id === Number(req.params.id));
 
 		if (input.price && input.price <= 0) {
 			badRequest(ctx);
 			return;
 		}
-		if (input.price && input.images.length < 1) {
+		if (input.price && input.images && input.images.length < 1) {
 			badRequest(ctx);
 			return;
 		}

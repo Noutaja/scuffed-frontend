@@ -76,7 +76,7 @@ describe("productReducer async thunk", () => {
 		const action = await store.dispatch(updateProduct(updateP));
 		const testProduct = {
 			id: 1,
-			title: "Frozen Salad",
+			title: "Licensed Frozen Salad",
 			price: 687,
 			description:
 				"The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
