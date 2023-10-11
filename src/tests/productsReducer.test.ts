@@ -62,7 +62,7 @@ describe("productReducer async thunk", () => {
 				"https://i.imgur.com/JANnz25.jpeg",
 				"https://i.imgur.com/ioc7lwM.jpeg",
 			],
-			category: 1,
+			categoryId: 1,
 		};
 		await store.dispatch(createProduct(newProduct));
 		expect(store.getState().productsReducer.products.length).toBe(1);

@@ -9,6 +9,16 @@ export type ProductInfoProps = {
 	product: Product;
 };
 
+export type ProductEditModalProps = {
+	children?: any;
+	product: Product | undefined;
+};
+
+export type ProductEditFormProps = {
+	children?: any;
+	product: Product | undefined;
+};
+
 export type ProductImageDisplayProps = {
 	images: string[];
 };

@@ -114,7 +114,7 @@ export const handlers = [
 
 	rest.post(`${url}/products/`, async (req, res, ctx) => {
 		const input: ProductCreate = await req.json();
-		const category = categories.find((c) => c.id === input.category);
+		const category = categories.find((c) => c.id === input.categoryId);
 
 		if (input.price <= 0) {
 			badRequest(ctx);

@@ -9,28 +9,62 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useAppDispatch } from "../hooks/useAppDispatch";
-import { setSearchText, setSortBy, setSortDirection } from "../redux/reducers/uiReducer";
+import {
+	setPaginPerPage,
+	setSearchText,
+	setSortBy,
+	setSortDirection,
+} from "../redux/reducers/uiReducer";
 import { UiSortBy, UiSortDirection } from "../types/Types";
 
 export default function Search() {
 	const searchText = useAppSelector((state) => state.uiReducer.searchText);
+	const paginPerPage = useAppSelector((state) => state.uiReducer.paginPerPage);
 	const sortSearchBy: string = useAppSelector(
 		(state) => state.uiReducer.sortBy
 	);
-	const sortDirection = useAppSelector((state) => state.uiReducer.sortDirection);
+	const sortDirection = useAppSelector(
+		(state) => state.uiReducer.sortDirection
+	);
 	const dispatch = useAppDispatch();
 	return (
 		<Box>
-			<FormControl>
+			<FormControl sx={{ m: 1, minWidth: 120 }} size="small">
 				<InputLabel id="sort-category">Sort by</InputLabel>
-				<Select autoWidth defaultValue={sortSearchBy} onChange={(e) => dispatch(setSortBy(e.target.value as UiSortBy))}>
+				<Select
+					autoWidth
+					defaultValue="price"
+					value={sortSearchBy}
+					onChange={(e) => dispatch(setSortBy(e.target.value as UiSortBy))}
+				>
 					<MenuItem value="price">Price</MenuItem>
 				</Select>
 			</FormControl>
-			<FormControl>
-				<Select autoWidth defaultValue={sortDirection} onChange={(e) => dispatch(setSortDirection(e.target.value as UiSortDirection))}>
+			<FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+				<InputLabel id="sort-direction">Sort direction</InputLabel>
+				<Select
+					autoWidth
+					defaultValue="asc"
+					value={sortDirection}
+					onChange={(e) =>
+						dispatch(setSortDirection(e.target.value as UiSortDirection))
+					}
+				>
 					<MenuItem value="asc">Ascending</MenuItem>
 					<MenuItem value="desc">Descending</MenuItem>
+				</Select>
+			</FormControl>
+			<FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+				<InputLabel id="pagin-per-page">Show results</InputLabel>
+				<Select
+					autoWidth
+					defaultValue={20}
+					value={paginPerPage}
+					onChange={(e) => dispatch(setPaginPerPage(e.target.value as number))}
+				>
+					<MenuItem value={10}>10</MenuItem>
+					<MenuItem value={20}>20</MenuItem>
+					<MenuItem value={50}>50</MenuItem>
 				</Select>
 			</FormControl>
 			<Box

@@ -6,6 +6,7 @@ import { fetchProfileWithToken } from "../redux/reducers/usersReducer";
 import HeaderProfile from "./HeaderProfile";
 import HeaderCart from "./HeaderCart";
 import { UnstyledLink } from "../componentsCustom/UnstyledLink";
+import ProductEditModal from "./ProductEditModal";
 
 export default function Header() {
 	const dispatch = useAppDispatch();
@@ -31,7 +32,7 @@ export default function Header() {
 							<Button color="inherit">Home</Button>
 						</UnstyledLink>
 						{currentUser && currentUser.role === "admin" && (
-							<Button color="inherit">Add product</Button>
+							<ProductEditModal product={undefined}>ADD PRODUCT</ProductEditModal>
 						)}
 					</Stack>
 				</Box>

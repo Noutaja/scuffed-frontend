@@ -16,16 +16,15 @@ import { addOneItem } from "../redux/reducers/cartReducer";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { deleteOneProduct } from "../redux/reducers/productsReducer";
 import { useNavigate } from "react-router-dom";
-import ProductEditForm from "./ProductEditForm";
+import ProductEditModal from "./ProductEditModal";
 
 export default function ProductInfo(props: ProductItemProps) {
-	const [isEditing, setIsEditing] = useState(false);
 	const currentUser = useAppSelector((state) => state.usersReducer.currentUser);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const p = props.product;
 
-	function onDeleteClicked(){
+	function onDeleteClicked() {
 		dispatch(deleteOneProduct(p.id));
 		navigate("/");
 	}
@@ -43,22 +42,15 @@ export default function ProductInfo(props: ProductItemProps) {
 					</Button>
 					{currentUser && currentUser.role === "admin" && (
 						<Box>
-							<Button
-								variant="contained"
-								onClick={() => setIsEditing(!isEditing)}
-							>
-								<EditIcon />
-							</Button>
-							<Button
-								variant="contained"
-								onClick={onDeleteClicked}
-							>
+							<ProductEditModal product={p}>
+								<EditIcon color="primary"/>
+							</ProductEditModal>
+							<Button color="primary" onClick={onDeleteClicked}>
 								<DeleteIcon />
 							</Button>
 						</Box>
 					)}
 				</CardActions>
-				{isEditing && <ProductEditForm p={p} setIsEditing={setIsEditing}/>}
 			</Card>
 		</Box>
 	);
