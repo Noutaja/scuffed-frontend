@@ -1,11 +1,15 @@
 import { Box } from "@mui/material";
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import LoginForm from "../components/LoginForm";
 import { useAppSelector } from "../hooks/useAppSelector";
-import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { setError } from "../redux/reducers/usersReducer";
 
 export default function LoginPage() {
 	const currentUser = useAppSelector((state) => state.usersReducer.currentUser);
+	const dispatch = useAppDispatch();
 
 	const navigate = useNavigate();
 
@@ -14,6 +18,10 @@ export default function LoginPage() {
 			navigate("/");
 		}
 	}, [currentUser]);
+
+	useEffect(() => {
+		dispatch(setError(undefined));
+	}, []);
 
 	return (
 		<Box

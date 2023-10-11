@@ -1,7 +1,7 @@
 import { Box, Button, Modal } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
+
 import ProductEditForm from "./ProductEditForm";
-import { Product } from "../types/Types";
 import { ProductEditModalProps } from "../types/Props";
 
 const style = {
@@ -15,8 +15,6 @@ const style = {
 	boxShadow: 24,
 	p: 4,
 };
-
-
 
 export default function ProductEditModal(props: ProductEditModalProps) {
 	const [isOpen, setIsOpen] = React.useState(false);
@@ -35,7 +33,9 @@ export default function ProductEditModal(props: ProductEditModalProps) {
 				aria-describedby="modal-modal-description"
 			>
 				<Box sx={style}>
-					<ProductEditForm product={props.product}>{props.product ? "UPDATE" : "CREATE"}</ProductEditForm>
+					<ProductEditForm product={props.product}>
+						{props.product ? "UPDATE" : "CREATE"}
+					</ProductEditForm>
 				</Box>
 			</Modal>
 		</div>

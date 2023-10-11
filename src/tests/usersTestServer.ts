@@ -1,5 +1,6 @@
 import { rest } from "msw";
 import { setupServer } from "msw/node";
+
 import { User, UserCreate } from "../types/Types";
 
 const url = "https://api.escuelajs.co/api/v1";

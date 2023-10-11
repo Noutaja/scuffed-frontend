@@ -1,21 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import {
 	Box,
 	Button,
-	Card,
-	CardActions,
-	CardContent,
+	Divider,
+	Paper,
+	Tooltip,
 	Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useNavigate } from "react-router-dom";
 
 import { ProductItemProps } from "../types/Props";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { addOneItem } from "../redux/reducers/cartReducer";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { deleteOneProduct } from "../redux/reducers/productsReducer";
-import { useNavigate } from "react-router-dom";
 import ProductEditModal from "./ProductEditModal";
 
 export default function ProductInfo(props: ProductItemProps) {
@@ -29,29 +30,46 @@ export default function ProductInfo(props: ProductItemProps) {
 		navigate("/");
 	}
 	return (
-		<Box component="section" display="flex" justifyContent="space-around">
-			<Card>
-				<CardContent>
-					<Typography variant="h3">{p.title}</Typography>
+		<Paper component="section" sx={{ flex: 1, flexBasis: 400 }}>
+			<Box
+				padding={1}
+				display="flex"
+				flexDirection="column"
+				alignItems="center"
+				justifyContent="space-around"
+				height="100%"
+			>
+				<Box>
+					<Box>
+						<Typography variant="h3">{p.title}</Typography>
+						<Typography variant="subtitle2">{p.category.name}</Typography>
+					</Box>
+					<Divider />
 					<Typography variant="h5">{p.description}</Typography>
-					<Typography variant="h5">{p.price} €</Typography>
-				</CardContent>
-				<CardActions>
-					<Button variant="contained" onClick={() => dispatch(addOneItem(p))}>
-						ADD TO CART
-					</Button>
+					<Typography variant="h4">{p.price} €</Typography>
+				</Box>
+				<Box display="flex">
+					<Tooltip title="Add to cart">
+						<Button onClick={() => dispatch(addOneItem(p))}>
+							<ShoppingCartIcon />
+						</Button>
+					</Tooltip>
 					{currentUser && currentUser.role === "admin" && (
-						<Box>
+						<Box display="flex">
 							<ProductEditModal product={p}>
-								<EditIcon color="primary"/>
+								<Tooltip title="ADMIN: Edit Product">
+									<EditIcon color="primary" />
+								</Tooltip>
 							</ProductEditModal>
-							<Button color="primary" onClick={onDeleteClicked}>
-								<DeleteIcon />
-							</Button>
+							<Tooltip title="ADMIN: Delete Product">
+								<Button color="primary" onClick={onDeleteClicked}>
+									<DeleteIcon />
+								</Button>
+							</Tooltip>
 						</Box>
 					)}
-				</CardActions>
-			</Card>
-		</Box>
+				</Box>
+			</Box>
+		</Paper>
 	);
 }

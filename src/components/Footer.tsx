@@ -3,7 +3,7 @@ import React from "react";
 
 export default function Footer() {
 	return (
-		<Box>
+		<Box component="footer" marginTop="auto">
 			<Typography>Footer</Typography>
 		</Box>
 	);

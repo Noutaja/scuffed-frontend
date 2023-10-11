@@ -1,12 +1,13 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import {
 	createUser,
 	loginWithCredentials,
 	setError,
 } from "../redux/reducers/usersReducer";
-import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../hooks/useAppSelector";
 
 export default function LoginForm() {
@@ -43,7 +44,9 @@ export default function LoginForm() {
 					})
 				);
 				if (user.payload) {
-					await dispatch(loginWithCredentials({email: emailText, password: passwordText}));
+					await dispatch(
+						loginWithCredentials({ email: emailText, password: passwordText })
+					);
 					navigate("/profile");
 				}
 			}
@@ -51,6 +54,7 @@ export default function LoginForm() {
 	}
 
 	function validateInputs() {
+		console.log("asdasdsad");
 		//General Email Regex (RFC 5322 Official Standard)
 		const emailRegex =
 			/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
@@ -58,12 +62,13 @@ export default function LoginForm() {
 			dispatch(setError("Invalid Email!"));
 			return false;
 		}
+		console.log(passwordText.length);
 		if (passwordText.length < 8) {
 			dispatch(setError("Password is too short!"));
 			return false;
 		}
-		if(passwordText === retypePwText){
-			dispatch(setError("Passwords must match!"))
+		if (passwordText === retypePwText) {
+			dispatch(setError("Passwords must match!"));
 		}
 		dispatch(setError(undefined));
 		return true;
@@ -71,14 +76,25 @@ export default function LoginForm() {
 	return (
 		<Box display="flex" flexDirection="column" maxWidth="sm">
 			{error && <Typography>{error}</Typography>}
-			<form onSubmit={isRegistering ? handleRegister : handleSubmit}>
-				<Box display="flex" flexDirection="column" maxWidth="sm">
-					<Typography variant="h4">{isRegistering ? "Register" : "Login"}</Typography>
+			<Paper
+				component="form"
+				onSubmit={isRegistering ? handleRegister : handleSubmit}
+			>
+				<Box
+					display="flex"
+					flexDirection="column"
+					maxWidth="sm"
+					gap={1}
+					sx={{ p: 1 }}
+				>
+					<Typography variant="h4">
+						{isRegistering ? "Register" : "Login"}
+					</Typography>
 					<TextField
 						variant="filled"
 						id="login-email"
 						type="email"
-						placeholder="Email"
+						label="Email"
 						required
 						value={emailText}
 						onChange={(e) => setEmailText(e.target.value)}
@@ -87,7 +103,7 @@ export default function LoginForm() {
 						variant="filled"
 						id="login-password"
 						type="password"
-						placeholder="Password"
+						label="Password"
 						required
 						value={passwordText}
 						onChange={(e) => setPasswordText(e.target.value)}
@@ -97,20 +113,24 @@ export default function LoginForm() {
 							variant="filled"
 							id="register-retype-password"
 							type="password"
-							placeholder="Retype password"
+							label="Retype password"
 							required
 							value={retypePwText}
 							onChange={(e) => setRetypePwText(e.target.value)}
 						/>
 					)}
-					<Button type="submit" variant="contained">
+					<Button type="submit" variant="contained" sx={{ p: 2 }}>
 						{isRegistering ? "REGISTER" : "LOGIN"}
 					</Button>
 				</Box>
-			</form>
+			</Paper>
 
 			{!isRegistering && (
-				<Button variant="contained" onClick={() => setIsRegistering(true)}>
+				<Button
+					variant="contained"
+					onClick={() => setIsRegistering(true)}
+					sx={{ marginTop: 3, marginBottom: 3 }}
+				>
 					REGISTER
 				</Button>
 			)}

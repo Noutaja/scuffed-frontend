@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios, { AxiosError } from "axios";
+
 import {
 	User,
 	UserCreate,
 	UserCredentials,
 	UserReducerState,
 } from "../../types/Types";
-import axios, { AxiosError } from "axios";
 
 const initialState: UserReducerState = {
 	status: "idle",

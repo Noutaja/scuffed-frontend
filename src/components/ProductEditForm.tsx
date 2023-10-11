@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { Box, Button, Stack, TextField } from "@mui/material";
+
 import {
 	createProduct,
 	updateProduct,
@@ -17,7 +18,9 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 	const [price, setPrice] = useState("");
 	const [description, setDescription] = useState("");
 	const [categoryId, setCategoryId] = useState("");
-	const [images, setImages] = useState<string[]>(props.product ? props.product.images : [""]);
+	const [images, setImages] = useState<string[]>(
+		props.product ? props.product.images : [""]
+	);
 	const indexedImages = addIdsToList(images);
 	const dispatch = useAppDispatch();
 
@@ -27,11 +30,11 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 			const p = props.product;
 
 			const updatedProduct: ProductUpdate = { id: p.id };
-			if(title.length) updatedProduct.title = title;
-			if(price.length) updatedProduct.price = Number(price);
-			if(description.length) updatedProduct.description = description;
-			if(categoryId.length) updatedProduct.categoryId = Number(categoryId);
-			if(images.length) updatedProduct.images = images;
+			if (title.length) updatedProduct.title = title;
+			if (price.length) updatedProduct.price = Number(price);
+			if (description.length) updatedProduct.description = description;
+			if (categoryId.length) updatedProduct.categoryId = Number(categoryId);
+			if (images.length) updatedProduct.images = images;
 			dispatch(updateProduct(updatedProduct));
 		} else {
 			const newProduct: ProductCreate = {

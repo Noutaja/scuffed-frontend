@@ -33,5 +33,11 @@ const uiSlice = createSlice({
 });
 
 const uiReducer = uiSlice.reducer;
-export const { setSearchText, setPaginPage, setPaginPerPage, setSortBy, setSortDirection } = uiSlice.actions;
+export const {
+	setSearchText,
+	setPaginPage,
+	setPaginPerPage,
+	setSortBy,
+	setSortDirection,
+} = uiSlice.actions;
 export default uiReducer;

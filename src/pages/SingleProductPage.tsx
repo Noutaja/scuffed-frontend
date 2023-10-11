@@ -25,8 +25,8 @@ export default function SingleProductPage() {
 	}, [dispatch]);
 
 	return (
-		<Container component="main" maxWidth="lg" sx={{marginTop:"4rem"}}>
-			<Box display="flex" flexDirection="row">
+		<Container component="main" maxWidth="lg" sx={{ marginTop: "4rem" }}>
+			<Box display="flex" flexDirection="row" flexWrap="wrap" gap={5}>
 				{product && <ProductInfo product={product} />}
 				{product && <ProductImageDisplay images={product.images} />}
 			</Box>

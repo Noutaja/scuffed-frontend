@@ -1,15 +1,13 @@
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
+import { Badge, Box, IconButton, Tooltip } from "@mui/material";
 import React from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+
 import { useAppSelector } from "../hooks/useAppSelector";
 import { UnstyledLink } from "../componentsCustom/UnstyledLink";
 
 export default function HeaderCart() {
 	const items = useAppSelector((state) => state.cartReducer.items);
-	let totalCost = items.reduce(
-		(prev, curr) => curr.product.price * curr.amount + prev,
-		0
-	);
+	let totalItems = items.reduce((prev, curr) => curr.amount + prev, 0);
 	return (
 		<Box
 			display="flex"
@@ -17,14 +15,20 @@ export default function HeaderCart() {
 			justifyContent="space-between"
 			alignItems="center"
 		>
-			<Typography>{totalCost}€</Typography>
-			<Tooltip title="Shopping Cart">
-				<UnstyledLink to="/cart">
-					<IconButton>
-						<ShoppingCartIcon />
-					</IconButton>
-				</UnstyledLink>
-			</Tooltip>
+			<Badge
+				badgeContent={totalItems}
+				overlap="circular"
+				anchorOrigin={{ horizontal: "left", vertical: "top" }}
+				color="warning"
+			>
+				<Tooltip title="Shopping Cart">
+					<UnstyledLink to="/cart">
+						<IconButton>
+							<ShoppingCartIcon />
+						</IconButton>
+					</UnstyledLink>
+				</Tooltip>
+			</Badge>
 		</Box>
 	);
 }

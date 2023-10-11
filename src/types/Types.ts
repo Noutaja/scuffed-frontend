@@ -15,12 +15,7 @@ export type ProductCreate = {
 	images: string[];
 };
 
-
 export type ProductUpdate = Partial<ProductCreate> & { id: number };
-/* export type ProductUpdate = {
-	id: number;
-	data: Product;
-}; */
 
 export type ProductReducerState = {
 	products: Product[];

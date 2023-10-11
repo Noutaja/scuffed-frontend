@@ -93,7 +93,6 @@ export const createProduct = createAsyncThunk<
 	"products/createProduct",
 	async (newProduct: ProductCreate, { rejectWithValue }) => {
 		try {
-			console.log(newProduct)
 			const response = await axios.post<Product>(
 				`https://api.escuelajs.co/api/v1/products/`,
 				newProduct
@@ -114,7 +113,6 @@ export const updateProduct = createAsyncThunk<
 	"products/updateProduct",
 	async (data: ProductUpdate, { rejectWithValue }) => {
 		try {
-			
 			const response = await axios.put<Product>(
 				`https://api.escuelajs.co/api/v1/products/${data.id}`,
 				data

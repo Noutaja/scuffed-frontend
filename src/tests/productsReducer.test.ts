@@ -3,11 +3,10 @@ import {
 	deleteOneProduct,
 	fetchAllProducts,
 	fetchOneProduct,
-	fetchProductsWithPagination,
 	updateProduct,
 } from "../redux/reducers/productsReducer";
 import { createStore } from "../redux/store";
-import { Product, ProductCreate, ProductUpdate } from "../types/Types";
+import { ProductCreate, ProductUpdate } from "../types/Types";
 import server from "./productTestServer";
 
 let store = createStore();
@@ -70,7 +69,7 @@ describe("productReducer async thunk", () => {
 
 	test("Should update product", async () => {
 		const updateP: ProductUpdate = {
-			id:1,
+			id: 1,
 			price: 687,
 		};
 		const action = await store.dispatch(updateProduct(updateP));

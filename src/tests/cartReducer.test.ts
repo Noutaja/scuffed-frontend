@@ -1,5 +1,6 @@
 import cartReducer, {
 	addOneItem,
+	emptyCart,
 	getAllItems,
 	removeOneItem,
 } from "../redux/reducers/cartReducer";
@@ -81,6 +82,18 @@ describe("cartReducer", () => {
 		expect(store.getState().cartReducer.items.length).toBe(0);
 		expect(store.getState().cartReducer.status).toBe("idle");
 		expect(store.getState().cartReducer.error).toBe(undefined);
+	});
+
+	test("Should empty to initial state initial state", () => {
+		const state: CartReducerState = {
+			status: "idle",
+			error: undefined,
+			items: cartItems,
+		};
+		const cart = cartReducer(state, emptyCart());
+		expect(cart.items.length).toBe(0);
+		expect(cart.status).toBe("idle");
+		expect(cart.error).toBe(undefined);
 	});
 
 	test("Should get all items", () => {

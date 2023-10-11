@@ -1,6 +1,12 @@
 import { RestContext, rest } from "msw";
 import { setupServer } from "msw/node";
-import { Category, Product, ProductCreate, ProductUpdate } from "../types/Types";
+
+import {
+	Category,
+	Product,
+	ProductCreate,
+	ProductUpdate,
+} from "../types/Types";
 
 const products: Product[] = [
 	{
@@ -87,7 +93,6 @@ const categories: Category[] = [
 const url = "https://api.escuelajs.co/api/v1";
 
 export const handlers = [
-
 	rest.get(`${url}/products`, (req, res, ctx) => {
 		return res(ctx.json(products));
 	}),

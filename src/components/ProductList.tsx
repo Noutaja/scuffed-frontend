@@ -1,5 +1,6 @@
 import { Box, Pagination, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
+
 import { Product, UiSortBy, UiSortDirection } from "../types/Types";
 import { useAppSelector } from "../hooks/useAppSelector";
 import ProductItem from "./ProductItem";
@@ -8,8 +9,6 @@ import { useAppDispatch } from "../hooks/useAppDispatch";
 import { fetchAllProducts } from "../redux/reducers/productsReducer";
 import { setPaginPage } from "../redux/reducers/uiReducer";
 import { searchSorting } from "../helpers/searchSorting";
-
-
 
 function ProductList() {
 	const uiReducer = useAppSelector((state) => state.uiReducer);
@@ -36,6 +35,13 @@ function ProductList() {
 	useDebounce(() => dispatch(fetchAllProducts()), null, 1000);
 	return (
 		<Box display="flex" flexDirection="column" justifyItems="center">
+			<Pagination
+				page={paginPage}
+				onChange={(e, v) => dispatch(setPaginPage(v))}
+				count={Math.floor(products.length / 20)}
+				defaultPage={1}
+				sx={{ margin: 1, marginLeft: "auto", marginRight: "auto" }}
+			/>
 			{status === "idle" && products[0] && (
 				<Grid container spacing={{ xs: 2, md: 3 }} columns={{ lg: 10 }}>
 					{displayProducts.map((p) => (

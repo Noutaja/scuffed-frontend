@@ -1,9 +1,10 @@
 import { Avatar, Box, Button, Typography } from "@mui/material";
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { logoutUser } from "../redux/reducers/usersReducer";
-import { useNavigate } from "react-router-dom";
 import { UnstyledLink } from "../componentsCustom/UnstyledLink";
 
 export default function HeaderProfile() {
@@ -30,12 +31,21 @@ export default function HeaderProfile() {
 			{currentUser ? (
 				<Box display="flex" flexDirection="row" alignItems="center">
 					<UnstyledLink to="/profile">
-						<Box display="flex" flexDirection="row" alignItems="center" columnGap="1rem">
+						<Box
+							display="flex"
+							flexDirection="row"
+							alignItems="center"
+							columnGap="1rem"
+						>
 							<Avatar src={currentUser.avatar} />
 							<Typography>{currentUser.name}</Typography>
 						</Box>
 					</UnstyledLink>
-					<Button color="inherit" onClick={logoutButtonClicked} sx={{marginLeft:"1rem", marginRight:"1rem"}}>
+					<Button
+						color="inherit"
+						onClick={logoutButtonClicked}
+						sx={{ marginLeft: "1rem", marginRight: "1rem" }}
+					>
 						Logout
 					</Button>
 				</Box>
