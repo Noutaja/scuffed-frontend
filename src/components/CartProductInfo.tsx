@@ -7,8 +7,8 @@ import { UnstyledLink } from "../componentsCustom/UnstyledLink";
 export default function CartProductInfo(props: { p: Product }) {
 	const p = props.p;
 	let shortDesc = p.description;
-	if (p.description.length >= 40) {
-		shortDesc = shortDesc.slice(0, 40);
+	if (p.description.length >= 35) {
+		shortDesc = shortDesc.slice(0, 35);
 		shortDesc += "...";
 	}
 	return (
