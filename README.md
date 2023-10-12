@@ -42,19 +42,19 @@ to match your profile- and repository name. **IMPORTANT!**
 ## Features
 
 Scuffed Webstore features a responsive user interface with basic product searching and sorting:
-![Store at tablet and beyond](images/Scuffed Webstore desktop.png)
+![Store-at-tablet-and-beyond](images/Scuffed-Webstore-desktop.png)
 Store at tablet and beyond
 
-![Store with mobiles](images/Scuffed Webstore mobile.png)
+![Store with mobiles](images/Scuffed-Webstore-mobile.png)
 Store with mobiles
 
 ![Login validation](images/Login.png)
 Logging in has input validation
 
-![Editing product](images/Product edit.png)
+![Editing product](images/Product-edit.png)
 Editing and adding a product is a modal
 
-![Shopping cart](images/Shopping cart.png)
+![Shopping cart](images/Shopping-cart.png)
 Shopping cart checks if the user is logged in before checking out
 
 ## Feature and Todo list
