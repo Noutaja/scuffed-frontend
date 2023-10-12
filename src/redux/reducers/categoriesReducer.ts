@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-import { CategoriesReducerState, Category } from "../../types/Types";
+import { CategoriesReducerState } from "../../types/Types";
 
 const initialState: CategoriesReducerState = {
 	categories: [],

@@ -102,7 +102,6 @@ export default function Search() {
 				{currentUser && currentUser.role === "admin" && (
 					<ProductEditModal product={undefined}>ADD PRODUCT</ProductEditModal>
 				)}
-				<Button onClick={() => console.log(categoryFilter)}>check cat</Button>
 			</Box>
 
 			<Box
