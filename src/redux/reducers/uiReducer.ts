@@ -7,6 +7,7 @@ const initialState: UiReducerState = {
 	sortDirection: "asc",
 	paginPage: 1,
 	paginPerPage: 20,
+	categoryFilter: "",
 };
 
 const uiSlice = createSlice({
@@ -29,6 +30,9 @@ const uiSlice = createSlice({
 		setSortDirection: (state, action: PayloadAction<UiSortDirection>) => {
 			state.sortDirection = action.payload;
 		},
+		setCategoryFilter: (state, action: PayloadAction<string>) => {
+			state.categoryFilter = action.payload;
+		},
 	},
 });
 
@@ -39,5 +43,6 @@ export const {
 	setPaginPerPage,
 	setSortBy,
 	setSortDirection,
+	setCategoryFilter,
 } = uiSlice.actions;
 export default uiReducer;

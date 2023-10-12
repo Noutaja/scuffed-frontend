@@ -1,6 +1,6 @@
 import { fetchAllCategories } from "../redux/reducers/categoriesReducer";
 import { createStore } from "../redux/store";
-import server from "./categoriesTestServer";
+import server, { categories } from "./categoriesTestServer";
 
 let store = createStore();
 
@@ -29,6 +29,8 @@ describe("productReducer", () => {
 describe("productReducer async thunk", () => {
 	test("Should fetch all products from the API", async () => {
 		await store.dispatch(fetchAllCategories());
-		expect(store.getState().categoriesReducer.categories.length).toBe(3);
+		expect(store.getState().categoriesReducer.categories.length).toBe(
+			categories.length
+		);
 	});
 });

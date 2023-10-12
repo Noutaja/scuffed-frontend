@@ -93,6 +93,7 @@ export type UiReducerState = {
 	sortDirection: UiSortDirection;
 	paginPage: number;
 	paginPerPage: number;
+	categoryFilter: string;
 };
 
 export type UiSortBy = "price";

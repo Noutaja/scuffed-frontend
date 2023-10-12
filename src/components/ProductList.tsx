@@ -16,10 +16,15 @@ function ProductList() {
 	const searchText: string = uiReducer.searchText;
 	const sortSearchBy: UiSortBy = uiReducer.sortBy;
 	const sortDirection: UiSortDirection = uiReducer.sortDirection;
+	const categoryFilter: string = uiReducer.categoryFilter;
 
 	const products: Product[] = useAppSelector((state) =>
 		state.productsReducer.products
 			.filter((p) => p.title.toLowerCase().includes(searchText))
+			.filter((p) => {
+				if (categoryFilter === "") return true;
+				return p.category.id === +categoryFilter;
+			})
 			.sort(searchSorting(sortDirection, sortSearchBy))
 	);
 	const status = useAppSelector((state) => state.productsReducer.status);
@@ -34,8 +39,8 @@ function ProductList() {
 	);
 
 	useEffect(() => {
-    dispatch(fetchAllProducts());
-  }, []);
+		dispatch(fetchAllProducts());
+	}, []);
 
 	return (
 		<Box display="flex" flexDirection="column" justifyItems="center">

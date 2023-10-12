@@ -1,4 +1,5 @@
 import uiReducer, {
+	setCategoryFilter,
 	setPaginPage,
 	setPaginPerPage,
 	setSearchText,
@@ -30,6 +31,7 @@ describe("uiReducer", () => {
 			sortDirection: "asc",
 			paginPage: 1,
 			paginPerPage: 20,
+			categoryFilter: "",
 		};
 		const test = "test";
 		const ui = uiReducer(state, setSearchText(test));
@@ -44,6 +46,7 @@ describe("uiReducer", () => {
 			sortDirection: "asc",
 			paginPage: 1,
 			paginPerPage: 20,
+			categoryFilter: "",
 		};
 		//Can't test "properly" because sorting by price is the only supported sorting criteria
 		const test = "price";
@@ -58,6 +61,7 @@ describe("uiReducer", () => {
 			sortDirection: "asc",
 			paginPage: 1,
 			paginPerPage: 20,
+			categoryFilter: "",
 		};
 		const test = "desc";
 		const ui = uiReducer(state, setSortDirection(test));
@@ -71,6 +75,7 @@ describe("uiReducer", () => {
 			sortDirection: "asc",
 			paginPage: 1,
 			paginPerPage: 20,
+			categoryFilter: "",
 		};
 		const test = 2;
 		const ui = uiReducer(state, setPaginPage(test));
@@ -84,9 +89,24 @@ describe("uiReducer", () => {
 			sortDirection: "asc",
 			paginPage: 1,
 			paginPerPage: 20,
+			categoryFilter: "",
 		};
 		const test = 10;
 		const ui = uiReducer(state, setPaginPerPage(test));
 		expect(ui.paginPerPage).toBe(test);
+	});
+
+	test("Should change category filter", () => {
+		const state: UiReducerState = {
+			searchText: "",
+			sortBy: "price",
+			sortDirection: "asc",
+			paginPage: 1,
+			paginPerPage: 20,
+			categoryFilter: "",
+		};
+		const test = "1";
+		const ui = uiReducer(state, setCategoryFilter(test));
+		expect(ui.categoryFilter).toBe(test);
 	});
 });

@@ -1,5 +1,6 @@
 import {
 	Box,
+	Button,
 	FormControl,
 	InputLabel,
 	MenuItem,
@@ -11,6 +12,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import {
+	setCategoryFilter,
 	setPaginPerPage,
 	setSearchText,
 	setSortBy,
@@ -18,21 +20,44 @@ import {
 } from "../redux/reducers/uiReducer";
 import { UiSortBy, UiSortDirection } from "../types/Types";
 import ProductEditModal from "./ProductEditModal";
+import { fetchAllCategories } from "../redux/reducers/categoriesReducer";
+import { useEffect } from "react";
 
 export default function Search() {
+	const categories = useAppSelector(
+		(state) => state.categoriesReducer.categories
+	);
 	const currentUser = useAppSelector((state) => state.usersReducer.currentUser);
-	const searchText = useAppSelector((state) => state.uiReducer.searchText);
-	const paginPerPage = useAppSelector((state) => state.uiReducer.paginPerPage);
-	const sortSearchBy: string = useAppSelector(
-		(state) => state.uiReducer.sortBy
-	);
-	const sortDirection = useAppSelector(
-		(state) => state.uiReducer.sortDirection
-	);
+	const uiReducer = useAppSelector((state) => state.uiReducer);
+	const searchText = uiReducer.searchText;
+	const paginPerPage = uiReducer.paginPerPage;
+	const sortSearchBy = uiReducer.sortBy;
+	const sortDirection = uiReducer.sortDirection;
+	const categoryFilter = uiReducer.categoryFilter;
 	const dispatch = useAppDispatch();
+
+	useEffect(() => {
+		dispatch(fetchAllCategories());
+	}, [dispatch]);
+
 	return (
 		<Box>
 			<Box display="flex" flexWrap="wrap" alignItems="center">
+				<TextField
+					select
+					label="Category"
+					value={categoryFilter}
+					onChange={(e) => dispatch(setCategoryFilter(e.target.value))}
+					sx={{ m: 1, minWidth: 120 }}
+					size="small"
+				>
+					<MenuItem value={""}>All Categories</MenuItem>
+					{categories.map((c) => (
+						<MenuItem key={c.id} value={c.id}>
+							{c.name}
+						</MenuItem>
+					))}
+				</TextField>
 				<FormControl sx={{ m: 1, minWidth: 120 }} size="small">
 					<InputLabel id="sort-category">Sort by</InputLabel>
 					<Select
@@ -77,6 +102,7 @@ export default function Search() {
 				{currentUser && currentUser.role === "admin" && (
 					<ProductEditModal product={undefined}>ADD PRODUCT</ProductEditModal>
 				)}
+				<Button onClick={() => console.log(categoryFilter)}>check cat</Button>
 			</Box>
 
 			<Box

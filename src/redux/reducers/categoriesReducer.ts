@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-import { CategoriesReducerState } from "../../types/Types";
+import { CategoriesReducerState, Category } from "../../types/Types";
 
 const initialState: CategoriesReducerState = {
 	categories: [],
@@ -10,7 +10,7 @@ const initialState: CategoriesReducerState = {
 };
 
 export const fetchAllCategories = createAsyncThunk(
-	"products/fetchAllCategories",
+	"categories/fetchAllCategories",
 	async (_, { rejectWithValue }) => {
 		try {
 			const response = await axios.get(

@@ -8,7 +8,7 @@ import {
 	updateProduct,
 } from "../redux/reducers/productsReducer";
 
-import { Product, ProductCreate, ProductUpdate } from "../types/Types";
+import { ProductCreate, ProductUpdate } from "../types/Types";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import addIdsToList from "../helpers/addIdsToList";
 import { ProductEditFormProps } from "../types/Props";
@@ -25,7 +25,7 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 	const [price, setPrice] = useState("");
 	const [description, setDescription] = useState("");
 	const [categoryId, setCategoryId] = useState("");
-	const [images, setImages] = useState<string[]>(
+	const [images, setImages] = useState(
 		props.product ? props.product.images : [""]
 	);
 	const indexedImages = addIdsToList(images);
