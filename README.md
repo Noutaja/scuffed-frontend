@@ -48,7 +48,7 @@ Store at tablet and beyond
 ![Store with mobiles](images/Scuffed-Webstore-mobile.png)
 Store with mobiles
 
-![Login validation](images/Login.png)
+![Login validation](images/Lgin.png)
 Logging in has input validation
 
 ![Editing product](images/Product-edit.png)
