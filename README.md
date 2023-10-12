@@ -42,7 +42,7 @@ to match your profile- and repository name. **IMPORTANT!**
 ## Features
 
 Scuffed Webstore features a responsive user interface with basic product searching and sorting:
-![Store-at-tablet-and-beyond](images/Scuffed-Webstore-desktop.png)
+![Store at tablet and beyond](images/Scuffed-Webstore-desktop.png)
 Store at tablet and beyond
 
 ![Store with mobiles](images/Scuffed-Webstore-mobile.png)
