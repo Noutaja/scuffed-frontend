@@ -1,19 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { Box, Button, Stack, TextField } from "@mui/material";
+import { Box, Button, MenuItem, Stack, TextField } from "@mui/material";
 
 import {
 	createProduct,
 	updateProduct,
 } from "../redux/reducers/productsReducer";
 
-import { ProductCreate, ProductUpdate } from "../types/Types";
+import { Product, ProductCreate, ProductUpdate } from "../types/Types";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import addIdsToList from "../helpers/addIdsToList";
 import { ProductEditFormProps } from "../types/Props";
+import { useAppSelector } from "../hooks/useAppSelector";
+import { fetchAllCategories } from "../redux/reducers/categoriesReducer";
+import { useNavigate } from "react-router-dom";
 
 export default function ProductEditForm(props: ProductEditFormProps) {
+	const categories = useAppSelector((state) => state.categoriesReducer.categories);
 	const [title, setTitle] = useState("");
 	const [price, setPrice] = useState("");
 	const [description, setDescription] = useState("");
@@ -23,29 +27,33 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 	);
 	const indexedImages = addIdsToList(images);
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 
 	function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
+		console.log(categoryId)
 		if (props.product) {
 			const p = props.product;
 
-			const updatedProduct: ProductUpdate = { id: p.id };
-			if (title.length) updatedProduct.title = title;
-			if (price.length) updatedProduct.price = Number(price);
-			if (description.length) updatedProduct.description = description;
-			if (categoryId.length) updatedProduct.categoryId = Number(categoryId);
-			if (images.length) updatedProduct.images = images;
-			dispatch(updateProduct(updatedProduct));
+			const input: ProductUpdate = { id: p.id };
+			if (title.length) input.title = title;
+			if (price.length) input.price = Number(price);
+			if (description.length) input.description = description;
+			if (categoryId.length) input.categoryId = Number(categoryId);
+			if (images.length) input.images = images;
+			dispatch(updateProduct(input));
 		} else {
-			const newProduct: ProductCreate = {
+			const input: ProductCreate = {
 				title: title,
 				price: Number(price),
 				description: description,
 				categoryId: Number(categoryId),
 				images: images,
 			};
-			dispatch(createProduct(newProduct));
+			dispatch(createProduct(input));
+			navigate("/")
 		}
+		
 	}
 
 	function handleUrlChange(text: string, id: number) {
@@ -55,6 +63,11 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 			...images.slice(id + 1),
 		]);
 	}
+
+	useEffect(() => {
+		dispatch(fetchAllCategories())
+	}, [])
+	
 
 	return (
 		<form onSubmit={handleSubmit}>
@@ -73,11 +86,14 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 						sx={{ m: 1 }}
 					/>
 					<TextField
-						label="Category id"
+						select
+						label="Category"
 						value={categoryId}
 						onChange={(e) => setCategoryId(e.target.value)}
 						sx={{ m: 1 }}
-					/>
+					>
+						{categories.map((c) => (<MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>))}
+					</TextField>
 				</Stack>
 				<TextField
 					label="Description"

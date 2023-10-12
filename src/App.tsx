@@ -1,4 +1,4 @@
-import { Box, ThemeProvider, createTheme } from "@mui/material";
+import { Box, CssBaseline, ThemeProvider } from "@mui/material";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 
@@ -10,11 +10,13 @@ import Footer from "./components/Footer";
 import store from "./redux/store";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
+import { theme } from "./themes/themes";
 
 function App() {
 	return (
 		<Provider store={store}>
 			<ThemeProvider theme={theme}>
+				<CssBaseline />
 				<HashRouter basename="/">
 					<Box display="flex" flexDirection="column" minHeight="100vh">
 						<Header />
@@ -35,11 +37,5 @@ function App() {
 		</Provider>
 	);
 }
-
-const theme = createTheme({
-	typography: {
-		fontSize: 12,
-	},
-});
 
 export default App;

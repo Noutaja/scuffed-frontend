@@ -1,4 +1,4 @@
-import { Badge, Box, IconButton, Tooltip } from "@mui/material";
+import { Badge, Box, IconButton, Tooltip, useTheme } from "@mui/material";
 import React from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
@@ -6,6 +6,7 @@ import { useAppSelector } from "../hooks/useAppSelector";
 import { UnstyledLink } from "../componentsCustom/UnstyledLink";
 
 export default function HeaderCart() {
+	const theme = useTheme()
 	const items = useAppSelector((state) => state.cartReducer.items);
 	let totalItems = items.reduce((prev, curr) => curr.amount + prev, 0);
 	return (
@@ -19,12 +20,12 @@ export default function HeaderCart() {
 				badgeContent={totalItems}
 				overlap="circular"
 				anchorOrigin={{ horizontal: "left", vertical: "top" }}
-				color="warning"
+				color="secondary"
 			>
 				<Tooltip title="Shopping Cart">
 					<UnstyledLink to="/cart">
 						<IconButton>
-							<ShoppingCartIcon />
+							<ShoppingCartIcon sx={{color: theme.palette.primary.contrastText}}/>
 						</IconButton>
 					</UnstyledLink>
 				</Tooltip>

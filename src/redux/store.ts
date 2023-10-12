@@ -5,6 +5,7 @@ import usersReducer from "./reducers/usersReducer";
 import { CartReducerState, UserReducerState } from "../types/Types";
 import cartReducer from "./reducers/cartReducer";
 import uiReducer from "./reducers/uiReducer";
+import categoriesReducer from "./reducers/categoriesReducer";
 
 const preloadedUsersState: UserReducerState = {
 	currentUser: undefined,
@@ -23,7 +24,7 @@ store.subscribe(updateLocalStorage);
 
 export function createStore() {
 	return configureStore({
-		reducer: { productsReducer, usersReducer, cartReducer, uiReducer },
+		reducer: { productsReducer, categoriesReducer, usersReducer, cartReducer, uiReducer },
 		preloadedState: {
 			usersReducer: preloadedUsersState,
 			cartReducer: preloadedCartState,

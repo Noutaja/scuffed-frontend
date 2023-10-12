@@ -6,16 +6,34 @@ import { useAppDispatch } from "../hooks/useAppDispatch";
 import {
 	createUser,
 	loginWithCredentials,
-	setError,
 } from "../redux/reducers/usersReducer";
 import { useAppSelector } from "../hooks/useAppSelector";
+import {
+	validateConfirmPw,
+	validateEmail,
+	validatePassword,
+} from "../helpers/loginFormValidators";
 
 export default function LoginForm() {
 	const error = useAppSelector((state) => state.usersReducer.error);
-	const [emailText, setEmailText] = useState("");
-	const [passwordText, setPasswordText] = useState("");
-	const [retypePwText, setRetypePwText] = useState("");
 	const [isRegistering, setIsRegistering] = useState(false);
+
+	const [emailText, setEmailText] = useState("");
+	const [isEmailValid, setIsEmailValid] = useState(true);
+	const [emailValidationMessage, setEmailValidationMessage] = useState("");
+
+	const [passwordText, setPasswordText] = useState("");
+	const [isPasswordValid, setIsPasswordValid] = useState(true);
+	const [passwordValidationMessage, setPasswordValidationMessage] =
+		useState("");
+
+	const [confirmPwText, setConfirmPwText] = useState("");
+	const [isConfirmPwValid, setIsConfirmPwValid] = useState(true);
+	const [confirmPwValidationMessage, setConfirmPwValidationMessage] =
+		useState("");
+
+	const [isFormValid, setIsFormValid] = useState(false);
+
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
@@ -31,51 +49,92 @@ export default function LoginForm() {
 
 	async function handleRegister(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		if (validateInputs()) {
-			if (passwordText === retypePwText) {
-				const name = emailText.split("@")[0];
-				const user = await dispatch(
-					createUser({
-						email: emailText,
-						password: passwordText,
-						name: name,
-						role: "customer",
-						avatar: "https://i.pravatar.cc/300", //placeholder url
-					})
+		if (passwordText === confirmPwText) {
+			const name = emailText.split("@")[0];
+			const user = await dispatch(
+				createUser({
+					email: emailText,
+					password: passwordText,
+					name: name,
+					role: "customer",
+					avatar: "https://i.pravatar.cc/300", //placeholder url
+				})
+			);
+			if (user.payload) {
+				await dispatch(
+					loginWithCredentials({ email: emailText, password: passwordText })
 				);
-				if (user.payload) {
-					await dispatch(
-						loginWithCredentials({ email: emailText, password: passwordText })
-					);
-					navigate("/profile");
-				}
+				navigate("/profile");
 			}
 		}
 	}
 
-	function validateInputs() {
-		console.log("asdasdsad");
-		//General Email Regex (RFC 5322 Official Standard)
-		const emailRegex =
-			/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
-		if (!emailRegex.test(emailText)) {
-			dispatch(setError("Invalid Email!"));
-			return false;
-		}
-		console.log(passwordText.length);
-		if (passwordText.length < 8) {
-			dispatch(setError("Password is too short!"));
-			return false;
-		}
-		if (passwordText === retypePwText) {
-			dispatch(setError("Passwords must match!"));
-		}
-		dispatch(setError(undefined));
-		return true;
+	function onEmailChange(
+		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+	) {
+		setEmailText(e.target.value);
+		validateEmail(emailText, setIsEmailValid, setEmailValidationMessage);
+		setIsFormValid(
+			!isRegistering
+				? isEmailValid && isPasswordValid
+				: isEmailValid && isPasswordValid && isConfirmPwValid
+		);
 	}
+
+	function onPasswordChange(
+		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+	) {
+		setPasswordText(e.target.value);
+		const passwordField = {
+			text: e.target.value,
+			setIsValid: setIsPasswordValid,
+			setValidationMessage: setPasswordValidationMessage,
+		};
+		validatePassword(isRegistering, passwordField);
+		setIsFormValid(
+			!isRegistering
+				? isEmailValid && isPasswordValid
+				: isEmailValid && isPasswordValid && isConfirmPwValid
+		);
+	}
+
+	function onConfirmPwChange(
+		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+	) {
+		setConfirmPwText(e.target.value);
+		const passwordField = {
+			text: passwordText,
+			setIsValid: setIsPasswordValid,
+			setValidationMessage: setPasswordValidationMessage,
+		};
+		const confirmPwField = {
+			text: e.target.value,
+			setIsValid: setIsConfirmPwValid,
+			setValidationMessage: setConfirmPwValidationMessage,
+		};
+		validateConfirmPw(passwordField, confirmPwField);
+		setIsFormValid(isEmailValid && isPasswordValid && isConfirmPwValid);
+	}
+
 	return (
-		<Box display="flex" flexDirection="column" maxWidth="sm">
+		<Box display="flex" flexDirection="column" maxWidth="sm" sx={{ mt: 3 }}>
 			{error && <Typography>{error}</Typography>}
+			<Box display="flex">
+				<Button
+					variant={!isRegistering ? "contained" : "outlined"}
+					onClick={() => setIsRegistering(false)}
+					sx={{ flex: 1 }}
+				>
+					Login
+				</Button>
+				<Button
+					variant={isRegistering ? "contained" : "outlined"}
+					onClick={() => setIsRegistering(true)}
+					sx={{ flex: 1 }}
+				>
+					Register
+				</Button>
+			</Box>
 			<Paper
 				component="form"
 				onSubmit={isRegistering ? handleRegister : handleSubmit}
@@ -97,7 +156,9 @@ export default function LoginForm() {
 						label="Email"
 						required
 						value={emailText}
-						onChange={(e) => setEmailText(e.target.value)}
+						onChange={onEmailChange}
+						error={!isEmailValid}
+						helperText={emailValidationMessage}
 					/>
 					<TextField
 						variant="filled"
@@ -106,34 +167,33 @@ export default function LoginForm() {
 						label="Password"
 						required
 						value={passwordText}
-						onChange={(e) => setPasswordText(e.target.value)}
+						onChange={onPasswordChange}
+						error={!isPasswordValid}
+						helperText={passwordValidationMessage}
 					/>
 					{isRegistering && (
 						<TextField
 							variant="filled"
-							id="register-retype-password"
+							id="register-confirm-password"
 							type="password"
-							label="Retype password"
+							label="Confirm password"
 							required
-							value={retypePwText}
-							onChange={(e) => setRetypePwText(e.target.value)}
+							value={confirmPwText}
+							onChange={onConfirmPwChange}
+							error={!isConfirmPwValid}
+							helperText={confirmPwValidationMessage}
 						/>
 					)}
-					<Button type="submit" variant="contained" sx={{ p: 2 }}>
+					<Button
+						type="submit"
+						variant="contained"
+						//disabled={!isFormValid}
+						sx={{ p: 2 }}
+					>
 						{isRegistering ? "REGISTER" : "LOGIN"}
 					</Button>
 				</Box>
 			</Paper>
-
-			{!isRegistering && (
-				<Button
-					variant="contained"
-					onClick={() => setIsRegistering(true)}
-					sx={{ marginTop: 3, marginBottom: 3 }}
-				>
-					REGISTER
-				</Button>
-			)}
 		</Box>
 	);
 }

@@ -31,7 +31,6 @@ export default function ProductItem(props: ProductItemProps) {
 			</CardContent>
 			<CardActions>
 				<Button
-					variant="contained"
 					onClick={() => store.dispatch(addOneItem(p))}
 				>
 					<ShoppingCart />

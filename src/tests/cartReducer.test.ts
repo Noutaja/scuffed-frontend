@@ -23,8 +23,6 @@ const products: Product[] = [
 			id: 2,
 			name: "Electronics",
 			image: "https://i.imgur.com/uDpzwEk.jpeg",
-			creationAt: "2023-09-29T23:39:06.000Z",
-			updatedAt: "2023-09-29T23:39:06.000Z",
 		},
 	},
 	{
@@ -42,8 +40,6 @@ const products: Product[] = [
 			id: 5,
 			name: "Others",
 			image: "https://i.imgur.com/Dm2pPfd.jpeg",
-			creationAt: "2023-09-29T23:39:06.000Z",
-			updatedAt: "2023-09-29T23:39:06.000Z",
 		},
 	},
 	{
@@ -61,8 +57,6 @@ const products: Product[] = [
 			id: 3,
 			name: "Hola que hace",
 			image: "https://i.imgur.com/zQwsC2m.jpeg",
-			creationAt: "2023-09-29T23:39:06.000Z",
-			updatedAt: "2023-09-30T02:17:47.000Z",
 		},
 	},
 ];

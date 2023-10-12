@@ -1,0 +1,35 @@
+import {  rest } from "msw";
+import { setupServer } from "msw/node";
+
+import {
+	Category,
+} from "../types/Types";
+
+
+const categories: Category[] = [
+	{
+		id: 1,
+		name: "Books",
+		image: "https://i.imgur.com/lauPy0D.jpeg",
+	},
+	{
+		id: 2,
+		name: "Computers",
+		image: "https://i.imgur.com/zjLVS8N.jpeg",
+	},
+	{
+		id: 3,
+		name: "Clothes",
+		image: "https://i.imgur.com/xYO6uDv.jpeg",
+	},
+];
+const url = "https://api.escuelajs.co/api/v1";
+
+export const handlers = [
+	rest.get(`${url}/categories`, (req, res, ctx) => {
+		return res(ctx.json(categories));
+	}),
+];
+
+const server = setupServer(...handlers);
+export default server;

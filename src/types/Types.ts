@@ -17,7 +17,7 @@ export type ProductCreate = {
 
 export type ProductUpdate = Partial<ProductCreate> & { id: number };
 
-export type ProductReducerState = {
+export type ProductsReducerState = {
 	products: Product[];
 	status: "idle" | "loading";
 	error: string | undefined;
@@ -28,12 +28,16 @@ export type ItemWithId<T> = {
 	id: number;
 };
 
+export type CategoriesReducerState = {
+	categories: Category[];
+	status: "idle" | "loading";
+	error: string | undefined;
+};
+
 export type Category = {
 	id: number;
 	name: string;
 	image: string;
-	creationAt: string;
-	updatedAt: string;
 };
 
 export type PaginationOptions = {
@@ -94,3 +98,9 @@ export type UiReducerState = {
 export type UiSortBy = "price";
 
 export type UiSortDirection = "asc" | "desc";
+
+export type PasswordFieldValidationObject = {
+	text: string;
+	setIsValid: React.Dispatch<React.SetStateAction<boolean>>;
+	setValidationMessage: React.Dispatch<React.SetStateAction<string>>;
+};

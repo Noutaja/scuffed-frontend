@@ -5,7 +5,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Product, UiSortBy, UiSortDirection } from "../types/Types";
 import { useAppSelector } from "../hooks/useAppSelector";
 import ProductItem from "./ProductItem";
-import useDebounce from "../helpers/debounce";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { fetchAllProducts } from "../redux/reducers/productsReducer";
 import { setPaginPage } from "../redux/reducers/uiReducer";
@@ -37,7 +36,7 @@ function ProductList() {
 	useEffect(() => {
     dispatch(fetchAllProducts());
   }, []);
-	
+
 	return (
 		<Box display="flex" flexDirection="column" justifyItems="center">
 			<Pagination

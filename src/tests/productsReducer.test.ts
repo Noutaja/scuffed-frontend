@@ -88,8 +88,6 @@ describe("productReducer async thunk", () => {
 				id: 2,
 				name: "Electronics",
 				image: "https://i.imgur.com/uDpzwEk.jpeg",
-				creationAt: "2023-09-29T23:39:06.000Z",
-				updatedAt: "2023-09-29T23:39:06.000Z",
 			},
 		};
 		expect(action.payload).toMatchObject(testProduct);

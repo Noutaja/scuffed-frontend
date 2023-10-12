@@ -5,11 +5,11 @@ import {
 	Product,
 	ProductCreate,
 	ProductUpdate,
-	ProductReducerState,
+	ProductsReducerState,
 	PaginationOptions,
 } from "../../types/Types";
 
-const initialState: ProductReducerState = {
+const initialState: ProductsReducerState = {
 	products: [],
 	status: "idle",
 	error: undefined,
@@ -206,7 +206,7 @@ const productsSlice = createSlice({
 				state.error = action.payload;
 			})
 
-			.addCase(createProduct.fulfilled, (state, action) => {
+			builder.addCase(createProduct.fulfilled, (state, action) => {
 				state.products.push(action.payload);
 			})
 			.addCase(createProduct.rejected, (state, action) => {

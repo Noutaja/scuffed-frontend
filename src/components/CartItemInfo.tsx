@@ -22,17 +22,17 @@ export default function CartItemInfo(props: { i: CartItem }) {
 			<Stack sx={{ marginLeft: "0.5em" }} justifyContent="space-between">
 				<Tooltip title="Increase amount">
 					<Button onClick={() => dispatch(addOneItem(i.product))}>
-						<AddIcon sx={{ color: "black" }} />
+						<AddIcon  />
 					</Button>
 				</Tooltip>
 
-				<Typography textAlign="center">
-					<Inventory2Icon />
+				<Typography color="primary.main" textAlign="center">
+					<Inventory2Icon color="inherit"/>
 					{i.amount}
 				</Typography>
 				<Tooltip title="Decrease amount">
 					<Button onClick={() => dispatch(removeOneItem(i.product.id))}>
-						<RemoveIcon sx={{ color: "black" }} />
+						<RemoveIcon  />
 					</Button>
 				</Tooltip>
 			</Stack>

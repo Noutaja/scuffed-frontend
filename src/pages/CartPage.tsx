@@ -1,11 +1,5 @@
 import React from "react";
-import {
-	Box,
-	Button,
-	Stack,
-	Tooltip,
-	Typography,
-} from "@mui/material";
+import { Box, Button, Stack, Tooltip, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import { useAppSelector } from "../hooks/useAppSelector";
@@ -15,6 +9,7 @@ import { emptyCart } from "../redux/reducers/cartReducer";
 
 export default function CartPage() {
 	const cartItems = useAppSelector((state) => state.cartReducer.items);
+	const currentUser = useAppSelector((state) => state.usersReducer.currentUser);
 	const dispatch = useAppDispatch();
 	let totalPrice = cartItems.reduce(
 		(prev, curr) => curr.amount * curr.product.price + prev,
@@ -50,9 +45,13 @@ export default function CartPage() {
 							<DeleteIcon />
 						</Button>
 					</Tooltip>
-					<Tooltip title="Not implemented">
-						<Button variant="contained">CHECKOUT</Button>
-					</Tooltip>
+					{!currentUser ? (
+						<Typography>Login to checkout</Typography>
+					) : (
+						<Tooltip title="Not implemented">
+							<Button variant="contained">CHECKOUT</Button>
+						</Tooltip>
+					)}
 				</Box>
 			</Box>
 		</Box>

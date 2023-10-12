@@ -1,4 +1,10 @@
-import { AppBar, Box, Button, Stack } from "@mui/material";
+import {
+	AppBar,
+	Box,
+	Button,
+	Stack,
+	Typography,
+} from "@mui/material";
 import React, { useEffect } from "react";
 
 import { useAppDispatch } from "../hooks/useAppDispatch";
@@ -30,7 +36,24 @@ export default function Header() {
 						maxWidth="md"
 					>
 						<UnstyledLink to={"/"}>
-							<Button color="inherit">Home</Button>
+							<Box>
+								<Typography variant="h4" sx={{ position: "relative" }}>
+									Webstore
+									<Typography
+										color="error.main"
+										variant="h5"
+										sx={{
+											fontWeight:"bold",
+											position: "absolute",
+											top: "-10px",
+											left: "10px",
+											transform: "rotate(-20deg)",
+											zIndex:-1
+										}}>
+										Scuffed
+									</Typography>
+								</Typography>
+							</Box>
 						</UnstyledLink>
 						{currentUser && currentUser.role === "admin" && (
 							<ProductEditModal product={undefined}>
