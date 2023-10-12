@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { Box, Button, MenuItem, Stack, TextField } from "@mui/material";
+import { Box, Button, MenuItem, Stack, TextField, Typography } from "@mui/material";
 
 import {
 	createProduct,
@@ -17,7 +17,10 @@ import { fetchAllCategories } from "../redux/reducers/categoriesReducer";
 import { useNavigate } from "react-router-dom";
 
 export default function ProductEditForm(props: ProductEditFormProps) {
-	const categories = useAppSelector((state) => state.categoriesReducer.categories);
+	const error = useAppSelector((state) => state.productsReducer.error);
+	const categories = useAppSelector(
+		(state) => state.categoriesReducer.categories
+	);
 	const [title, setTitle] = useState("");
 	const [price, setPrice] = useState("");
 	const [description, setDescription] = useState("");
@@ -28,10 +31,15 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 	const indexedImages = addIdsToList(images);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+	let isEditing: boolean;
+	if (props.product) {
+		isEditing = true;
+	} else {
+		isEditing = false;
+	}
 
 	function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		console.log(categoryId)
 		if (props.product) {
 			const p = props.product;
 
@@ -51,9 +59,8 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 				images: images,
 			};
 			dispatch(createProduct(input));
-			navigate("/")
+			navigate("/");
 		}
-		
 	}
 
 	function handleUrlChange(text: string, id: number) {
@@ -65,24 +72,26 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 	}
 
 	useEffect(() => {
-		dispatch(fetchAllCategories())
-	}, [])
-	
+		dispatch(fetchAllCategories());
+	}, []);
 
 	return (
 		<form onSubmit={handleSubmit}>
+			{error && <Typography>{error}!</Typography>}
 			<Box display="flex" flexDirection="row">
 				<Stack>
 					<TextField
 						label="Title"
 						value={title}
 						onChange={(e) => setTitle(e.target.value)}
+						required={!isEditing}
 						sx={{ m: 1 }}
 					/>
 					<TextField
 						label="Price"
 						value={price}
 						onChange={(e) => setPrice(e.target.value)}
+						required={!isEditing}
 						sx={{ m: 1 }}
 					/>
 					<TextField
@@ -90,9 +99,14 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 						label="Category"
 						value={categoryId}
 						onChange={(e) => setCategoryId(e.target.value)}
+						required={!isEditing}
 						sx={{ m: 1 }}
 					>
-						{categories.map((c) => (<MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>))}
+						{categories.map((c) => (
+							<MenuItem key={c.id} value={c.id}>
+								{c.name}
+							</MenuItem>
+						))}
 					</TextField>
 				</Stack>
 				<TextField
@@ -101,6 +115,7 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 					rows={8}
 					value={description}
 					onChange={(e) => setDescription(e.target.value)}
+					required={!isEditing}
 					sx={{ m: 1 }}
 				/>
 			</Box>
@@ -115,6 +130,7 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 							label="Image url"
 							value={i.item}
 							onChange={(e) => handleUrlChange(e.target.value, i.id)}
+							required={!isEditing}
 							sx={{ m: 1 }}
 						/>
 						<Button

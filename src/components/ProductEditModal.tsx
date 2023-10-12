@@ -1,8 +1,10 @@
 import { Box, Button, Modal } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 
 import ProductEditForm from "./ProductEditForm";
 import { ProductEditModalProps } from "../types/Props";
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { setProductsError } from "../redux/reducers/productsReducer";
 
 const style = {
 	position: "absolute" as "absolute",
@@ -11,7 +13,7 @@ const style = {
 	transform: "translate(-50%, -50%)",
 	width: "30%",
 	bgcolor: "background.paper",
-	border: "2px solid #000",
+	borderRadius: "0.5em",
 	boxShadow: 24,
 	p: 4,
 };
@@ -20,17 +22,22 @@ export default function ProductEditModal(props: ProductEditModalProps) {
 	const [isOpen, setIsOpen] = React.useState(false);
 	const handleOpen = () => setIsOpen(true);
 	const handleClose = () => setIsOpen(false);
+	const dispatch = useAppDispatch()
+	useEffect(() => {
+		dispatch(setProductsError(undefined))
+	}, [])
+	
 
 	return (
-		<div>
+		<Box>
 			<Button color="inherit" onClick={handleOpen}>
 				{props.children}
 			</Button>
 			<Modal
 				open={isOpen}
 				onClose={handleClose}
-				aria-labelledby="modal-modal-title"
-				aria-describedby="modal-modal-description"
+				aria-labelledby="modal-product-edit"
+				aria-describedby="modal-product-edit"
 			>
 				<Box sx={style}>
 					<ProductEditForm product={props.product}>
@@ -38,6 +45,6 @@ export default function ProductEditModal(props: ProductEditModalProps) {
 					</ProductEditForm>
 				</Box>
 			</Modal>
-		</div>
+		</Box>
 	);
 }

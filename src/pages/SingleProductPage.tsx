@@ -26,8 +26,8 @@ export default function SingleProductPage() {
 	}, [dispatch]);
 
 	return (
-		<Container component="main" maxWidth="lg" sx={{ mt: "4rem"}}>
-			<Box display="flex" flexDirection="row" flexWrap="wrap" gap={5}>
+		<Container component="main" maxWidth="lg" sx={{ mt:"5rem"}}>
+			<Box display="flex" flexDirection="row" flexWrap="wrap" gap={3}>
 				{product && <ProductInfo product={product} />}
 				<Paper component="section" sx={{ flex: 1, flexBasis: 300 }}>
 					<Box display="flex" flexDirection="column" padding={1}>

@@ -39,11 +39,6 @@ export default function Header() {
 						<UnstyledLink to={"/"}>
 							<StoreLogo/>
 						</UnstyledLink>
-						{currentUser && currentUser.role === "admin" && (
-							<ProductEditModal product={undefined}>
-								ADD PRODUCT
-							</ProductEditModal>
-						)}
 					</Stack>
 				</Box>
 				<Box display="flex" flexDirection="row" justifyContent="space-between">

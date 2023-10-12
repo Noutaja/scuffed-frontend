@@ -124,7 +124,7 @@ const usersSlice = createSlice({
 				currentUser: undefined,
 			};
 		},
-		setError: (state, action) => {
+		setUsersError: (state, action) => {
 			return {
 				...state,
 				error: action.payload,
@@ -178,5 +178,5 @@ const usersSlice = createSlice({
 });
 
 const usersReducer = usersSlice.reducer;
-export const { logoutUser, setError } = usersSlice.actions;
+export const { logoutUser, setUsersError } = usersSlice.actions;
 export default usersReducer;

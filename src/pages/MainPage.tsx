@@ -6,7 +6,7 @@ import Search from "../components/Search";
 
 export default function MainPage() {
 	return (
-		<Container component="main" sx={{ marginTop: "4rem" }}>
+		<Container component="main" sx={{ mt:"5rem"}}>
 			<Search />
 			<ProductList />
 		</Container>
