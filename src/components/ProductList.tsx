@@ -1,5 +1,6 @@
 import { Box, Pagination, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import { Product, UiSortBy, UiSortDirection } from "../types/Types";
 import { useAppSelector } from "../hooks/useAppSelector";
@@ -9,6 +10,7 @@ import { useAppDispatch } from "../hooks/useAppDispatch";
 import { fetchAllProducts } from "../redux/reducers/productsReducer";
 import { setPaginPage } from "../redux/reducers/uiReducer";
 import { searchSorting } from "../helpers/searchSorting";
+import { useEffect } from "react";
 
 function ProductList() {
 	const uiReducer = useAppSelector((state) => state.uiReducer);
@@ -32,7 +34,10 @@ function ProductList() {
 		paginEnd
 	);
 
-	useDebounce(() => dispatch(fetchAllProducts()), null, 1000);
+	useEffect(() => {
+    dispatch(fetchAllProducts());
+  }, []);
+	
 	return (
 		<Box display="flex" flexDirection="column" justifyItems="center">
 			<Pagination
@@ -54,7 +59,12 @@ function ProductList() {
 			{status === "idle" && !products.length && (
 				<Typography>Nothing found!</Typography>
 			)}
-			{status === "loading" && <Typography>Loading...</Typography>}
+			{status === "loading" && (
+				<Box margin="auto">
+					<CircularProgress />
+					<Typography>Loading...</Typography>
+				</Box>
+			)}
 			<Pagination
 				page={paginPage}
 				onChange={(e, v) => dispatch(setPaginPage(v))}
