@@ -38,7 +38,7 @@ export default function HeaderProfile() {
 							columnGap="1rem"
 						>
 							<Avatar src={currentUser.avatar} />
-							<Typography>{currentUser.name}</Typography>
+							<Typography sx={{display: {xs:"none", sm:"block"}}}>{currentUser.name}</Typography>
 						</Box>
 					</UnstyledLink>
 					<Button

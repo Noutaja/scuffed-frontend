@@ -14,6 +14,7 @@ import HeaderProfile from "./HeaderProfile";
 import HeaderCart from "./HeaderCart";
 import { UnstyledLink } from "../componentsCustom/UnstyledLink";
 import ProductEditModal from "./ProductEditModal";
+import StoreLogo from "./StoreLogo";
 
 export default function Header() {
 	const dispatch = useAppDispatch();
@@ -36,24 +37,7 @@ export default function Header() {
 						maxWidth="md"
 					>
 						<UnstyledLink to={"/"}>
-							<Box>
-								<Typography variant="h4" sx={{ position: "relative" }}>
-									Webstore
-									<Typography
-										color="error.main"
-										variant="h5"
-										sx={{
-											fontWeight:"bold",
-											position: "absolute",
-											top: "-10px",
-											left: "10px",
-											transform: "rotate(-20deg)",
-											zIndex:-1
-										}}>
-										Scuffed
-									</Typography>
-								</Typography>
-							</Box>
+							<StoreLogo/>
 						</UnstyledLink>
 						{currentUser && currentUser.role === "admin" && (
 							<ProductEditModal product={undefined}>

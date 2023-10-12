@@ -16,7 +16,7 @@ export default function ProductImageDisplay(props: ProductImageDisplayProps) {
 					src={images[activeImage].item}
 					sx={{ width: "100%", height: "auto" }}
 				/>
-				<Stack flexDirection="row" justifyContent="space-evenly" gap={1} margin={1}>
+				{<Stack flexDirection="row" justifyContent="space-evenly" flexWrap="wrap" gap={1} margin={1}>
 					{images.map((img) => (
 						<Box
 							component="img"
@@ -26,7 +26,7 @@ export default function ProductImageDisplay(props: ProductImageDisplayProps) {
 							onClick={() => setActiveImage(img.id)}
 						/>
 					))}
-				</Stack>
+				</Stack>}
 			</Box>
 		</Paper>
 	);

@@ -37,7 +37,6 @@ export default function ProfilePage() {
 					<Button variant="contained">EDIT PROFILE</Button>
 				</Tooltip>
 			</Box>
-			<Box><Box bgcolor="red" sx={{transform:"20deg"}}>asdasdasd</Box></Box>
 		</Container>
 	);
 }
