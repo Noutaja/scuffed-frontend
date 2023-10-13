@@ -14,7 +14,7 @@ It is still a work in progress with critical features, like checking out not imp
   - [Deploying the site](#deploying-the-site)
 - [Usage](#usage)
   - [Features](#features)
-  - [Features and todo list](#features-and-todo-list)
+  - [Using the site](#using-the-site)
   - [Scripts](#scripts)
 - [Architechture and design](#architecture-and-design)
   - [Technologies](#technologies)
@@ -22,6 +22,7 @@ It is still a work in progress with critical features, like checking out not imp
   - [Design and Structure](#design-and-structure)
 - [Testing](#testing)
 - [Assignment](#assignment)
+  - [Features and todo list](#features-and-todo-list)
 - [Online version](#online-version)
 
 # Getting started
