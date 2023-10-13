@@ -264,13 +264,13 @@ folder.
 
 #### Reducers
 
-Reducers diagram
-
-![Reducers diagram](images/Reducers-diagram-drawio.png)
-
 Reducers are the heart of the website, ProductReducer being the most important.\
 They have both synchronous and asynchronous functions. The Asynchronous\
 functions connect to the API to fetch online data.
+
+![Reducers diagram](images/Reducers-diagram-drawio.png)
+
+Reducers diagram
 
 ##### CartReducer
 

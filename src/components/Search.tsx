@@ -1,6 +1,5 @@
 import {
 	Box,
-	Button,
 	FormControl,
 	InputLabel,
 	MenuItem,
@@ -8,6 +7,7 @@ import {
 	TextField,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { useEffect } from "react";
 
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useAppDispatch } from "../hooks/useAppDispatch";
@@ -21,7 +21,6 @@ import {
 import { UiSortBy, UiSortDirection } from "../types/Types";
 import ProductEditModal from "./ProductEditModal";
 import { fetchAllCategories } from "../redux/reducers/categoriesReducer";
-import { useEffect } from "react";
 
 export default function Search() {
 	const categories = useAppSelector(

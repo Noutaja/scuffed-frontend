@@ -1,6 +1,7 @@
 import { Box, Pagination, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useEffect } from "react";
 
 import { Product, UiSortBy, UiSortDirection } from "../types/Types";
 import { useAppSelector } from "../hooks/useAppSelector";
@@ -9,7 +10,6 @@ import { useAppDispatch } from "../hooks/useAppDispatch";
 import { fetchAllProducts } from "../redux/reducers/productsReducer";
 import { setPaginPage } from "../redux/reducers/uiReducer";
 import { searchSorting } from "../helpers/searchSorting";
-import { useEffect } from "react";
 
 function ProductList() {
 	const uiReducer = useAppSelector((state) => state.uiReducer);

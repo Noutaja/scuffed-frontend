@@ -1,9 +1,7 @@
 import {
 	AppBar,
 	Box,
-	Button,
 	Stack,
-	Typography,
 } from "@mui/material";
 import React, { useEffect } from "react";
 
@@ -13,7 +11,6 @@ import { fetchProfileWithToken } from "../redux/reducers/usersReducer";
 import HeaderProfile from "./HeaderProfile";
 import HeaderCart from "./HeaderCart";
 import { UnstyledLink } from "../componentsCustom/UnstyledLink";
-import ProductEditModal from "./ProductEditModal";
 import StoreLogo from "./StoreLogo";
 
 export default function Header() {

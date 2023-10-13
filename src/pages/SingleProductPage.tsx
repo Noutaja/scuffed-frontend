@@ -1,14 +1,14 @@
 import { Box, Container, Paper } from "@mui/material";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { useParams } from "react-router-dom";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { useEffect } from "react";
 
 import { Product } from "../types/Types";
 import ProductInfo from "../components/ProductInfo";
 import { useAppDispatch } from "../hooks/useAppDispatch";
-import { useEffect } from "react";
 import { fetchOneProduct } from "../redux/reducers/productsReducer";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 export default function SingleProductPage() {
 	const { productID } = useParams();

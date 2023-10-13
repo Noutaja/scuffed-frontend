@@ -145,7 +145,7 @@ const productsSlice = createSlice({
 					status: "idle",
 				};
 			})
-			.addCase(fetchAllProducts.pending, (state, action) => {
+			.addCase(fetchAllProducts.pending, (state) => {
 				return {
 					...state,
 					status: "loading",
@@ -168,7 +168,7 @@ const productsSlice = createSlice({
 					status: "idle",
 				};
 			})
-			.addCase(fetchProductsWithPagination.pending, (state, action) => {
+			.addCase(fetchProductsWithPagination.pending, (state) => {
 				return {
 					...state,
 					status: "loading",
@@ -191,7 +191,7 @@ const productsSlice = createSlice({
 					status: "idle",
 				};
 			})
-			.addCase(fetchOneProduct.pending, (state, action) => {
+			.addCase(fetchOneProduct.pending, (state) => {
 				return {
 					...state,
 					status: "loading",

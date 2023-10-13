@@ -39,7 +39,7 @@ const categoriesSlice = createSlice({
 					status: "idle",
 				};
 			})
-			.addCase(fetchAllCategories.pending, (state, action) => {
+			.addCase(fetchAllCategories.pending, (state) => {
 				return {
 					...state,
 					status: "loading",

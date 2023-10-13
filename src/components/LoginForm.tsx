@@ -32,7 +32,7 @@ export default function LoginForm() {
 	const [confirmPwValidationMessage, setConfirmPwValidationMessage] =
 		useState("");
 
-	const [isFormValid, setIsFormValid] = useState(false);
+	const [isFormValid, setIsFormValid] = useState(false); //Used in the future
 
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
@@ -187,7 +187,7 @@ export default function LoginForm() {
 					<Button
 						type="submit"
 						variant="contained"
-						//disabled={!isFormValid}
+						//disabled={!isFormValid} currently this updates one keystroke behind
 						sx={{ p: 2 }}
 					>
 						{isRegistering ? "REGISTER" : "LOGIN"}
