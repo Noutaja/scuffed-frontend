@@ -2,7 +2,8 @@
 
 ## Introduction
 
-This project uses React and Redux (among other things) to provide a web store frontend with https://fakeapi.platzi.com/ serving as the backend
+This project uses React and Redux (among other things) to provide a web store frontend\
+with https://fakeapi.platzi.com/ serving as the backend
 It is still a work in progress with critical features, like checking out not implemented.
 
 ## Table of contents
@@ -14,9 +15,12 @@ It is still a work in progress with critical features, like checking out not imp
 - [Usage](#usage)
   - [Features](#features)
   - [Features and todo list](#features-and-todo-list)
+  - [Scripts](#scripts)
 - [Architechture and design](#architecture-and-design)
   - [Technologies](#technologies)
-  - [Project structure](#structure)
+  - [File structure](#file-structure)
+  - [Design and Structure](#design-and-structure)
+- [Testing](#testing)
 - [Assignment](#assignment)
 - [Online version](#online-version)
 
@@ -43,18 +47,23 @@ to match your profile- and repository name. **IMPORTANT!**
 
 Scuffed Webstore features a responsive user interface with basic product searching and sorting:
 ![Store at tablet and beyond](images/Scuffed-Webstore-desktop.png)
+
 Store at tablet and beyond
 
 ![Store with mobiles](images/Scuffed-Webstore-mobile.png)
+
 Store with mobiles
 
 ![Login validation](images/Login.png)
+
 Logging in has input validation
 
 ![Editing product](images/Product-edit.png)
+
 Editing and adding a product is a modal
 
 ![Shopping cart](images/Shopping-cart.png)
+
 Shopping cart checks if the user is logged in before checking out
 
 ## Feature and Todo list
@@ -108,6 +117,8 @@ Shopping cart checks if the user is logged in before checking out
 
 ### Todo
 
+- Optimizations
+  -useMemo for selectors
 - Proper responsiveness
   - Menu for nav bar
   - Do fonts better
@@ -186,7 +197,9 @@ Use this if you want to publish the site somewhere not Github Pages. It may requ
 - MSW
 - Material UI
 
-## Structure
+## File Structure
+
+Horizontal layout
 
 ```
 .
@@ -194,26 +207,20 @@ Use this if you want to publish the site somewhere not Github Pages. It may requ
 ├── package.json
 ├── public
 |  ├── favicon.ico
-|  ├── index.html
-|  ├── logo192.png
-|  ├── logo512.png
-|  ├── manifest.json
+|  ├── ...
 |  └── robots.txt
 ├── README.md
 ├── src
 |  ├── App.tsx
 |  ├── components
 |  |  ├── CartItemComponent.tsx
-|  |  ├── CartItemInfo.tsx
 |  |  ├── ...
-|  |  ├── Search.tsx
 |  |  └── StoreLogo.tsx
 |  ├── componentsCustom
 |  |  └── UnstyledLink.tsx
 |  ├── helpers
 |  |  ├── addIdsToList.ts
-|  |  ├── debounce.ts
-|  |  ├── loginFormValidators.ts
+|  |  ├── ...
 |  |  └── searchSorting.ts
 |  ├── hooks
 |  |  ├── useAppDispatch.ts
@@ -221,9 +228,7 @@ Use this if you want to publish the site somewhere not Github Pages. It may requ
 |  ├── index.tsx
 |  ├── pages
 |  |  ├── CartPage.tsx
-|  |  ├── LoginPage.tsx
-|  |  ├── MainPage.tsx
-|  |  ├── ProfilePage.tsx
+|  |  ├── ...
 |  |  └── SingleProductPage.tsx
 |  ├── react-app-env.d.ts
 |  ├── redux
@@ -231,12 +236,7 @@ Use this if you want to publish the site somewhere not Github Pages. It may requ
 |  |  └── store.ts
 |  ├── tests
 |  |  ├── cartReducer.test.ts
-|  |  ├── categoriesReducer.test.ts
-|  |  ├── categoriesTestServer.ts
-|  |  ├── productsReducer.test.ts
-|  |  ├── productTestServer.ts
-|  |  ├── uiReducer.test.ts
-|  |  ├── usersReducer.test.ts
+|  |  ├── ...
 |  |  └── usersTestServer.ts
 |  ├── themes
 |  |  └── themes.ts
@@ -246,9 +246,128 @@ Use this if you want to publish the site somewhere not Github Pages. It may requ
 └── tsconfig.json
 ```
 
-## Assignment
+## Design and Structure
 
-### Requirements
+### Project Structure
+
+Project structure diagram
+
+![Project structure diagram](images/Project-structure-drawio.png)
+
+The project is built around the 5 reducers (more detail below)\
+despite the diagram showing the opposite. The reducers hold all\
+the important data and provide it globally. Pages are mostly\
+comprised of different components that access the reducers\
+to show data. The components use two hooks, useAppDispatch and\
+useAppSelector, to do so. A few utility functions reside in the helpers\
+folder.
+
+#### Reducers
+
+Reducers diagram
+
+![Reducers diagram](images/Reducers-diagram-drawio.png)
+
+Reducers are the heart of the website, ProductReducer being the most important.\
+They have both synchronous and asynchronous functions. The Asynchronous\
+functions connect to the API to fetch online data.
+
+##### CartReducer
+
+Handles the cart. Mostly complete.
+
+- Synchronous functions
+  1. `addOneItem(Product):void`
+  2. `removeOneItem(number):void`
+    - Is provided the id of the item
+  3. `emptyCart():void`
+
+##### CategoriesReducer
+
+Holds the categories fetched from the API. Only basic functionality present.
+
+- Asynchronous functions
+  1. `fetchAllCategories():Category[]`
+
+
+##### ProductsReducer
+
+The core of the website. Keeps all products fetched from the API. Finished.
+
+- Synchronous functions
+  1. `setProductsError(string):void`
+    - Used to clear errors
+- Asynchronous functions
+  1. `fetchAllProducts():Product[]`
+  2. `fetchProductsWithPagination(PaginationOptions):Product[]`
+    - Currently unused, used in the future
+  3. `fetchOneProduct(number):Product[]`
+    - Id provided as a parameter
+    - Returns the product IN AN ARRAY
+  4. `deleteOneProduct(number):number`
+    - Id provided as a parameter
+    - Returns the Id back if successful
+  5. `createProduct(ProductCreate):Product`
+  6. `updateProduct(ProductUpdate):Product`
+    - ProductUpdate is a Partial, meaning any number of fields can be omitted
+
+##### UiReducer
+
+Holds variables for the UI.
+
+- Synchronous functions
+  1. `setSearchText(string):void`
+    - Current search text
+  2. `setPaginPage(number):void`
+    - Pagination page number
+  3. `setPaginPerPage(number):void`
+    - Number of items on a search page
+  4. `setSortBy(UISortBy):void`
+    - Sorting parameter
+  5. `setSortDirection(UiSortDirection):void`
+    - Sorting direction
+  6. `setCategoryFilter(string):void`
+    - Category filtering. The search box provides one additional category\
+    to show all categories.
+
+##### UsersReducer
+
+Handles users and authentication. Currently mostly authentication.
+
+- Synchronous functions
+  1. `logoutUser():void`
+  2. `setUsersError(string):void`
+- Asynchronous functions
+  1. `authWithCredentials(UserCredentials):string`
+    - Checks email and password against the API. Returns an access token if valid.
+  2. `fetchProfileWithToken(string): User`
+    - Takes the token from above, checks it with the API and returns a User if valid.
+  3. `LoginWithCredentials(UserCredentials):User`
+    - Calls the two functions above. Does nothing more.
+  4. `createUser(UserCreate):User`
+
+
+### Page Structure
+
+![Page structure diagram](images/Page-layout-drawio.png)
+
+Page structure diagram
+
+# Testing
+
+Uses React's built in testing methods([Jest](https://jestjs.io/)) in addition\
+with a mock server ([Mock Service Worker](https://mswjs.io/)). For now only\
+the reducers and their the positive tests (things going as planned) are done,\
+with a few exceptions. UsersReducer is tested to not log in with incorrect credentials.
+
+## Running the tests
+
+1. Use `npm install` if you haven't already
+2. Use `npm test` to start the tests. The first run may take longer.
+
+# Assignment
+
+## Requirements
 
 1. Use the API endpoint https://fakeapi.platzi.com/ to create an e-commerce website.\
 Read the documentation and learn how to use the different endpoints.
@@ -265,13 +384,13 @@ For example, route to user profile page should not be accessible if user has not
 5. Implement unit testing for the reducers
 6. Deploy the application and rewrite README file.
 
-Bonus
+## Bonus
 
 1. Use context API to switch theme
 2. Use pagination when fetching/displaying all the products
 3. Implement performance optimization where applicable
 
 
-## Online version
+# Online version
 
 You can find an online version of the project [here](https://noutaja.github.io/fs16_6-frontend-project/)

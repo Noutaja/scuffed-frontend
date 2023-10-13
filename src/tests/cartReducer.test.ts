@@ -1,7 +1,6 @@
 import cartReducer, {
 	addOneItem,
 	emptyCart,
-	getAllItems,
 	removeOneItem,
 } from "../redux/reducers/cartReducer";
 import { createStore } from "../redux/store";
@@ -88,16 +87,6 @@ describe("cartReducer", () => {
 		expect(cart.items.length).toBe(0);
 		expect(cart.status).toBe("idle");
 		expect(cart.error).toBe(undefined);
-	});
-
-	test("Should get all items", () => {
-		const state: CartReducerState = {
-			status: "idle",
-			error: undefined,
-			items: cartItems,
-		};
-		const cart = cartReducer(state, getAllItems());
-		expect(cart.items.length).toBe(3);
 	});
 
 	test("Adding should create a new cartItem", () => {
