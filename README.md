@@ -66,95 +66,33 @@ Editing and adding a product is a modal
 
 Shopping cart checks if the user is logged in before checking out
 
-## Feature and Todo list
+## Using the site
 
-### Complete
+Using the site as a user is intuitive and doesn't need much explanation.\
+Usage follows normal conventions.
 
-- Basic responsiveness
-  - Elements resize and hide with narrower screens
-- Custom theme
-- API
-  - Products
-    - Create
-    - Read
-    - Update
-    - Delete
-  - Categories
-    - Read
-  - Users
-    - Create
-    - Authenticate
-- Pages
-  - Products search
-  - Single product
-  - Cart
-  - Login and register
-  - Profile
-- Products page features
-  - Filtering
-    - Category
-    - Name
-  - Sorting
-    - Price
-    - Ascending and descending
-  - Client-side pagination
-  - Adding products to cart
-  - ADMIN: Add new product
-- Single Product page features
-  - Carousel
-  - ADMIN: Edit product
-  - ADMIN: Delete product
-- Cart page features
-  - Cart contents
-  - Increase and decrease product quantity
-  - Empty cart
-  - Login check for checkout
-- Login and register page features
-  - Form validation
-- Profile page features
-  - Basic information
-  - Gated from unregistered users
+### As admin
 
-### Todo
+As an admin, you get access to a few additional features:
 
-- Optimizations
-  -useMemo for selectors
-- Proper responsiveness
-  - Menu for nav bar
-  - Do fonts better
-  - Fix various bugs
-- API
-  - Categories
-    - Create
-    - Update
-    - Delete
-  - Users
-    - Read
-    - Update
-    - Delete
-  - Google authentication
-  - Payment processing
-- Pages
-  - Checkout page
-  - Admin dashboard
-- Products page features
-  - Filtering
-    - Price
-  - Sorting
-    - Name
-  - Server-side pagination
-    - API might not support it
-- Cart page features
-  - Checkout details sidebar
-- Login and register page features
-  - Fix bugs
-  - Possibly split into two
-- Profile page features
-  - Updating information
-  - Order history
-  - Visual upgrades
-- **REFACTORING THE WHOLE THING**
+#### Adding new products
 
+This is accessed in the main product view after logging in with an admin account.
+![Add a new product](images/Adding-a-product.png)
+
+This opens a modal form you can fill in. All fields are required, and at least one\
+url must be provided for an image.
+
+#### Editing a product
+
+This feature can be found in the single product view. It is a button next to the\
+add to cart button. It opens up the same modal form as adding a product,\
+but none of the fields are required, except one url must still be provided.
+
+#### Deleting a product
+
+This is done via a button next to the edit product button. Deletion is instant,\
+and doesn't have confirmation (yet).
 
 ## Scripts
 
@@ -390,6 +328,94 @@ For example, route to user profile page should not be accessible if user has not
 2. Use pagination when fetching/displaying all the products
 3. Implement performance optimization where applicable
 
+## Feature and Todo list
+
+### Complete
+
+- Basic responsiveness
+  - Elements resize and hide with narrower screens
+- Custom theme
+- API
+  - Products
+    - Create
+    - Read
+    - Update
+    - Delete
+  - Categories
+    - Read
+  - Users
+    - Create
+    - Authenticate
+- Pages
+  - Products search
+  - Single product
+  - Cart
+  - Login and register
+  - Profile
+- Products page features
+  - Filtering
+    - Category
+    - Name
+  - Sorting
+    - Price
+    - Ascending and descending
+  - Client-side pagination
+  - Adding products to cart
+  - ADMIN: Add new product
+- Single Product page features
+  - Carousel
+  - ADMIN: Edit product
+  - ADMIN: Delete product
+- Cart page features
+  - Cart contents
+  - Increase and decrease product quantity
+  - Empty cart
+  - Login check for checkout
+- Login and register page features
+  - Form validation
+- Profile page features
+  - Basic information
+  - Gated from unregistered users
+
+### Todo
+
+- Optimizations
+  -useMemo for selectors
+- Proper responsiveness
+  - Menu for nav bar
+  - Do fonts better
+  - Fix various bugs
+- API
+  - Categories
+    - Create
+    - Update
+    - Delete
+  - Users
+    - Read
+    - Update
+    - Delete
+  - Google authentication
+  - Payment processing
+- Pages
+  - Checkout page
+  - Admin dashboard
+- Products page features
+  - Filtering
+    - Price
+  - Sorting
+    - Name
+  - Server-side pagination
+    - API might not support it
+- Cart page features
+  - Checkout details sidebar
+- Login and register page features
+  - Fix bugs
+  - Possibly split into two
+- Profile page features
+  - Updating information
+  - Order history
+  - Visual upgrades
+- **REFACTORING THE WHOLE THING**
 
 # Online version
 
