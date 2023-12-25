@@ -8,6 +8,8 @@ import {
 	UserReducerState,
 } from "../../types/Types";
 
+const baseUrl = "http://localhost:5157/api/v1/";
+
 const initialState: UserReducerState = {
 	status: "idle",
 	currentUser: undefined,
@@ -23,7 +25,9 @@ export const loginWithCredentials = createAsyncThunk<
 	"users/loginWithCredentials",
 	async (credentials: UserCredentials, { dispatch, rejectWithValue }) => {
 		try {
-			const authResponse = await dispatch(authWithCredentials(credentials));
+			const authResponse = await dispatch(
+				authWithCredentials(credentials)
+			);
 			await dispatch(fetchProfileWithToken(authResponse.payload));
 		} catch (e) {
 			const error = e as AxiosError;
@@ -41,7 +45,7 @@ export const authWithCredentials = createAsyncThunk<
 	async (credentials: UserCredentials, { rejectWithValue }) => {
 		try {
 			const response = await axios.post(
-				"https://api.escuelajs.co/api/v1/auth/login",
+				`${baseUrl}auth/login`,
 				credentials
 			);
 			const accessToken = response.data.access_token;
@@ -65,14 +69,11 @@ export const fetchProfileWithToken = createAsyncThunk<
 	"users/fetchProfileWithToken",
 	async (accessToken: any, { rejectWithValue }) => {
 		try {
-			const response = await axios.get(
-				"https://api.escuelajs.co/api/v1/auth/profile",
-				{
-					headers: {
-						Authorization: `Bearer ${accessToken}`,
-					},
-				}
-			);
+			const response = await axios.get(`${baseUrl}profile`, {
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			});
 			if (typeof response.data === "string" || !response.data) {
 				throw Error(response.data || "Cannot login");
 			} else {
@@ -94,7 +95,7 @@ export const createUser = createAsyncThunk<
 	async (newUser: UserCreate, { dispatch, rejectWithValue }) => {
 		try {
 			const response = await axios.post<User>(
-				"https://api.escuelajs.co/api/v1/users/",
+				`${baseUrl}users/`,
 				newUser
 			);
 			const userProfile = response.data;
