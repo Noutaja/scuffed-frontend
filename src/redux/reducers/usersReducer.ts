@@ -48,7 +48,7 @@ export const authWithCredentials = createAsyncThunk<
 				`${baseUrl}auth/login`,
 				credentials
 			);
-			const accessToken = response.data.access_token;
+			const accessToken = response.data;
 			if (accessToken === "" || !accessToken) {
 				throw Error("Failed to fetch access token!");
 			} else {
@@ -69,7 +69,7 @@ export const fetchProfileWithToken = createAsyncThunk<
 	"users/fetchProfileWithToken",
 	async (accessToken: any, { rejectWithValue }) => {
 		try {
-			const response = await axios.get(`${baseUrl}profile`, {
+			const response = await axios.get(`${baseUrl}auth/profile`, {
 				headers: {
 					Authorization: `Bearer ${accessToken}`,
 				},
@@ -149,6 +149,7 @@ const usersSlice = createSlice({
 
 			.addCase(fetchProfileWithToken.fulfilled, (state, action) => {
 				state.currentUser = action.payload;
+				console.log(state.currentUser);
 				state.status = "idle";
 			})
 			.addCase(fetchProfileWithToken.rejected, (state, action) => {

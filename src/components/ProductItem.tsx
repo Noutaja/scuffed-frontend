@@ -19,7 +19,11 @@ export default function ProductItem(props: ProductItemProps) {
 	return (
 		<Card sx={{ height: 325 }}>
 			<Link to={`products/${p.id}`}>
-				<CardMedia sx={{ height: 150 }} image={p.images[0]} title={p.title} />
+				<CardMedia
+					sx={{ height: 150 }}
+					image={p.images[0].url}
+					title={p.title}
+				/>
 			</Link>
 
 			<CardContent>
@@ -30,9 +34,7 @@ export default function ProductItem(props: ProductItemProps) {
 				<Typography>{p.category.name}</Typography>
 			</CardContent>
 			<CardActions>
-				<Button
-					onClick={() => store.dispatch(addOneItem(p))}
-				>
+				<Button onClick={() => store.dispatch(addOneItem(p))}>
 					<ShoppingCart />
 				</Button>
 			</CardActions>

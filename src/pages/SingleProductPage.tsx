@@ -14,19 +14,17 @@ export default function SingleProductPage() {
 	const { productID } = useParams();
 
 	const product: Product | undefined = useAppSelector((state) => {
-		return state.productsReducer.products.find(
-			(p) => p.id === Number(productID)
-		);
+		return state.productsReducer.products.find((p) => p.id === productID);
 	});
 
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(fetchOneProduct(Number(productID)));
+		if (productID !== undefined) dispatch(fetchOneProduct(productID));
 	}, [dispatch]);
 
 	return (
-		<Container component="main" maxWidth="lg" sx={{ mt:"5rem"}}>
+		<Container component="main" maxWidth="lg" sx={{ mt: "5rem" }}>
 			<Box display="flex" flexDirection="row" flexWrap="wrap" gap={3}>
 				{product && <ProductInfo product={product} />}
 				<Paper component="section" sx={{ flex: 1, flexBasis: 300 }}>
@@ -39,7 +37,11 @@ export default function SingleProductPage() {
 						>
 							{product &&
 								product.images.map((img) => (
-									<img src={img} key={img} alt={product.title} />
+									<img
+										src={img.url}
+										key={img.id}
+										alt={product.title}
+									/>
 								))}
 						</Carousel>
 					</Box>

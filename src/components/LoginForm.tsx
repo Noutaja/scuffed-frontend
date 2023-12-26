@@ -13,6 +13,7 @@ import {
 	validateEmail,
 	validatePassword,
 } from "../helpers/loginFormValidators";
+import { UserRole } from "../types/Types";
 
 export default function LoginForm() {
 	const error = useAppSelector((state) => state.usersReducer.error);
@@ -56,13 +57,16 @@ export default function LoginForm() {
 					email: emailText,
 					password: passwordText,
 					name: name,
-					role: "customer",
+					role: UserRole.Normal,
 					avatar: "https://i.pravatar.cc/300", //placeholder url
 				})
 			);
 			if (user.payload) {
 				await dispatch(
-					loginWithCredentials({ email: emailText, password: passwordText })
+					loginWithCredentials({
+						email: emailText,
+						password: passwordText,
+					})
 				);
 				navigate("/profile");
 			}

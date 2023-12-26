@@ -8,52 +8,40 @@ import { CartItem, CartReducerState, Product } from "../types/Types";
 
 const products: Product[] = [
 	{
-		id: 1,
+		id: "id1",
 		title: "Licensed Frozen Salad",
 		price: 686,
 		description:
 			"The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
-		images: [
-			"https://i.imgur.com/CCnU4YX.jpeg",
-			"https://i.imgur.com/JANnz25.jpeg",
-			"https://i.imgur.com/ioc7lwM.jpeg",
-		],
+		images: [{ id: "id1", url: "https://i.imgur.com/CCnU4YX.jpeg" }],
 		category: {
-			id: 2,
+			id: "id1",
 			name: "Electronics",
 			image: "https://i.imgur.com/uDpzwEk.jpeg",
 		},
 	},
 	{
-		id: 2,
+		id: "id2",
 		title: "Oriental Rubber Towels",
 		price: 563,
 		description:
 			"The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality",
-		images: [
-			"https://i.imgur.com/GwylUgV.jpeg",
-			"https://i.imgur.com/G45P8tI.jpeg",
-			"https://i.imgur.com/Y5gHJMd.jpeg",
-		],
+		images: [{ id: "id2", url: "https://i.imgur.com/GwylUgV.jpeg" }],
 		category: {
-			id: 5,
+			id: "id5",
 			name: "Others",
 			image: "https://i.imgur.com/Dm2pPfd.jpeg",
 		},
 	},
 	{
-		id: 3,
+		id: "id3",
 		title: "Elegant Plastic Shirt",
 		price: 944,
 		description:
 			"The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality",
-		images: [
-			"https://i.imgur.com/uDpzwEk.jpeg",
-			"https://i.imgur.com/OLKMwgP.jpeg",
-			"https://i.imgur.com/O1LUkwy.jpeg",
-		],
+		images: [{ id: "id1", url: "https://i.imgur.com/uDpzwEk.jpeg" }],
 		category: {
-			id: 3,
+			id: "id3",
 			name: "Hola que hace",
 			image: "https://i.imgur.com/zQwsC2m.jpeg",
 		},
@@ -118,7 +106,7 @@ describe("cartReducer", () => {
 			error: undefined,
 			items: cartItems,
 		};
-		const cart = cartReducer(state, removeOneItem(2));
+		const cart = cartReducer(state, removeOneItem("id2"));
 		expect(cart.items[1].amount).toBe(1);
 	});
 
@@ -128,7 +116,7 @@ describe("cartReducer", () => {
 			error: undefined,
 			items: cartItems,
 		};
-		const cart = cartReducer(state, removeOneItem(1));
+		const cart = cartReducer(state, removeOneItem("id1"));
 		expect(cart.items.length).toBe(2);
 	});
 });

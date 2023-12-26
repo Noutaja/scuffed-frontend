@@ -23,7 +23,6 @@ export const fetchAllProducts = createAsyncThunk(
 		try {
 			const response = await axios.get(`${baseUrl}products`);
 			const products = await response.data;
-			console.log(products);
 
 			return products;
 		} catch (e) {
@@ -51,13 +50,14 @@ export const fetchProductsWithPagination = createAsyncThunk(
 
 export const fetchOneProduct = createAsyncThunk<
 	Product[],
-	number,
+	string,
 	{ rejectValue: string }
->("products/fetchOneProduct", async (id: number, { rejectWithValue }) => {
+>("products/fetchOneProduct", async (id: string, { rejectWithValue }) => {
 	try {
 		const response = await axios.get(`${baseUrl}products/${id}`);
 		const product = await response.data;
 		const arr = [product];
+		console.log(arr);
 		return arr;
 	} catch (e) {
 		const error = e as AxiosError;
@@ -66,10 +66,10 @@ export const fetchOneProduct = createAsyncThunk<
 });
 
 export const deleteOneProduct = createAsyncThunk<
-	number,
-	number,
+	string,
+	string,
 	{ rejectValue: string }
->("products/deleteOneProduct", async (id: number, { rejectWithValue }) => {
+>("products/deleteOneProduct", async (id: string, { rejectWithValue }) => {
 	try {
 		const response = await axios.delete<boolean>(
 			`${baseUrl}products/${id}`

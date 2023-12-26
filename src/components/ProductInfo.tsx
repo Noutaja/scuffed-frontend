@@ -18,9 +18,12 @@ import { addOneItem } from "../redux/reducers/cartReducer";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { deleteOneProduct } from "../redux/reducers/productsReducer";
 import ProductEditModal from "./ProductEditModal";
+import { UserRole } from "../types/Types";
 
 export default function ProductInfo(props: ProductItemProps) {
-	const currentUser = useAppSelector((state) => state.usersReducer.currentUser);
+	const currentUser = useAppSelector(
+		(state) => state.usersReducer.currentUser
+	);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const p = props.product;
@@ -42,7 +45,9 @@ export default function ProductInfo(props: ProductItemProps) {
 				<Box>
 					<Box>
 						<Typography variant="h3">{p.title}</Typography>
-						<Typography variant="subtitle2">{p.category.name}</Typography>
+						<Typography variant="subtitle2">
+							{p.category.name}
+						</Typography>
 					</Box>
 					<Divider />
 					<Typography variant="h5">{p.description}</Typography>
@@ -54,7 +59,7 @@ export default function ProductInfo(props: ProductItemProps) {
 							<ShoppingCartIcon />
 						</Button>
 					</Tooltip>
-					{currentUser && currentUser.role === "admin" && (
+					{currentUser && currentUser.role === UserRole.Admin && (
 						<Box display="flex">
 							<ProductEditModal product={p}>
 								<Tooltip title="ADMIN: Edit Product">
@@ -62,7 +67,10 @@ export default function ProductInfo(props: ProductItemProps) {
 								</Tooltip>
 							</ProductEditModal>
 							<Tooltip title="ADMIN: Delete Product">
-								<Button color="primary" onClick={onDeleteClicked}>
+								<Button
+									color="primary"
+									onClick={onDeleteClicked}
+								>
 									<DeleteIcon />
 								</Button>
 							</Tooltip>

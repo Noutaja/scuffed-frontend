@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { Box, Button, MenuItem, Stack, TextField, Typography } from "@mui/material";
+import {
+	Box,
+	Button,
+	MenuItem,
+	Stack,
+	TextField,
+	Typography,
+} from "@mui/material";
 
 import {
 	createProduct,
@@ -10,7 +17,7 @@ import {
 
 import { ProductCreate, ProductUpdate } from "../types/Types";
 import { useAppDispatch } from "../hooks/useAppDispatch";
-import addIdsToList from "../helpers/addIdsToList";
+//import addIdsToList from "../helpers/addIdsToList";
 import { ProductEditFormProps } from "../types/Props";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { fetchAllCategories } from "../redux/reducers/categoriesReducer";
@@ -26,9 +33,9 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 	const [description, setDescription] = useState("");
 	const [categoryId, setCategoryId] = useState("");
 	const [images, setImages] = useState(
-		props.product ? props.product.images : [""]
+		props.product ? props.product.images : []
 	);
-	const indexedImages = addIdsToList(images);
+	const indexedImages = images;
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	let isEditing: boolean;
@@ -47,7 +54,7 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 			if (title.length) input.title = title;
 			if (price.length) input.price = Number(price);
 			if (description.length) input.description = description;
-			if (categoryId.length) input.categoryId = Number(categoryId);
+			if (categoryId.length) input.categoryId = categoryId;
 			if (images.length) input.images = images;
 			dispatch(updateProduct(input));
 		} else {
@@ -55,7 +62,7 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 				title: title,
 				price: Number(price),
 				description: description,
-				categoryId: Number(categoryId),
+				categoryId: categoryId,
 				images: images,
 			};
 			dispatch(createProduct(input));
@@ -64,11 +71,9 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 	}
 
 	function handleUrlChange(text: string, id: number) {
-		setImages([
-			...images.slice(0, id),
-			(images[id] = text),
-			...images.slice(id + 1),
-		]);
+		let tmp = images[id];
+		tmp.url = text;
+		setImages([...images.slice(0, id), tmp, ...images.slice(id + 1)]);
 	}
 
 	useEffect(() => {
@@ -123,26 +128,31 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 				maxHeight={400}
 				sx={{ p: 2, overflowY: "auto", overflowX: "hidden" }}
 			>
-				{indexedImages.map((i) => (
-					<Box key={i.id} display="flex">
+				{indexedImages.map((img, index) => (
+					<Box key={img.id} display="flex">
 						<TextField
 							fullWidth
 							label="Image url"
-							value={i.item}
-							onChange={(e) => handleUrlChange(e.target.value, i.id)}
+							value={img.url}
+							onChange={(e) =>
+								handleUrlChange(e.target.value, index)
+							}
 							required={!isEditing}
 							sx={{ m: 1 }}
 						/>
 						<Button
 							onClick={() =>
-								setImages([...images.slice(0, i.id), ...images.slice(i.id + 1)])
+								setImages([
+									...images.slice(0, index),
+									...images.slice(index + 1),
+								])
 							}
 						>
 							<RemoveIcon />
 						</Button>
 					</Box>
 				))}
-				<Button onClick={() => setImages([...images, ""])}>
+				<Button onClick={() => setImages([...images])}>
 					<AddIcon />
 				</Button>
 			</Stack>
