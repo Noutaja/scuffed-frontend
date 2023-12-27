@@ -9,6 +9,8 @@ import {
 	PaginationOptions,
 } from "../../types/Types";
 
+const baseUrl = "http://localhost:5157/api/v1/";
+
 const initialState: ProductsReducerState = {
 	products: [],
 	status: "idle",
@@ -19,9 +21,7 @@ export const fetchAllProducts = createAsyncThunk(
 	"products/fetchAllProducts",
 	async (_, { rejectWithValue }) => {
 		try {
-			const response = await axios.get(
-				`https://api.escuelajs.co/api/v1/products`
-			);
+			const response = await axios.get(`${baseUrl}products`);
 			const products = await response.data;
 
 			return products;
@@ -37,7 +37,7 @@ export const fetchProductsWithPagination = createAsyncThunk(
 	async (options: PaginationOptions, { rejectWithValue }) => {
 		try {
 			const response = await axios.get(
-				`https://api.escuelajs.co/api/v1/products?offset=${options.offset}&limit=${options.limit}`
+				`${baseUrl}products?offset=${options.offset}&limit=${options.limit}`
 			);
 			const products = await response.data;
 			return products;
@@ -50,15 +50,14 @@ export const fetchProductsWithPagination = createAsyncThunk(
 
 export const fetchOneProduct = createAsyncThunk<
 	Product[],
-	number,
+	string,
 	{ rejectValue: string }
->("products/fetchOneProduct", async (id: number, { rejectWithValue }) => {
+>("products/fetchOneProduct", async (id: string, { rejectWithValue }) => {
 	try {
-		const response = await axios.get(
-			`https://api.escuelajs.co/api/v1/products/${id}`
-		);
+		const response = await axios.get(`${baseUrl}products/${id}`);
 		const product = await response.data;
 		const arr = [product];
+		console.log(arr);
 		return arr;
 	} catch (e) {
 		const error = e as AxiosError;
@@ -67,13 +66,13 @@ export const fetchOneProduct = createAsyncThunk<
 });
 
 export const deleteOneProduct = createAsyncThunk<
-	number,
-	number,
+	string,
+	string,
 	{ rejectValue: string }
->("products/deleteOneProduct", async (id: number, { rejectWithValue }) => {
+>("products/deleteOneProduct", async (id: string, { rejectWithValue }) => {
 	try {
 		const response = await axios.delete<boolean>(
-			`https://api.escuelajs.co/api/v1/products/${id}`
+			`${baseUrl}products/${id}`
 		);
 		if (!response.data) {
 			throw new Error("Cannot delete");
@@ -91,11 +90,16 @@ export const createProduct = createAsyncThunk<
 	{ rejectValue: string }
 >(
 	"products/createProduct",
-	async (newProduct: ProductCreate, { rejectWithValue }) => {
+	async (data: ProductCreate, { rejectWithValue }) => {
 		try {
 			const response = await axios.post<Product>(
-				`https://api.escuelajs.co/api/v1/products/`,
-				newProduct
+				`${baseUrl}products/`,
+				data.product,
+				{
+					headers: {
+						Authorization: `Bearer ${data.accessToken}`,
+					},
+				}
 			);
 			return response.data;
 		} catch (e) {
@@ -113,9 +117,14 @@ export const updateProduct = createAsyncThunk<
 	"products/updateProduct",
 	async (data: ProductUpdate, { rejectWithValue }) => {
 		try {
-			const response = await axios.put<Product>(
-				`https://api.escuelajs.co/api/v1/products/${data.id}`,
-				data
+			const response = await axios.patch<Product>(
+				`${baseUrl}products/${data.id}`,
+				data.product,
+				{
+					headers: {
+						Authorization: `Bearer ${data.accessToken}`,
+					},
+				}
 			);
 			return response.data;
 		} catch (e) {
@@ -206,7 +215,9 @@ const productsSlice = createSlice({
 			})
 
 			.addCase(deleteOneProduct.fulfilled, (state, action) => {
-				state.products = state.products.filter((p) => p.id !== action.payload);
+				state.products = state.products.filter(
+					(p) => p.id !== action.payload
+				);
 			})
 			.addCase(deleteOneProduct.rejected, (state, action) => {
 				state.status = "idle";
@@ -224,7 +235,9 @@ const productsSlice = createSlice({
 
 			.addCase(updateProduct.fulfilled, (state, action) => {
 				const product = action.payload as Product;
-				const index = state.products.findIndex((p) => p.id === product.id);
+				const index = state.products.findIndex(
+					(p) => p.id === product.id
+				);
 				state.products[index] = product;
 			})
 			.addCase(updateProduct.rejected, (state, action) => {

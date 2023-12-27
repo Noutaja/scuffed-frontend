@@ -1,22 +1,33 @@
 import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { Box, Button, MenuItem, Stack, TextField, Typography } from "@mui/material";
+import {
+	Box,
+	Button,
+	MenuItem,
+	Stack,
+	TextField,
+	Typography,
+} from "@mui/material";
 
 import {
 	createProduct,
 	updateProduct,
 } from "../redux/reducers/productsReducer";
+import { v4 as uuidv4 } from "uuid";
 
 import { ProductCreate, ProductUpdate } from "../types/Types";
 import { useAppDispatch } from "../hooks/useAppDispatch";
-import addIdsToList from "../helpers/addIdsToList";
+//import addIdsToList from "../helpers/addIdsToList";
 import { ProductEditFormProps } from "../types/Props";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { fetchAllCategories } from "../redux/reducers/categoriesReducer";
 import { useNavigate } from "react-router-dom";
 
 export default function ProductEditForm(props: ProductEditFormProps) {
+	const accessToken = useAppSelector(
+		(state) => state.usersReducer.accessToken
+	);
 	const error = useAppSelector((state) => state.productsReducer.error);
 	const categories = useAppSelector(
 		(state) => state.categoriesReducer.categories
@@ -26,9 +37,9 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 	const [description, setDescription] = useState("");
 	const [categoryId, setCategoryId] = useState("");
 	const [images, setImages] = useState(
-		props.product ? props.product.images : [""]
+		props.product ? props.product.images : []
 	);
-	const indexedImages = addIdsToList(images);
+	const indexedImages = images;
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	let isEditing: boolean;
@@ -43,20 +54,27 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 		if (props.product) {
 			const p = props.product;
 
-			const input: ProductUpdate = { id: p.id };
-			if (title.length) input.title = title;
-			if (price.length) input.price = Number(price);
-			if (description.length) input.description = description;
-			if (categoryId.length) input.categoryId = Number(categoryId);
-			if (images.length) input.images = images;
+			const input: ProductUpdate = {
+				id: p.id,
+				accessToken: accessToken,
+				product: {},
+			};
+			if (title.length) input.product.title = title;
+			if (price.length) input.product.price = Number(price);
+			if (description.length) input.product.description = description;
+			if (categoryId.length) input.product.categoryId = categoryId;
+			if (images.length) input.product.images = images;
 			dispatch(updateProduct(input));
 		} else {
 			const input: ProductCreate = {
-				title: title,
-				price: Number(price),
-				description: description,
-				categoryId: Number(categoryId),
-				images: images,
+				product: {
+					title: title,
+					price: Number(price),
+					description: description,
+					categoryId: categoryId,
+					images: images,
+				},
+				accessToken: accessToken,
 			};
 			dispatch(createProduct(input));
 			navigate("/");
@@ -64,11 +82,9 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 	}
 
 	function handleUrlChange(text: string, id: number) {
-		setImages([
-			...images.slice(0, id),
-			(images[id] = text),
-			...images.slice(id + 1),
-		]);
+		let tmp = images[id];
+		tmp.url = text;
+		setImages([...images.slice(0, id), tmp, ...images.slice(id + 1)]);
 	}
 
 	useEffect(() => {
@@ -123,26 +139,41 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 				maxHeight={400}
 				sx={{ p: 2, overflowY: "auto", overflowX: "hidden" }}
 			>
-				{indexedImages.map((i) => (
-					<Box key={i.id} display="flex">
+				{indexedImages.map((img, index) => (
+					<Box key={img.id} display="flex">
 						<TextField
 							fullWidth
 							label="Image url"
-							value={i.item}
-							onChange={(e) => handleUrlChange(e.target.value, i.id)}
+							value={img.url}
+							onChange={(e) =>
+								handleUrlChange(e.target.value, index)
+							}
 							required={!isEditing}
 							sx={{ m: 1 }}
 						/>
 						<Button
 							onClick={() =>
-								setImages([...images.slice(0, i.id), ...images.slice(i.id + 1)])
+								setImages([
+									...images.slice(0, index),
+									...images.slice(index + 1),
+								])
 							}
 						>
 							<RemoveIcon />
 						</Button>
 					</Box>
 				))}
-				<Button onClick={() => setImages([...images, ""])}>
+				<Button
+					onClick={() =>
+						setImages([
+							...images,
+							{
+								url: "https://picsum.photos/200",
+								id: uuidv4(),
+							},
+						])
+					}
+				>
 					<AddIcon />
 				</Button>
 			</Stack>

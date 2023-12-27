@@ -1,32 +1,32 @@
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 
-import { User, UserCreate } from "../types/Types";
+import { User, UserCreate, UserRole } from "../types/Types";
 
 const url = "https://api.escuelajs.co/api/v1";
 export const users: User[] = [
 	{
-		id: 1,
+		id: "id1",
 		email: "john@mail.com",
 		password: "changeme",
 		name: "Jhon",
-		role: "customer",
+		role: UserRole.Normal,
 		avatar: "https://i.imgur.com/DumuKkD.jpeg",
 	},
 	{
-		id: 2,
+		id: "id2",
 		email: "maria@mail.com",
 		password: "12345",
 		name: "Maria",
-		role: "customer",
+		role: UserRole.Normal,
 		avatar: "https://i.imgur.com/00qWleT.jpeg",
 	},
 	{
-		id: 3,
+		id: "id3",
 		email: "admin@mail.com",
 		password: "admin123",
 		name: "Admin",
-		role: "admin",
+		role: UserRole.Admin,
 		avatar: "https://i.imgur.com/5mPmJYO.jpeg",
 	},
 ];
@@ -46,31 +46,37 @@ export const handlers = [
 		return res(ctx.text("Cannot authenticate user"));
 	}),
 
-	rest.get("https://api.escuelajs.co/api/v1/auth/profile", (req, res, ctx) => {
-		const token = req.headers.get("authorization")?.split(" ")[1];
-		const authToken = token?.split("_")[0];
-		const id = token?.split("_")[1];
-		const match = users.find((u) => u.id === Number(id));
-		if (authToken === dummyAuthToken && match) {
-			return res(ctx.json(match));
+	rest.get(
+		"https://api.escuelajs.co/api/v1/auth/profile",
+		(req, res, ctx) => {
+			const token = req.headers.get("authorization")?.split(" ")[1];
+			const authToken = token?.split("_")[0];
+			const id = token?.split("_")[1];
+			const match = users.find((u) => u.id === id);
+			if (authToken === dummyAuthToken && match) {
+				return res(ctx.json(match));
+			}
+			ctx.status(401);
+			return res(ctx.text("Cannot fetch profile"));
 		}
-		ctx.status(401);
-		return res(ctx.text("Cannot fetch profile"));
-	}),
+	),
 
-	rest.post("https://api.escuelajs.co/api/v1/users/", async (req, res, ctx) => {
-		const input: UserCreate = await req.json();
-		const newUser: User = {
-			email: input.email,
-			password: input.password,
-			name: input.name,
-			avatar: input.avatar,
-			role: input.role,
-			id: users.length + 1,
-		};
-		users.push(newUser);
-		return res(ctx.json(newUser));
-	}),
+	rest.post(
+		"https://api.escuelajs.co/api/v1/users/",
+		async (req, res, ctx) => {
+			const input: UserCreate = await req.json();
+			const newUser: User = {
+				email: input.email,
+				password: input.password,
+				name: input.name,
+				avatar: input.avatar,
+				role: input.role,
+				id: "id" + users.length + 1,
+			};
+			users.push(newUser);
+			return res(ctx.json(newUser));
+		}
+	),
 ];
 
 const server = setupServer(...handlers);

@@ -15,12 +15,15 @@ export default function CartProductInfo(props: { p: Product }) {
 		<UnstyledLink to={`/products/${p.id}`} sx={{ display: "flex" }}>
 			<Box
 				component="img"
-				src={p.images[0]}
+				src={p.images[0].url}
 				height={100}
 				sx={{ marginRight: 1 }}
 			></Box>
 			<Box sx={{ margin: "auto" }}>
-				<Typography sx={{ display: { xs: "none", sm: "block" } }} variant="h5">
+				<Typography
+					sx={{ display: { xs: "none", sm: "block" } }}
+					variant="h5"
+				>
 					{p.title}
 				</Typography>
 				<Typography sx={{ display: { xs: "block", sm: "none" } }}>
@@ -29,7 +32,10 @@ export default function CartProductInfo(props: { p: Product }) {
 				<Typography sx={{ display: { xs: "none", sm: "block" } }}>
 					{shortDesc}
 				</Typography>
-				<Typography variant="h5" sx={{ display: { xs: "none", sm: "block" } }}>
+				<Typography
+					variant="h5"
+					sx={{ display: { xs: "none", sm: "block" } }}
+				>
 					Price: {p.price} €
 				</Typography>
 			</Box>

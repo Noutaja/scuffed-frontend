@@ -1,21 +1,34 @@
 export type Product = {
-	id: number;
+	id: string;
 	title: string;
 	price: number;
 	description: string;
 	category: Category;
-	images: string[];
+	images: Image[];
 };
 
 export type ProductCreate = {
-	title: string;
-	price: number;
-	description: string;
-	categoryId: number;
-	images: string[];
+	product: {
+		title: string;
+		price: number;
+		description: string;
+		categoryId: string;
+		images: Image[];
+	};
+	accessToken: string;
 };
 
-export type ProductUpdate = Partial<ProductCreate> & { id: number };
+export type ProductUpdate = {
+	product: {
+		title?: string;
+		price?: number;
+		description?: string;
+		categoryId?: string;
+		images?: Image[];
+	};
+	accessToken: string;
+	id: string;
+};
 
 export type ProductsReducerState = {
 	products: Product[];
@@ -23,9 +36,14 @@ export type ProductsReducerState = {
 	error: string | undefined;
 };
 
+export type Image = {
+	id: string;
+	url: string;
+};
+
 export type ItemWithId<T> = {
 	item: T;
-	id: number;
+	id: string;
 };
 
 export type CategoriesReducerState = {
@@ -35,7 +53,7 @@ export type CategoriesReducerState = {
 };
 
 export type Category = {
-	id: number;
+	id: string;
 	name: string;
 	image: string;
 };
@@ -45,14 +63,17 @@ export type PaginationOptions = {
 	offset: number;
 };
 
-export type Role = "customer" | "admin";
+export enum UserRole {
+	Normal = "Normal",
+	Admin = "Admin",
+}
 
 export type User = {
-	id: number;
+	id: string;
 	email: string;
 	password: string;
 	name: string;
-	role: Role;
+	role: UserRole;
 	avatar: string;
 };
 
@@ -60,7 +81,7 @@ export type UserCreate = {
 	email: string;
 	password: string;
 	name: string;
-	role: "customer" | "admin";
+	role: UserRole;
 	avatar: string;
 };
 

@@ -5,6 +5,7 @@ import {
 	MenuItem,
 	Select,
 	TextField,
+	Typography,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useEffect } from "react";
@@ -18,7 +19,7 @@ import {
 	setSortBy,
 	setSortDirection,
 } from "../redux/reducers/uiReducer";
-import { UiSortBy, UiSortDirection } from "../types/Types";
+import { UiSortBy, UiSortDirection, UserRole } from "../types/Types";
 import ProductEditModal from "./ProductEditModal";
 import { fetchAllCategories } from "../redux/reducers/categoriesReducer";
 
@@ -26,7 +27,9 @@ export default function Search() {
 	const categories = useAppSelector(
 		(state) => state.categoriesReducer.categories
 	);
-	const currentUser = useAppSelector((state) => state.usersReducer.currentUser);
+	const currentUser = useAppSelector(
+		(state) => state.usersReducer.currentUser
+	);
 	const uiReducer = useAppSelector((state) => state.uiReducer);
 	const searchText = uiReducer.searchText;
 	const paginPerPage = uiReducer.paginPerPage;
@@ -46,7 +49,9 @@ export default function Search() {
 					select
 					label="Category"
 					value={categoryFilter}
-					onChange={(e) => dispatch(setCategoryFilter(e.target.value))}
+					onChange={(e) =>
+						dispatch(setCategoryFilter(e.target.value))
+					}
 					sx={{ m: 1, minWidth: 120 }}
 					size="small"
 				>
@@ -63,7 +68,9 @@ export default function Search() {
 						autoWidth
 						defaultValue="price"
 						value={sortSearchBy}
-						onChange={(e) => dispatch(setSortBy(e.target.value as UiSortBy))}
+						onChange={(e) =>
+							dispatch(setSortBy(e.target.value as UiSortBy))
+						}
 					>
 						<MenuItem value="price">Price</MenuItem>
 					</Select>
@@ -75,7 +82,11 @@ export default function Search() {
 						defaultValue="asc"
 						value={sortDirection}
 						onChange={(e) =>
-							dispatch(setSortDirection(e.target.value as UiSortDirection))
+							dispatch(
+								setSortDirection(
+									e.target.value as UiSortDirection
+								)
+							)
 						}
 					>
 						<MenuItem value="asc">Ascending</MenuItem>
@@ -97,9 +108,10 @@ export default function Search() {
 						<MenuItem value={50}>50</MenuItem>
 					</Select>
 				</FormControl>
-
-				{currentUser && currentUser.role === "admin" && (
-					<ProductEditModal product={undefined}>ADD PRODUCT</ProductEditModal>
+				{currentUser && currentUser.role === UserRole.Admin && (
+					<ProductEditModal product={undefined}>
+						ADD PRODUCT
+					</ProductEditModal>
 				)}
 			</Box>
 

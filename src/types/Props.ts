@@ -1,4 +1,4 @@
-import { Product } from "./Types";
+import { Product, Image } from "./Types";
 
 export type ProductItemProps = {
 	product: Product;
@@ -19,7 +19,7 @@ export type ProductEditFormProps = {
 };
 
 export type ProductImageDisplayProps = {
-	images: string[];
+	images: Image[];
 };
 
 export type SearchProps = {

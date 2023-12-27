@@ -6,7 +6,7 @@ import {
 	createUser,
 } from "../redux/reducers/usersReducer";
 import { createStore } from "../redux/store";
-import { UserCreate } from "../types/Types";
+import { UserCreate, UserRole } from "../types/Types";
 import server, { dummyAuthToken, users } from "./usersTestServer";
 
 let store = createStore();
@@ -43,7 +43,10 @@ describe("userReducer", () => {
 describe("userReducer async thunk", () => {
 	test("Should fetch an authentication token", async () => {
 		await store.dispatch(
-			authWithCredentials({ email: "john@mail.com", password: "changeme" })
+			authWithCredentials({
+				email: "john@mail.com",
+				password: "changeme",
+			})
 		);
 		expect(store.getState().usersReducer.accessToken).toBe(
 			dummyAuthToken + "_1"
@@ -59,7 +62,9 @@ describe("userReducer async thunk", () => {
 
 	test("Should fetch the correct profile", async () => {
 		await store.dispatch(fetchProfileWithToken(dummyAuthToken + "_1"));
-		expect(store.getState().usersReducer.currentUser).toMatchObject(users[0]);
+		expect(store.getState().usersReducer.currentUser).toMatchObject(
+			users[0]
+		);
 	});
 
 	test("Should not fetch a profile with incorrect auth token", async () => {
@@ -69,9 +74,14 @@ describe("userReducer async thunk", () => {
 
 	test("Should login with credentials", async () => {
 		await store.dispatch(
-			loginWithCredentials({ email: "john@mail.com", password: "changeme" })
+			loginWithCredentials({
+				email: "john@mail.com",
+				password: "changeme",
+			})
 		);
-		expect(store.getState().usersReducer.currentUser).toMatchObject(users[0]);
+		expect(store.getState().usersReducer.currentUser).toMatchObject(
+			users[0]
+		);
 	});
 
 	test("Should not login with wrong credentials", async () => {
@@ -86,7 +96,7 @@ describe("userReducer async thunk", () => {
 			email: "niko@gmail.com",
 			password: "1234",
 			name: "niko",
-			role: "customer",
+			role: UserRole.Normal,
 			avatar: "https://i.pravatar.cc/300",
 		};
 		const fullNewUser = {
@@ -94,7 +104,7 @@ describe("userReducer async thunk", () => {
 			password: "1234",
 			name: "niko",
 			avatar: "https://i.pravatar.cc/300",
-			role: "customer",
+			role: UserRole.Normal,
 			id: 4,
 		};
 		const returnedUser = await store.dispatch(createUser(newUser));

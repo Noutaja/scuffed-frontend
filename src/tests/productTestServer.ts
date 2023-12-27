@@ -10,52 +10,40 @@ import {
 
 const products: Product[] = [
 	{
-		id: 1,
+		id: "id1",
 		title: "Licensed Frozen Salad",
 		price: 686,
 		description:
 			"The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
-		images: [
-			"https://i.imgur.com/CCnU4YX.jpeg",
-			"https://i.imgur.com/JANnz25.jpeg",
-			"https://i.imgur.com/ioc7lwM.jpeg",
-		],
+		images: [{ id: "id1", url: "https://i.imgur.com/CCnU4YX.jpeg" }],
 		category: {
-			id: 2,
+			id: "id2",
 			name: "Electronics",
 			image: "https://i.imgur.com/uDpzwEk.jpeg",
 		},
 	},
 	{
-		id: 2,
+		id: "id2",
 		title: "Oriental Rubber Towels",
 		price: 563,
 		description:
 			"The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality",
-		images: [
-			"https://i.imgur.com/GwylUgV.jpeg",
-			"https://i.imgur.com/G45P8tI.jpeg",
-			"https://i.imgur.com/Y5gHJMd.jpeg",
-		],
+		images: [{ id: "id1", url: "https://i.imgur.com/GwylUgV.jpeg" }],
 		category: {
-			id: 5,
+			id: "id5",
 			name: "Others",
 			image: "https://i.imgur.com/Dm2pPfd.jpeg",
 		},
 	},
 	{
-		id: 3,
+		id: "id3",
 		title: "Elegant Plastic Shirt",
 		price: 944,
 		description:
 			"The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality",
-		images: [
-			"https://i.imgur.com/uDpzwEk.jpeg",
-			"https://i.imgur.com/OLKMwgP.jpeg",
-			"https://i.imgur.com/O1LUkwy.jpeg",
-		],
+		images: [{ id: "id1", url: "https://i.imgur.com/uDpzwEk.jpeg" }],
 		category: {
-			id: 3,
+			id: "id3",
 			name: "Hola que hace",
 			image: "https://i.imgur.com/zQwsC2m.jpeg",
 		},
@@ -63,17 +51,17 @@ const products: Product[] = [
 ];
 const categories: Category[] = [
 	{
-		id: 1,
+		id: "id1",
 		name: "Books",
 		image: "https://i.imgur.com/lauPy0D.jpeg",
 	},
 	{
-		id: 2,
+		id: "id2",
 		name: "Computers",
 		image: "https://i.imgur.com/zjLVS8N.jpeg",
 	},
 	{
-		id: 3,
+		id: "id3",
 		name: "Clothes",
 		image: "https://i.imgur.com/xYO6uDv.jpeg",
 	},
@@ -86,12 +74,12 @@ export const handlers = [
 	}),
 
 	rest.get(`${url}/products/:id`, (req, res, ctx) => {
-		const product = products.find((p) => p.id === Number(req.params.id));
+		const product = products.find((p) => p.id === req.params.id);
 		return res(ctx.json(product));
 	}),
 
 	rest.delete(`${url}/products/:id`, (req, res, ctx) => {
-		const index = products.findIndex((p) => p.id === Number(req.params.id));
+		const index = products.findIndex((p) => p.id === req.params.id);
 		if (index <= 0) {
 			return res(ctx.json(true));
 		}
@@ -107,25 +95,27 @@ export const handlers = [
 
 	rest.post(`${url}/products/`, async (req, res, ctx) => {
 		const input: ProductCreate = await req.json();
-		const category = categories.find((c) => c.id === input.categoryId);
+		const category = categories.find(
+			(c) => c.id === input.product.categoryId
+		);
 
-		if (input.price <= 0) {
+		if (input.product.price <= 0) {
 			badRequest(ctx);
 			return;
 		}
-		if (input.images.length < 1) {
+		if (input.product.images.length < 1) {
 			badRequest(ctx);
 			return;
 		}
 
 		if (category) {
 			const newProduct: Product = {
-				id: products.length + 1,
-				images: input.images,
-				title: input.title,
-				description: input.description,
+				id: "id" + products.length + 1,
+				images: input.product.images,
+				title: input.product.title,
+				description: input.product.description,
 				category: category,
-				price: input.price,
+				price: input.product.price,
 			};
 			return res(ctx.json(newProduct));
 		}
@@ -135,13 +125,17 @@ export const handlers = [
 
 	rest.put(`${url}/products/:id`, async (req, res, ctx) => {
 		const input: ProductUpdate = await req.json();
-		const index = products.findIndex((p) => p.id === Number(req.params.id));
+		const index = products.findIndex((p) => p.id === req.params.id);
 
-		if (input.price && input.price <= 0) {
+		if (input.product.price && input.product.price <= 0) {
 			badRequest(ctx);
 			return;
 		}
-		if (input.price && input.images && input.images.length < 1) {
+		if (
+			input.product.price &&
+			input.product.images &&
+			input.product.images.length < 1
+		) {
 			badRequest(ctx);
 			return;
 		}

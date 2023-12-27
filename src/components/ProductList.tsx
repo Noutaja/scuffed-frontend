@@ -23,7 +23,7 @@ function ProductList() {
 			.filter((p) => p.title.toLowerCase().includes(searchText))
 			.filter((p) => {
 				if (categoryFilter === "") return true;
-				return p.category.id === +categoryFilter;
+				return p.category.id === categoryFilter;
 			})
 			.sort(searchSorting(sortDirection, sortSearchBy))
 	);
@@ -74,7 +74,11 @@ function ProductList() {
 				onChange={(e, v) => dispatch(setPaginPage(v))}
 				count={Math.floor(products.length / 20)}
 				defaultPage={1}
-				sx={{ marginTop: "1rem", marginLeft: "auto", marginRight: "auto" }}
+				sx={{
+					marginTop: "1rem",
+					marginLeft: "auto",
+					marginRight: "auto",
+				}}
 			/>
 		</Box>
 	);

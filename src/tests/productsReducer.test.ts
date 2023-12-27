@@ -40,28 +40,29 @@ describe("productReducer async thunk", () => {
 	});
 
 	test("Should fetch one product by id", async () => {
-		await store.dispatch(fetchOneProduct(1));
+		await store.dispatch(fetchOneProduct("id1"));
 		expect(store.getState().productsReducer.products.length).toBe(1);
 		expect(store.getState().productsReducer.products[0].id).toBe(1);
 	});
 
 	test("Should delete one product by id", async () => {
-		const result = await store.dispatch(deleteOneProduct(1));
+		const result = await store.dispatch(deleteOneProduct("id1"));
 		expect(result.payload).toBe(1);
 	});
 
 	test("Should create one product", async () => {
 		const newProduct: ProductCreate = {
-			title: "Licensed Frozen Salad",
-			price: 686,
-			description:
-				"The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
-			images: [
-				"https://i.imgur.com/CCnU4YX.jpeg",
-				"https://i.imgur.com/JANnz25.jpeg",
-				"https://i.imgur.com/ioc7lwM.jpeg",
-			],
-			categoryId: 1,
+			product: {
+				title: "Licensed Frozen Salad",
+				price: 686,
+				description:
+					"The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
+				images: [
+					{ id: "id1", url: "https://i.imgur.com/CCnU4YX.jpeg" },
+				],
+				categoryId: "id1",
+			},
+			accessToken: "dummy-token",
 		};
 		await store.dispatch(createProduct(newProduct));
 		expect(store.getState().productsReducer.products.length).toBe(1);
@@ -69,12 +70,15 @@ describe("productReducer async thunk", () => {
 
 	test("Should update product", async () => {
 		const updateP: ProductUpdate = {
-			id: 1,
-			price: 687,
+			product: {
+				price: 687,
+			},
+			id: "id1",
+			accessToken: "dummy-token",
 		};
 		const action = await store.dispatch(updateProduct(updateP));
 		const testProduct = {
-			id: 1,
+			id: "id1",
 			title: "Licensed Frozen Salad",
 			price: 687,
 			description:
@@ -85,7 +89,7 @@ describe("productReducer async thunk", () => {
 				"https://i.imgur.com/ioc7lwM.jpeg",
 			],
 			category: {
-				id: 2,
+				id: "id2",
 				name: "Electronics",
 				image: "https://i.imgur.com/uDpzwEk.jpeg",
 			},
