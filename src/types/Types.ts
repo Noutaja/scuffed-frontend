@@ -8,14 +8,27 @@ export type Product = {
 };
 
 export type ProductCreate = {
-	title: string;
-	price: number;
-	description: string;
-	categoryId: string;
-	images: Image[];
+	product: {
+		title: string;
+		price: number;
+		description: string;
+		categoryId: string;
+		images: Image[];
+	};
+	accessToken: string;
 };
 
-export type ProductUpdate = Partial<ProductCreate> & { id: string };
+export type ProductUpdate = {
+	product: {
+		title?: string;
+		price?: number;
+		description?: string;
+		categoryId?: string;
+		images?: Image[];
+	};
+	accessToken: string;
+	id: string;
+};
 
 export type ProductsReducerState = {
 	products: Product[];

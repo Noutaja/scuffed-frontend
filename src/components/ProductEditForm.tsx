@@ -14,6 +14,7 @@ import {
 	createProduct,
 	updateProduct,
 } from "../redux/reducers/productsReducer";
+import { v4 as uuidv4 } from "uuid";
 
 import { ProductCreate, ProductUpdate } from "../types/Types";
 import { useAppDispatch } from "../hooks/useAppDispatch";
@@ -24,6 +25,9 @@ import { fetchAllCategories } from "../redux/reducers/categoriesReducer";
 import { useNavigate } from "react-router-dom";
 
 export default function ProductEditForm(props: ProductEditFormProps) {
+	const accessToken = useAppSelector(
+		(state) => state.usersReducer.accessToken
+	);
 	const error = useAppSelector((state) => state.productsReducer.error);
 	const categories = useAppSelector(
 		(state) => state.categoriesReducer.categories
@@ -50,20 +54,27 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 		if (props.product) {
 			const p = props.product;
 
-			const input: ProductUpdate = { id: p.id };
-			if (title.length) input.title = title;
-			if (price.length) input.price = Number(price);
-			if (description.length) input.description = description;
-			if (categoryId.length) input.categoryId = categoryId;
-			if (images.length) input.images = images;
+			const input: ProductUpdate = {
+				id: p.id,
+				accessToken: accessToken,
+				product: {},
+			};
+			if (title.length) input.product.title = title;
+			if (price.length) input.product.price = Number(price);
+			if (description.length) input.product.description = description;
+			if (categoryId.length) input.product.categoryId = categoryId;
+			if (images.length) input.product.images = images;
 			dispatch(updateProduct(input));
 		} else {
 			const input: ProductCreate = {
-				title: title,
-				price: Number(price),
-				description: description,
-				categoryId: categoryId,
-				images: images,
+				product: {
+					title: title,
+					price: Number(price),
+					description: description,
+					categoryId: categoryId,
+					images: images,
+				},
+				accessToken: accessToken,
 			};
 			dispatch(createProduct(input));
 			navigate("/");
@@ -152,7 +163,17 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 						</Button>
 					</Box>
 				))}
-				<Button onClick={() => setImages([...images])}>
+				<Button
+					onClick={() =>
+						setImages([
+							...images,
+							{
+								url: "https://picsum.photos/200",
+								id: uuidv4(),
+							},
+						])
+					}
+				>
 					<AddIcon />
 				</Button>
 			</Stack>

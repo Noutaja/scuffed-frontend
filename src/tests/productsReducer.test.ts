@@ -52,12 +52,17 @@ describe("productReducer async thunk", () => {
 
 	test("Should create one product", async () => {
 		const newProduct: ProductCreate = {
-			title: "Licensed Frozen Salad",
-			price: 686,
-			description:
-				"The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
-			images: [{ id: "id1", url: "https://i.imgur.com/CCnU4YX.jpeg" }],
-			categoryId: "id1",
+			product: {
+				title: "Licensed Frozen Salad",
+				price: 686,
+				description:
+					"The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
+				images: [
+					{ id: "id1", url: "https://i.imgur.com/CCnU4YX.jpeg" },
+				],
+				categoryId: "id1",
+			},
+			accessToken: "dummy-token",
 		};
 		await store.dispatch(createProduct(newProduct));
 		expect(store.getState().productsReducer.products.length).toBe(1);
@@ -65,8 +70,11 @@ describe("productReducer async thunk", () => {
 
 	test("Should update product", async () => {
 		const updateP: ProductUpdate = {
+			product: {
+				price: 687,
+			},
 			id: "id1",
-			price: 687,
+			accessToken: "dummy-token",
 		};
 		const action = await store.dispatch(updateProduct(updateP));
 		const testProduct = {

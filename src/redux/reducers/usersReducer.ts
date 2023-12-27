@@ -149,7 +149,6 @@ const usersSlice = createSlice({
 
 			.addCase(fetchProfileWithToken.fulfilled, (state, action) => {
 				state.currentUser = action.payload;
-				console.log(state.currentUser);
 				state.status = "idle";
 			})
 			.addCase(fetchProfileWithToken.rejected, (state, action) => {

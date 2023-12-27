@@ -90,11 +90,16 @@ export const createProduct = createAsyncThunk<
 	{ rejectValue: string }
 >(
 	"products/createProduct",
-	async (newProduct: ProductCreate, { rejectWithValue }) => {
+	async (data: ProductCreate, { rejectWithValue }) => {
 		try {
 			const response = await axios.post<Product>(
 				`${baseUrl}products/`,
-				newProduct
+				data.product,
+				{
+					headers: {
+						Authorization: `Bearer ${data.accessToken}`,
+					},
+				}
 			);
 			return response.data;
 		} catch (e) {
@@ -112,9 +117,14 @@ export const updateProduct = createAsyncThunk<
 	"products/updateProduct",
 	async (data: ProductUpdate, { rejectWithValue }) => {
 		try {
-			const response = await axios.put<Product>(
+			const response = await axios.patch<Product>(
 				`${baseUrl}products/${data.id}`,
-				data
+				data.product,
+				{
+					headers: {
+						Authorization: `Bearer ${data.accessToken}`,
+					},
+				}
 			);
 			return response.data;
 		} catch (e) {

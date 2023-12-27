@@ -95,13 +95,15 @@ export const handlers = [
 
 	rest.post(`${url}/products/`, async (req, res, ctx) => {
 		const input: ProductCreate = await req.json();
-		const category = categories.find((c) => c.id === input.categoryId);
+		const category = categories.find(
+			(c) => c.id === input.product.categoryId
+		);
 
-		if (input.price <= 0) {
+		if (input.product.price <= 0) {
 			badRequest(ctx);
 			return;
 		}
-		if (input.images.length < 1) {
+		if (input.product.images.length < 1) {
 			badRequest(ctx);
 			return;
 		}
@@ -109,11 +111,11 @@ export const handlers = [
 		if (category) {
 			const newProduct: Product = {
 				id: "id" + products.length + 1,
-				images: input.images,
-				title: input.title,
-				description: input.description,
+				images: input.product.images,
+				title: input.product.title,
+				description: input.product.description,
 				category: category,
-				price: input.price,
+				price: input.product.price,
 			};
 			return res(ctx.json(newProduct));
 		}
@@ -125,11 +127,15 @@ export const handlers = [
 		const input: ProductUpdate = await req.json();
 		const index = products.findIndex((p) => p.id === req.params.id);
 
-		if (input.price && input.price <= 0) {
+		if (input.product.price && input.product.price <= 0) {
 			badRequest(ctx);
 			return;
 		}
-		if (input.price && input.images && input.images.length < 1) {
+		if (
+			input.product.price &&
+			input.product.images &&
+			input.product.images.length < 1
+		) {
 			badRequest(ctx);
 			return;
 		}
