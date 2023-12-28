@@ -7,7 +7,9 @@ export type Order = {
 	user: User;
 	address: Address;
 	status: OrderStatus;
-	orderProduct: OrderProduct[];
+	orderProducts: OrderProduct[];
+	createdAt?: Date;
+	updatedAt?: Date;
 };
 
 export type OrderCreate = {

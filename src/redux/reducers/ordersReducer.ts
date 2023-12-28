@@ -19,11 +19,14 @@ const initialState: OrdersReducerState = {
 
 export const fetchAllOrders = createAsyncThunk(
 	"orders/fetchAllOrders",
-	async (_, { rejectWithValue }) => {
+	async (accessToken: string, { rejectWithValue }) => {
 		try {
-			const response = await axios.get(`${baseUrl}orders`);
+			const response = await axios.get(`${baseUrl}orders`, {
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			});
 			const orders = await response.data;
-
 			return orders;
 		} catch (e) {
 			const error = e as AxiosError;

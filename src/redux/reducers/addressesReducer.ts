@@ -20,9 +20,13 @@ const initialState: AddressesReducerState = {
 
 export const fetchAllAddresses = createAsyncThunk(
 	"addresses/fetchAllAddresses",
-	async (_, { rejectWithValue }) => {
+	async (accessToken: string, { rejectWithValue }) => {
 		try {
-			const response = await axios.get(`${baseUrl}addresses`);
+			const response = await axios.get(`${baseUrl}addresses`, {
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			});
 			const addresses = await response.data;
 
 			return addresses;

@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import ShoppingCart from "@mui/icons-material/ShoppingCart";
 import store from "../redux/store";
 import { addOneItem } from "../redux/reducers/cartReducer";
+import { UnstyledLink } from "../componentsCustom/UnstyledLink";
 
 export default function ProductItem(props: ProductItemProps) {
 	const p = props.product;
@@ -27,9 +28,9 @@ export default function ProductItem(props: ProductItemProps) {
 			</Link>
 
 			<CardContent>
-				<Link to={`products/${p.id}`}>
+				<UnstyledLink to={`products/${p.id}`}>
 					<Typography>{p.title}</Typography>
-				</Link>
+				</UnstyledLink>
 				<Typography>{p.price}€</Typography>
 				<Typography>{p.category.name}</Typography>
 			</CardContent>

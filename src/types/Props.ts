@@ -1,5 +1,8 @@
+import { Address } from "./AddressTypes";
+import { OrderProduct } from "./OrderTypes";
 import { Product } from "./ProductTypes";
 import { Image } from "./Types";
+import { User } from "./UserTypes";
 
 export type ProductItemProps = {
 	product: Product;
@@ -26,4 +29,20 @@ export type ProductImageDisplayProps = {
 export type SearchProps = {
 	value: string;
 	set: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export type AddressPanelProps = {
+	accessToken: string;
+};
+
+export type OrdersPanelProps = {
+	accessToken: string;
+};
+
+export type OrderProductItemProps = {
+	orderProduct: OrderProduct;
+};
+
+export type AddressItemProps = {
+	address: Address;
 };
