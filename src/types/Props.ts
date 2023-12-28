@@ -1,4 +1,5 @@
-import { Product, Image } from "./Types";
+import { Product } from "./ProductTypes";
+import { Image } from "./Types";
 
 export type ProductItemProps = {
 	product: Product;

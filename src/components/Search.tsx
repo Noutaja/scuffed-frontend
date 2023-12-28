@@ -19,9 +19,10 @@ import {
 	setSortBy,
 	setSortDirection,
 } from "../redux/reducers/uiReducer";
-import { UiSortBy, UiSortDirection, UserRole } from "../types/Types";
+import { UiSortBy, UiSortDirection } from "../types/Types";
 import ProductEditModal from "./ProductEditModal";
 import { fetchAllCategories } from "../redux/reducers/categoriesReducer";
+import { UserRole } from "../types/UserTypes";
 
 export default function Search() {
 	const categories = useAppSelector(

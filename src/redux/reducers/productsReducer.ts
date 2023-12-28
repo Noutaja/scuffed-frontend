@@ -6,8 +6,9 @@ import {
 	ProductCreate,
 	ProductUpdate,
 	ProductsReducerState,
-	PaginationOptions,
-} from "../../types/Types";
+} from "../../types/ProductTypes";
+
+import { PaginationOptions } from "../../types/Types";
 
 const baseUrl = "http://localhost:5157/api/v1/";
 

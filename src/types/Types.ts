@@ -1,50 +1,4 @@
-export type Product = {
-	id: string;
-	title: string;
-	price: number;
-	description: string;
-	category: Category;
-	images: Image[];
-};
-
-export type ProductCreate = {
-	product: {
-		title: string;
-		price: number;
-		description: string;
-		categoryId: string;
-		images: Image[];
-	};
-	accessToken: string;
-};
-
-export type ProductUpdate = {
-	product: {
-		title?: string;
-		price?: number;
-		description?: string;
-		categoryId?: string;
-		images?: Image[];
-	};
-	accessToken: string;
-	id: string;
-};
-
-export type ProductsReducerState = {
-	products: Product[];
-	status: "idle" | "loading";
-	error: string | undefined;
-};
-
-export type Image = {
-	id: string;
-	url: string;
-};
-
-export type ItemWithId<T> = {
-	item: T;
-	id: string;
-};
+import { Product } from "./ProductTypes";
 
 export type CategoriesReducerState = {
 	categories: Category[];
@@ -58,43 +12,19 @@ export type Category = {
 	image: string;
 };
 
+export type Image = {
+	id: string;
+	url: string;
+};
+
+export type ItemWithId<T> = {
+	item: T;
+	id: string;
+};
+
 export type PaginationOptions = {
 	limit: number;
 	offset: number;
-};
-
-export enum UserRole {
-	Normal = "Normal",
-	Admin = "Admin",
-}
-
-export type User = {
-	id: string;
-	email: string;
-	password: string;
-	name: string;
-	role: UserRole;
-	avatar: string;
-};
-
-export type UserCreate = {
-	email: string;
-	password: string;
-	name: string;
-	role: UserRole;
-	avatar: string;
-};
-
-export type UserCredentials = {
-	email: string;
-	password: string;
-};
-
-export type UserReducerState = {
-	status: "idle" | "loading";
-	currentUser: User | undefined;
-	accessToken: string;
-	error: string | undefined;
 };
 
 export type CartReducerState = {

@@ -5,7 +5,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useEffect } from "react";
 
-import { Product } from "../types/Types";
+import { Product } from "../types/ProductTypes";
 import ProductInfo from "../components/ProductInfo";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { fetchOneProduct } from "../redux/reducers/productsReducer";

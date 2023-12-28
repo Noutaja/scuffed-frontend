@@ -13,7 +13,7 @@ import {
 	validateEmail,
 	validatePassword,
 } from "../helpers/loginFormValidators";
-import { UserRole } from "../types/Types";
+import { UserRole } from "../types/UserTypes";
 
 export default function LoginForm() {
 	const error = useAppSelector((state) => state.usersReducer.error);

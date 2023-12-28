@@ -6,7 +6,7 @@ import {
 	createUser,
 } from "../redux/reducers/usersReducer";
 import { createStore } from "../redux/store";
-import { UserCreate, UserRole } from "../types/Types";
+import { UserCreate, UserRole } from "../types/UserTypes";
 import server, { dummyAuthToken, users } from "./usersTestServer";
 
 let store = createStore();

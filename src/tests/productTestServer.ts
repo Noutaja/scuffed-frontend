@@ -1,12 +1,8 @@
 import { RestContext, rest } from "msw";
 import { setupServer } from "msw/node";
 
-import {
-	Category,
-	Product,
-	ProductCreate,
-	ProductUpdate,
-} from "../types/Types";
+import { Product, ProductCreate, ProductUpdate } from "../types/ProductTypes";
+import { Category } from "../types/Types";
 
 const products: Product[] = [
 	{

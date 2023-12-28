@@ -18,7 +18,7 @@ import { addOneItem } from "../redux/reducers/cartReducer";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { deleteOneProduct } from "../redux/reducers/productsReducer";
 import ProductEditModal from "./ProductEditModal";
-import { UserRole } from "../types/Types";
+import { UserRole } from "../types/UserTypes";
 
 export default function ProductInfo(props: ProductItemProps) {
 	const currentUser = useAppSelector(

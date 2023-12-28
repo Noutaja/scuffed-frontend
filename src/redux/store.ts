@@ -2,10 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import productsReducer from "./reducers/productsReducer";
 import usersReducer from "./reducers/usersReducer";
-import { CartReducerState, UserReducerState } from "../types/Types";
+import { CartReducerState } from "../types/Types";
 import cartReducer from "./reducers/cartReducer";
 import uiReducer from "./reducers/uiReducer";
 import categoriesReducer from "./reducers/categoriesReducer";
+import { UserReducerState } from "../types/UserTypes";
+import ordersReducer from "./reducers/ordersReducer";
+import addressesReducer from "./reducers/addressesReducer";
 
 const preloadedUsersState: UserReducerState = {
 	currentUser: undefined,
@@ -24,7 +27,15 @@ store.subscribe(updateLocalStorage);
 
 export function createStore() {
 	return configureStore({
-		reducer: { productsReducer, categoriesReducer, usersReducer, cartReducer, uiReducer },
+		reducer: {
+			productsReducer,
+			categoriesReducer,
+			usersReducer,
+			cartReducer,
+			uiReducer,
+			ordersReducer,
+			addressesReducer,
+		},
 		preloadedState: {
 			usersReducer: preloadedUsersState,
 			cartReducer: preloadedCartState,

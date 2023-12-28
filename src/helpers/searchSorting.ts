@@ -1,4 +1,5 @@
-import { Product, UiSortBy, UiSortDirection } from "../types/Types";
+import { Product } from "../types/ProductTypes";
+import { UiSortBy, UiSortDirection } from "../types/Types";
 
 export function searchSorting(direction: UiSortDirection, sortBy: UiSortBy) {
 	if (direction === "asc") {

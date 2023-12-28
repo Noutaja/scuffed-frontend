@@ -3,13 +3,14 @@ import Grid from "@mui/material/Unstable_Grid2";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useEffect } from "react";
 
-import { Product, UiSortBy, UiSortDirection } from "../types/Types";
+import { UiSortBy, UiSortDirection } from "../types/Types";
 import { useAppSelector } from "../hooks/useAppSelector";
 import ProductItem from "./ProductItem";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { fetchAllProducts } from "../redux/reducers/productsReducer";
 import { setPaginPage } from "../redux/reducers/uiReducer";
 import { searchSorting } from "../helpers/searchSorting";
+import { Product } from "../types/ProductTypes";
 
 function ProductList() {
 	const uiReducer = useAppSelector((state) => state.uiReducer);

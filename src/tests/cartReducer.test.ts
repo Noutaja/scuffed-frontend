@@ -4,7 +4,8 @@ import cartReducer, {
 	removeOneItem,
 } from "../redux/reducers/cartReducer";
 import { createStore } from "../redux/store";
-import { CartItem, CartReducerState, Product } from "../types/Types";
+import { Product } from "../types/ProductTypes";
+import { CartItem, CartReducerState } from "../types/Types";
 
 const products: Product[] = [
 	{

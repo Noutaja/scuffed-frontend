@@ -1,5 +1,5 @@
 import React from "react";
-import { Product } from "../types/Types";
+import { Product } from "../types/ProductTypes";
 import { Box, Typography } from "@mui/material";
 
 import { UnstyledLink } from "../componentsCustom/UnstyledLink";

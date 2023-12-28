@@ -6,7 +6,7 @@ import {
 	UserCreate,
 	UserCredentials,
 	UserReducerState,
-} from "../../types/Types";
+} from "../../types/UserTypes";
 
 const baseUrl = "http://localhost:5157/api/v1/";
 

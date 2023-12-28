@@ -1,7 +1,7 @@
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 
-import { User, UserCreate, UserRole } from "../types/Types";
+import { User, UserCreate, UserRole } from "../types/UserTypes";
 
 const url = "https://api.escuelajs.co/api/v1";
 export const users: User[] = [

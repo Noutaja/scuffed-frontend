@@ -16,7 +16,7 @@ import {
 } from "../redux/reducers/productsReducer";
 import { v4 as uuidv4 } from "uuid";
 
-import { ProductCreate, ProductUpdate } from "../types/Types";
+import { ProductCreate, ProductUpdate } from "../types/ProductTypes";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 //import addIdsToList from "../helpers/addIdsToList";
 import { ProductEditFormProps } from "../types/Props";
