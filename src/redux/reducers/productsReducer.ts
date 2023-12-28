@@ -58,7 +58,6 @@ export const fetchOneProduct = createAsyncThunk<
 		const response = await axios.get(`${baseUrl}products/${id}`);
 		const product = await response.data;
 		const arr = [product];
-		console.log(arr);
 		return arr;
 	} catch (e) {
 		const error = e as AxiosError;

@@ -1,7 +1,12 @@
 import { RestContext, rest } from "msw";
 import { setupServer } from "msw/node";
 
-import { Product, ProductCreate, ProductUpdate } from "../types/ProductTypes";
+import {
+	Product,
+	ProductCreate,
+	ProductLite,
+	ProductUpdate,
+} from "../types/ProductTypes";
 import { Category } from "../types/Types";
 
 const products: Product[] = [
@@ -63,20 +68,21 @@ const categories: Category[] = [
 	},
 ];
 const url = "http://localhost:5157/api/v1/";
+export const dummyAuthToken = "auth-me";
 
 export const handlers = [
-	rest.get(`${url}/products`, (req, res, ctx) => {
+	rest.get(`${url}products`, (req, res, ctx) => {
 		return res(ctx.json(products));
 	}),
 
-	rest.get(`${url}/products/:id`, (req, res, ctx) => {
+	rest.get(`${url}products/:id`, (req, res, ctx) => {
 		const product = products.find((p) => p.id === req.params.id);
 		return res(ctx.json(product));
 	}),
 
-	rest.delete(`${url}/products/:id`, (req, res, ctx) => {
+	rest.delete(`${url}products/:id`, (req, res, ctx) => {
 		const index = products.findIndex((p) => p.id === req.params.id);
-		if (index <= 0) {
+		if (index >= 0) {
 			return res(ctx.json(true));
 		}
 		return res(
@@ -89,29 +95,28 @@ export const handlers = [
 		);
 	}),
 
-	rest.post(`${url}/products/`, async (req, res, ctx) => {
-		const input: ProductCreate = await req.json();
-		const category = categories.find(
-			(c) => c.id === input.product.categoryId
-		);
+	rest.post(`${url}products/`, async (req, res, ctx) => {
+		const input: ProductLite = await req.json();
 
-		if (input.product.price <= 0) {
+		const category = categories.find((c) => c.id === input.categoryId);
+
+		if (input.price <= 0) {
 			badRequest(ctx);
 			return;
 		}
-		if (input.product.images.length < 1) {
+		if (input.images.length < 1) {
 			badRequest(ctx);
 			return;
 		}
 
 		if (category) {
 			const newProduct: Product = {
-				id: "id" + products.length + 1,
-				images: input.product.images,
-				title: input.product.title,
-				description: input.product.description,
+				id: "id" + (products.length + 1),
+				images: input.images,
+				title: input.title,
+				description: input.description,
 				category: category,
-				price: input.product.price,
+				price: input.price,
 			};
 			return res(ctx.json(newProduct));
 		}
@@ -119,19 +124,15 @@ export const handlers = [
 		return;
 	}),
 
-	rest.put(`${url}/products/:id`, async (req, res, ctx) => {
-		const input: ProductUpdate = await req.json();
+	rest.patch(`${url}products/:id`, async (req, res, ctx) => {
+		const input: ProductLite = await req.json();
 		const index = products.findIndex((p) => p.id === req.params.id);
 
-		if (input.product.price && input.product.price <= 0) {
+		if (input.price && input.price <= 0) {
 			badRequest(ctx);
 			return;
 		}
-		if (
-			input.product.price &&
-			input.product.images &&
-			input.product.images.length < 1
-		) {
+		if (input.price && input.images && input.images.length < 1) {
 			badRequest(ctx);
 			return;
 		}

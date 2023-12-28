@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAppSelector } from "../hooks/useAppSelector";
+import UserProfileInfo from "../components/UserProfileInfo";
 
 export default function ProfilePage() {
 	const currentUser = useAppSelector(
@@ -18,29 +19,7 @@ export default function ProfilePage() {
 
 	return (
 		<Container component="main" sx={{ mt: "5rem" }}>
-			<Box
-				display="flex"
-				flexDirection="column"
-				alignItems="center"
-				maxWidth="md"
-				margin="auto"
-			>
-				<Typography variant="h3">
-					{currentUser?.firstName} {currentUser?.lastName}
-				</Typography>
-				<Box
-					component="img"
-					src={currentUser?.avatar}
-					sx={{ borderRadius: "50%", width: 150 }}
-				/>
-				<Box padding={1}>
-					<Typography>Avatar URL: {currentUser?.avatar}</Typography>
-					<Typography>Email: {currentUser?.email}</Typography>
-				</Box>
-				<Tooltip title="Not implemented">
-					<Button variant="contained">EDIT PROFILE</Button>
-				</Tooltip>
-			</Box>
+			<UserProfileInfo />
 		</Container>
 	);
 }

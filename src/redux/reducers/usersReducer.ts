@@ -48,7 +48,8 @@ export const authWithCredentials = createAsyncThunk<
 				`${baseUrl}auth/login`,
 				credentials
 			);
-			const accessToken = response.data;
+			const accessToken = response.data.accessToken;
+			//console.log(response);
 			if (accessToken === "" || !accessToken) {
 				throw Error("Failed to fetch access token!");
 			} else {
@@ -75,7 +76,7 @@ export const fetchProfileWithToken = createAsyncThunk<
 				},
 			});
 			if (typeof response.data === "string" || !response.data) {
-				throw Error(response.data || "Cannot login");
+				throw Error(response.data || "Cannot fetch profile");
 			} else {
 				return response.data as User;
 			}

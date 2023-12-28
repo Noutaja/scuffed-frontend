@@ -9,25 +9,21 @@ export type Product = {
 	images: Image[];
 };
 
+export type ProductLite = {
+	title: string;
+	price: number;
+	description: string;
+	categoryId: string;
+	images: Image[];
+};
+
 export type ProductCreate = {
-	product: {
-		title: string;
-		price: number;
-		description: string;
-		categoryId: string;
-		images: Image[];
-	};
+	product: ProductLite;
 	accessToken: string;
 };
 
 export type ProductUpdate = {
-	product: {
-		title?: string;
-		price?: number;
-		description?: string;
-		categoryId?: string;
-		images?: Image[];
-	};
+	product: Partial<ProductLite>;
 	accessToken: string;
 	id: string;
 };

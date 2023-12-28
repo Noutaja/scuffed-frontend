@@ -53,7 +53,7 @@ describe("userReducer async thunk", () => {
 		);
 	});
 
-	/* test("Should not fetch a token with incorrect credentials", async () => {
+	test("Should not fetch a token with incorrect credentials", async () => {
 		await store.dispatch(
 			authWithCredentials({ email: "wrongn@mail.com", password: "no" })
 		);
@@ -61,7 +61,7 @@ describe("userReducer async thunk", () => {
 	});
 
 	test("Should fetch the correct profile", async () => {
-		await store.dispatch(fetchProfileWithToken(dummyAuthToken + "_1"));
+		await store.dispatch(fetchProfileWithToken(dummyAuthToken + "_id1"));
 		expect(store.getState().usersReducer.currentUser).toMatchObject(
 			users[0]
 		);
@@ -106,12 +106,12 @@ describe("userReducer async thunk", () => {
 			lastName: "Doe",
 			avatar: "https://i.pravatar.cc/300",
 			role: UserRole.Normal,
-			id: 4,
+			id: "id4",
 		};
 		const returnedUser = await store.dispatch(createUser(newUser));
 		expect(returnedUser.payload).toMatchObject(fullNewUser);
 		expect(store.getState().usersReducer.currentUser).toMatchObject(
 			fullNewUser
 		);
-	}); */
+	});
 });

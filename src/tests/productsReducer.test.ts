@@ -7,7 +7,7 @@ import {
 } from "../redux/reducers/productsReducer";
 import { createStore } from "../redux/store";
 import { ProductCreate, ProductUpdate } from "../types/ProductTypes";
-import server from "./productTestServer";
+import server, { dummyAuthToken } from "./productTestServer";
 
 let store = createStore();
 
@@ -42,12 +42,12 @@ describe("productReducer async thunk", () => {
 	test("Should fetch one product by id", async () => {
 		await store.dispatch(fetchOneProduct("id1"));
 		expect(store.getState().productsReducer.products.length).toBe(1);
-		expect(store.getState().productsReducer.products[0].id).toBe(1);
+		expect(store.getState().productsReducer.products[0].id).toBe("id1");
 	});
 
 	test("Should delete one product by id", async () => {
 		const result = await store.dispatch(deleteOneProduct("id1"));
-		expect(result.payload).toBe(0);
+		expect(result.payload).toBe("id1");
 	});
 
 	test("Should create one product", async () => {
@@ -62,7 +62,7 @@ describe("productReducer async thunk", () => {
 				],
 				categoryId: "id1",
 			},
-			accessToken: "dummy-token",
+			accessToken: dummyAuthToken,
 		};
 		await store.dispatch(createProduct(newProduct));
 		expect(store.getState().productsReducer.products.length).toBe(1);
@@ -83,11 +83,7 @@ describe("productReducer async thunk", () => {
 			price: 687,
 			description:
 				"The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
-			images: [
-				"https://i.imgur.com/CCnU4YX.jpeg",
-				"https://i.imgur.com/JANnz25.jpeg",
-				"https://i.imgur.com/ioc7lwM.jpeg",
-			],
+			images: [{ id: "id1", url: "https://i.imgur.com/CCnU4YX.jpeg" }],
 			category: {
 				id: "id2",
 				name: "Electronics",

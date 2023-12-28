@@ -23,7 +23,7 @@ export const categories: Category[] = [
 const url = "http://localhost:5157/api/v1/";
 
 export const handlers = [
-	rest.get(`${url}/categories`, (req, res, ctx) => {
+	rest.get(`${url}categories`, (req, res, ctx) => {
 		return res(ctx.json(categories));
 	}),
 ];
