@@ -62,7 +62,7 @@ const categories: Category[] = [
 		image: "https://i.imgur.com/xYO6uDv.jpeg",
 	},
 ];
-const url = "https://api.escuelajs.co/api/v1";
+const url = "http://localhost:5157/api/v1/";
 
 export const handlers = [
 	rest.get(`${url}/products`, (req, res, ctx) => {

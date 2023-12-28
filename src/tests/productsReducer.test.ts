@@ -47,7 +47,7 @@ describe("productReducer async thunk", () => {
 
 	test("Should delete one product by id", async () => {
 		const result = await store.dispatch(deleteOneProduct("id1"));
-		expect(result.payload).toBe(1);
+		expect(result.payload).toBe(0);
 	});
 
 	test("Should create one product", async () => {

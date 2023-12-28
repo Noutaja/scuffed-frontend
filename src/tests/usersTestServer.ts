@@ -3,13 +3,14 @@ import { setupServer } from "msw/node";
 
 import { User, UserCreate, UserRole } from "../types/UserTypes";
 
-const url = "https://api.escuelajs.co/api/v1";
+const url = "http://localhost:5157/api/v1/";
 export const users: User[] = [
 	{
 		id: "id1",
 		email: "john@mail.com",
 		password: "changeme",
-		name: "Jhon",
+		firstName: "Jhon",
+		lastName: "Doe",
 		role: UserRole.Normal,
 		avatar: "https://i.imgur.com/DumuKkD.jpeg",
 	},
@@ -17,7 +18,8 @@ export const users: User[] = [
 		id: "id2",
 		email: "maria@mail.com",
 		password: "12345",
-		name: "Maria",
+		firstName: "Maria",
+		lastName: "Doe",
 		role: UserRole.Normal,
 		avatar: "https://i.imgur.com/00qWleT.jpeg",
 	},
@@ -25,7 +27,8 @@ export const users: User[] = [
 		id: "id3",
 		email: "admin@mail.com",
 		password: "admin123",
-		name: "Admin",
+		firstName: "Admin",
+		lastName: "Doe",
 		role: UserRole.Admin,
 		avatar: "https://i.imgur.com/5mPmJYO.jpeg",
 	},
@@ -38,9 +41,11 @@ export const handlers = [
 		const match = users.find(
 			(u) => u.email === email && u.password === password
 		);
+		console.log("hey");
 		if (match) {
 			const token = dummyAuthToken + "_" + match.id;
-			return res(ctx.json({ access_token: token }));
+			console.log(token);
+			return res(ctx.json({ token }));
 		}
 		ctx.status(401);
 		return res(ctx.text("Cannot authenticate user"));
@@ -68,9 +73,10 @@ export const handlers = [
 			const newUser: User = {
 				email: input.email,
 				password: input.password,
-				name: input.name,
+				firstName: input.firstName,
+				lastName: input.lastName,
 				avatar: input.avatar,
-				role: input.role,
+				role: UserRole.Normal,
 				id: "id" + users.length + 1,
 			};
 			users.push(newUser);

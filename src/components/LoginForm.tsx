@@ -23,6 +23,9 @@ export default function LoginForm() {
 	const [isEmailValid, setIsEmailValid] = useState(true);
 	const [emailValidationMessage, setEmailValidationMessage] = useState("");
 
+	const [firstNameText, setFirstNameText] = useState("");
+	const [lastNameText, setLastNameText] = useState("");
+
 	const [passwordText, setPasswordText] = useState("");
 	const [isPasswordValid, setIsPasswordValid] = useState(true);
 	const [passwordValidationMessage, setPasswordValidationMessage] =
@@ -51,13 +54,13 @@ export default function LoginForm() {
 	async function handleRegister(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		if (passwordText === confirmPwText) {
-			const name = emailText.split("@")[0];
+			//const name = emailText.split("@")[0];
 			const user = await dispatch(
 				createUser({
 					email: emailText,
 					password: passwordText,
-					name: name,
-					role: UserRole.Normal,
+					firstName: firstNameText,
+					lastName: lastNameText,
 					avatar: "https://i.pravatar.cc/300", //placeholder url
 				})
 			);
@@ -164,6 +167,28 @@ export default function LoginForm() {
 						error={!isEmailValid}
 						helperText={emailValidationMessage}
 					/>
+					{isRegistering && (
+						<TextField
+							variant="filled"
+							id="register-firstname"
+							type="text"
+							label="First name"
+							required
+							value={firstNameText}
+							onChange={(e) => setFirstNameText(e.target.value)}
+						/>
+					)}
+					{isRegistering && (
+						<TextField
+							variant="filled"
+							id="register-firstname"
+							type="text"
+							label="First name"
+							required
+							value={lastNameText}
+							onChange={(e) => setLastNameText(e.target.value)}
+						/>
+					)}
 					<TextField
 						variant="filled"
 						id="login-password"

@@ -5,7 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../hooks/useAppSelector";
 
 export default function ProfilePage() {
-	const currentUser = useAppSelector((state) => state.usersReducer.currentUser);
+	const currentUser = useAppSelector(
+		(state) => state.usersReducer.currentUser
+	);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -15,7 +17,7 @@ export default function ProfilePage() {
 	}, [currentUser]);
 
 	return (
-		<Container component="main" sx={{ mt:"5rem" }}>
+		<Container component="main" sx={{ mt: "5rem" }}>
 			<Box
 				display="flex"
 				flexDirection="column"
@@ -23,7 +25,9 @@ export default function ProfilePage() {
 				maxWidth="md"
 				margin="auto"
 			>
-				<Typography variant="h3">{currentUser?.name}</Typography>
+				<Typography variant="h3">
+					{currentUser?.firstName} {currentUser?.lastName}
+				</Typography>
 				<Box
 					component="img"
 					src={currentUser?.avatar}

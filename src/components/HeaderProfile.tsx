@@ -8,7 +8,9 @@ import { logoutUser } from "../redux/reducers/usersReducer";
 import { UnstyledLink } from "../componentsCustom/UnstyledLink";
 
 export default function HeaderProfile() {
-	const currentUser = useAppSelector((state) => state.usersReducer.currentUser);
+	const currentUser = useAppSelector(
+		(state) => state.usersReducer.currentUser
+	);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
@@ -38,7 +40,11 @@ export default function HeaderProfile() {
 							columnGap="1rem"
 						>
 							<Avatar src={currentUser.avatar} />
-							<Typography sx={{display: {xs:"none", sm:"block"}}}>{currentUser.name}</Typography>
+							<Typography
+								sx={{ display: { xs: "none", sm: "block" } }}
+							>
+								{currentUser.firstName}
+							</Typography>
 						</Box>
 					</UnstyledLink>
 					<Button

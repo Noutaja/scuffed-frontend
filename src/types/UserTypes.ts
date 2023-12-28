@@ -2,7 +2,8 @@ export type User = {
 	id: string;
 	email: string;
 	password: string;
-	name: string;
+	firstName: string;
+	lastName: string;
 	role: UserRole;
 	avatar: string;
 };
@@ -10,8 +11,8 @@ export type User = {
 export type UserCreate = {
 	email: string;
 	password: string;
-	name: string;
-	role: UserRole;
+	firstName: string;
+	lastName: string;
 	avatar: string;
 };
 
