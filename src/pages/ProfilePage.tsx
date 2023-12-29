@@ -27,10 +27,16 @@ export default function ProfilePage() {
 		<Box component="main" sx={{ mt: "5rem" }} display={"flex"}>
 			<Box sx={{ flex: 1 }}>
 				<UserProfileInfo />
-				<AddressPanel accessToken={accessToken} />
+				<AddressPanel
+					accessToken={accessToken}
+					currentUser={currentUser}
+				/>
 			</Box>
 			<Box sx={{ flex: 1 }}>
-				<OrdersPanel accessToken={accessToken} />
+				<OrdersPanel
+					accessToken={accessToken}
+					currentUser={currentUser}
+				/>
 			</Box>
 		</Box>
 	);

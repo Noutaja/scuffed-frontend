@@ -30,6 +30,11 @@ export type AddressUpdate = {
 	id: string;
 };
 
+export type AddressGet = {
+	accessToken: string;
+	ownerID: string;
+};
+
 export type AddressesReducerState = {
 	addresses: Address[];
 	status: "idle" | "loading";

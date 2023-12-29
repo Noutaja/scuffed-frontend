@@ -4,6 +4,7 @@ import axios, { AxiosError } from "axios";
 import {
 	Order,
 	OrderCreate,
+	OrderGet,
 	OrderUpdate,
 	OrdersReducerState,
 } from "../../types/OrderTypes";
@@ -19,13 +20,16 @@ const initialState: OrdersReducerState = {
 
 export const fetchAllOrders = createAsyncThunk(
 	"orders/fetchAllOrders",
-	async (accessToken: string, { rejectWithValue }) => {
+	async (options: OrderGet, { rejectWithValue }) => {
 		try {
-			const response = await axios.get(`${baseUrl}orders`, {
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
-			});
+			const response = await axios.get(
+				`${baseUrl}orders?OwnerID=${options.ownerID}`,
+				{
+					headers: {
+						Authorization: `Bearer ${options.accessToken}`,
+					},
+				}
+			);
 			const orders = await response.data;
 			return orders;
 		} catch (e) {

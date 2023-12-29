@@ -6,6 +6,7 @@ import { OrdersPanelProps } from "../types/Props";
 import { fetchAllOrders } from "../redux/reducers/ordersReducer";
 import { Box, Paper, Stack, Typography } from "@mui/material";
 import OrderProduct from "./OrderProduct";
+import AddressItem from "./AddressItem";
 
 export default function OrdersPanel(props: OrdersPanelProps) {
 	const orders: Order[] = useAppSelector(
@@ -14,7 +15,12 @@ export default function OrdersPanel(props: OrdersPanelProps) {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(fetchAllOrders(props.accessToken));
+		dispatch(
+			fetchAllOrders({
+				ownerID: props.currentUser?.id!,
+				accessToken: props.accessToken,
+			})
+		);
 	}, []);
 	return (
 		<Box
@@ -37,6 +43,7 @@ export default function OrdersPanel(props: OrdersPanelProps) {
 									/>
 								))}
 							</Stack>
+							<AddressItem address={o.address} />
 							<Typography>
 								Created on: {o.createdAt?.toString()}
 							</Typography>

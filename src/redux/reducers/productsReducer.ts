@@ -24,7 +24,6 @@ export const fetchAllProducts = createAsyncThunk(
 		try {
 			const response = await axios.get(`${baseUrl}products`);
 			const products = await response.data;
-
 			return products;
 		} catch (e) {
 			const error = e as AxiosError;
@@ -148,9 +147,11 @@ const productsSlice = createSlice({
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchAllProducts.fulfilled, (state, action) => {
+				const products: Product[] = action.payload;
+				products.map((p) => p.images.map((i) => (i.fromDB = true)));
 				return {
 					...state,
-					products: action.payload,
+					products: products,
 					status: "idle",
 				};
 			})
@@ -194,9 +195,11 @@ const productsSlice = createSlice({
 
 		builder
 			.addCase(fetchOneProduct.fulfilled, (state, action) => {
+				const products: Product[] = action.payload;
+				products.map((p) => p.images.map((i) => (i.fromDB = true)));
 				return {
 					...state,
-					products: action.payload,
+					products: products,
 					status: "idle",
 				};
 			})

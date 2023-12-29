@@ -23,11 +23,10 @@ export default function ProductEditModal(props: ProductEditModalProps) {
 	const [isOpen, setIsOpen] = React.useState(false);
 	const handleOpen = () => setIsOpen(true);
 	const handleClose = () => setIsOpen(false);
-	const dispatch = useAppDispatch()
+	const dispatch = useAppDispatch();
 	useEffect(() => {
-		dispatch(setProductsError(undefined))
-	}, [])
-	
+		dispatch(setProductsError(undefined));
+	}, []);
 
 	return (
 		<Box>
@@ -41,7 +40,10 @@ export default function ProductEditModal(props: ProductEditModalProps) {
 				aria-describedby="modal-product-edit"
 			>
 				<Box sx={style}>
-					<ProductEditForm product={props.product}>
+					<ProductEditForm
+						product={props.product}
+						onClose={handleClose}
+					>
 						{props.product ? "UPDATE" : "CREATE"}
 					</ProductEditForm>
 				</Box>

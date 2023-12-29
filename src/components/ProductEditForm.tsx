@@ -9,20 +9,20 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
-
-import {
-	createProduct,
-	updateProduct,
-} from "../redux/reducers/productsReducer";
+import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 import { ProductCreate, ProductUpdate } from "../types/ProductTypes";
+import { Image } from "../types/Types";
 import { useAppDispatch } from "../hooks/useAppDispatch";
-//import addIdsToList from "../helpers/addIdsToList";
 import { ProductEditFormProps } from "../types/Props";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { fetchAllCategories } from "../redux/reducers/categoriesReducer";
-import { useNavigate } from "react-router-dom";
+import {
+	createProduct,
+	fetchOneProduct,
+	updateProduct,
+} from "../redux/reducers/productsReducer";
 
 export default function ProductEditForm(props: ProductEditFormProps) {
 	const accessToken = useAppSelector(
@@ -39,7 +39,8 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 	const [images, setImages] = useState(
 		props.product ? props.product.images : []
 	);
-	const indexedImages = images;
+	const [deletedImages, setDeletedImages] = useState<string[]>([]);
+
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	let isEditing: boolean;
@@ -57,14 +58,29 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 			const input: ProductUpdate = {
 				id: p.id,
 				accessToken: accessToken,
-				product: {},
+				product: {
+					updatedImages: [],
+					newImages: [],
+					deletedImages: [],
+				},
 			};
 			if (title.length) input.product.title = title;
 			if (price.length) input.product.price = Number(price);
 			if (description.length) input.product.description = description;
 			if (categoryId.length) input.product.categoryId = categoryId;
-			if (images.length) input.product.images = images;
+			if (images.length) {
+				for (let img of images) {
+					if (img.fromDB) input.product.updatedImages?.push(img);
+					else if (img.fromDB !== undefined && !img.fromDB)
+						input.product.newImages?.push(img);
+				}
+			}
+			if (deletedImages.length)
+				input.product.deletedImages = deletedImages;
+			setDeletedImages([]);
 			dispatch(updateProduct(input));
+			dispatch(fetchOneProduct(p.id));
+			props.onClose();
 		} else {
 			const input: ProductCreate = {
 				product: {
@@ -85,6 +101,12 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 		let tmp = images[id];
 		tmp.url = text;
 		setImages([...images.slice(0, id), tmp, ...images.slice(id + 1)]);
+	}
+
+	function handleImageDeletion(index: number) {
+		const img: Image = images[index];
+		if (img.fromDB) setDeletedImages([...deletedImages, img.id]);
+		setImages([...images.slice(0, index), ...images.slice(index + 1)]);
 	}
 
 	useEffect(() => {
@@ -139,7 +161,7 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 				maxHeight={400}
 				sx={{ p: 2, overflowY: "auto", overflowX: "hidden" }}
 			>
-				{indexedImages.map((img, index) => (
+				{images.map((img, index) => (
 					<Box key={img.id} display="flex">
 						<TextField
 							fullWidth
@@ -151,14 +173,7 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 							required={!isEditing}
 							sx={{ m: 1 }}
 						/>
-						<Button
-							onClick={() =>
-								setImages([
-									...images.slice(0, index),
-									...images.slice(index + 1),
-								])
-							}
-						>
+						<Button onClick={() => handleImageDeletion(index)}>
 							<RemoveIcon />
 						</Button>
 					</Box>
@@ -170,6 +185,7 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 							{
 								url: "https://picsum.photos/200",
 								id: uuidv4(),
+								fromDB: false,
 							},
 						])
 					}

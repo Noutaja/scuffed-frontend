@@ -14,8 +14,8 @@ export type Order = {
 
 export type OrderCreate = {
 	order: {
-		address: Address;
-		orderProduct: OrderProduct[];
+		addressID: string;
+		orderProducts: OrderProductCreate[];
 	};
 	accessToken: string;
 };
@@ -28,10 +28,20 @@ export type OrderUpdate = {
 	id: string;
 };
 
+export type OrderGet = {
+	accessToken: string;
+	ownerID: string;
+};
+
 export type OrderProduct = {
 	product: Product;
 	amount: number;
 	price: number;
+};
+
+export type OrderProductCreate = {
+	productID: string;
+	amount: number;
 };
 
 export type OrderStatus = "Pending" | "Sent" | "Delivered" | "Cancelled";

@@ -23,7 +23,15 @@ export type ProductCreate = {
 };
 
 export type ProductUpdate = {
-	product: Partial<ProductLite>;
+	product: {
+		title?: string;
+		price?: number;
+		description?: string;
+		categoryId?: string;
+		updatedImages?: Image[];
+		newImages?: Image[];
+		deletedImages?: string[];
+	};
 	accessToken: string;
 	id: string;
 };

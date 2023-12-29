@@ -14,7 +14,12 @@ export default function AddressPanel(props: AddressPanelProps) {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(fetchAllAddresses(props.accessToken));
+		dispatch(
+			fetchAllAddresses({
+				ownerID: props.currentUser?.id!,
+				accessToken: props.accessToken,
+			})
+		);
 	}, []);
 
 	return (

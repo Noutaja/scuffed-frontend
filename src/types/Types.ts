@@ -15,6 +15,7 @@ export type Category = {
 export type Image = {
 	id: string;
 	url: string;
+	fromDB?: boolean;
 };
 
 export type ItemWithId<T> = {

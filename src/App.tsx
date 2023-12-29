@@ -11,6 +11,7 @@ import store from "./redux/store";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import { theme } from "./themes/themes";
+import CheckoutPage from "./pages/CheckoutPage";
 
 function App() {
 	return (
@@ -18,7 +19,11 @@ function App() {
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
 				<HashRouter basename="/">
-					<Box display="flex" flexDirection="column" minHeight="100vh">
+					<Box
+						display="flex"
+						flexDirection="column"
+						minHeight="100vh"
+					>
 						<Header />
 						<Routes>
 							<Route path="/" element={<MainPage />} />
@@ -29,6 +34,7 @@ function App() {
 							<Route path="login" element={<LoginPage />} />
 							<Route path="profile" element={<ProfilePage />} />
 							<Route path="cart" element={<CartPage />} />
+							<Route path="checkout" element={<CheckoutPage />} />
 						</Routes>
 						<Footer />
 					</Box>

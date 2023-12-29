@@ -4,6 +4,7 @@ import axios, { AxiosError } from "axios";
 import {
 	Address,
 	AddressCreate,
+	AddressGet,
 	AddressUpdate,
 	AddressesReducerState,
 } from "../../types/AddressTypes";
@@ -20,13 +21,16 @@ const initialState: AddressesReducerState = {
 
 export const fetchAllAddresses = createAsyncThunk(
 	"addresses/fetchAllAddresses",
-	async (accessToken: string, { rejectWithValue }) => {
+	async (options: AddressGet, { rejectWithValue }) => {
 		try {
-			const response = await axios.get(`${baseUrl}addresses`, {
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
-			});
+			const response = await axios.get(
+				`${baseUrl}addresses?OwnerID=${options.ownerID}`,
+				{
+					headers: {
+						Authorization: `Bearer ${options.accessToken}`,
+					},
+				}
+			);
 			const addresses = await response.data;
 
 			return addresses;
