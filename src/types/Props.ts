@@ -37,6 +37,11 @@ export type AddressPanelProps = {
 	currentUser: User | undefined;
 };
 
+export type AddressAddFormProps = {
+	accessToken: string;
+	currentUser: User | undefined;
+};
+
 export type OrdersPanelProps = {
 	accessToken: string;
 	currentUser: User | undefined;

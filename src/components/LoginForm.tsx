@@ -54,7 +54,6 @@ export default function LoginForm() {
 	async function handleRegister(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		if (passwordText === confirmPwText) {
-			//const name = emailText.split("@")[0];
 			const user = await dispatch(
 				createUser({
 					email: emailText,
