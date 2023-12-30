@@ -22,14 +22,17 @@ export const fetchAllOrders = createAsyncThunk(
 	"orders/fetchAllOrders",
 	async (options: OrderGet, { rejectWithValue }) => {
 		try {
-			const response = await axios.get(
-				`${baseUrl}orders?OwnerID=${options.ownerID}`,
-				{
-					headers: {
-						Authorization: `Bearer ${options.accessToken}`,
-					},
-				}
-			);
+			let searchUrl = "";
+			if (options.ownerID) searchUrl += `OwnerID=${options.ownerID}`;
+
+			if (searchUrl.length) searchUrl = "?" + searchUrl;
+			else searchUrl = "/";
+
+			const response = await axios.get(`${baseUrl}orders${searchUrl}`, {
+				headers: {
+					Authorization: `Bearer ${options.accessToken}`,
+				},
+			});
 			const orders = await response.data;
 			return orders;
 		} catch (e) {

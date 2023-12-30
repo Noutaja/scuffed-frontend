@@ -7,7 +7,7 @@ import {
 	ProductLite,
 	ProductUpdate,
 } from "../types/ProductTypes";
-import { Category } from "../types/Types";
+import { Category } from "../types/CategoryTypes";
 
 const products: Product[] = [
 	{
@@ -20,7 +20,7 @@ const products: Product[] = [
 		category: {
 			id: "id2",
 			name: "Electronics",
-			image: "https://i.imgur.com/uDpzwEk.jpeg",
+			url: "https://i.imgur.com/uDpzwEk.jpeg",
 		},
 	},
 	{
@@ -33,7 +33,7 @@ const products: Product[] = [
 		category: {
 			id: "id5",
 			name: "Others",
-			image: "https://i.imgur.com/Dm2pPfd.jpeg",
+			url: "https://i.imgur.com/Dm2pPfd.jpeg",
 		},
 	},
 	{
@@ -46,7 +46,7 @@ const products: Product[] = [
 		category: {
 			id: "id3",
 			name: "Hola que hace",
-			image: "https://i.imgur.com/zQwsC2m.jpeg",
+			url: "https://i.imgur.com/zQwsC2m.jpeg",
 		},
 	},
 ];
@@ -54,17 +54,17 @@ const categories: Category[] = [
 	{
 		id: "id1",
 		name: "Books",
-		image: "https://i.imgur.com/lauPy0D.jpeg",
+		url: "https://i.imgur.com/lauPy0D.jpeg",
 	},
 	{
 		id: "id2",
 		name: "Computers",
-		image: "https://i.imgur.com/zjLVS8N.jpeg",
+		url: "https://i.imgur.com/zjLVS8N.jpeg",
 	},
 	{
 		id: "id3",
 		name: "Clothes",
-		image: "https://i.imgur.com/xYO6uDv.jpeg",
+		url: "https://i.imgur.com/xYO6uDv.jpeg",
 	},
 ];
 const url = "http://localhost:5157/api/v1/";

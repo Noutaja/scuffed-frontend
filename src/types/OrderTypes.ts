@@ -30,7 +30,7 @@ export type OrderUpdate = {
 
 export type OrderGet = {
 	accessToken: string;
-	ownerID: string;
+	ownerID?: string | null;
 };
 
 export type OrderProduct = {

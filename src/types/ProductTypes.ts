@@ -1,4 +1,5 @@
-import { Category, Image } from "./Types";
+import { Category } from "./CategoryTypes";
+import { Image } from "./Types";
 
 export type Product = {
 	id: string;
@@ -7,6 +8,7 @@ export type Product = {
 	description: string;
 	category: Category;
 	images: Image[];
+	inventory?: number;
 };
 
 export type ProductLite = {
@@ -15,6 +17,7 @@ export type ProductLite = {
 	description: string;
 	categoryId: string;
 	images: Image[];
+	inventory?: number;
 };
 
 export type ProductCreate = {
@@ -28,6 +31,7 @@ export type ProductUpdate = {
 		price?: number;
 		description?: string;
 		categoryId?: string;
+		inventory?: number;
 		updatedImages?: Image[];
 		newImages?: Image[];
 		deletedImages?: string[];

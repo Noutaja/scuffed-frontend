@@ -12,6 +12,7 @@ import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import { theme } from "./themes/themes";
 import CheckoutPage from "./pages/CheckoutPage";
+import AdminPage from "./pages/AdminPage";
 
 function App() {
 	return (
@@ -35,6 +36,7 @@ function App() {
 							<Route path="profile" element={<ProfilePage />} />
 							<Route path="cart" element={<CartPage />} />
 							<Route path="checkout" element={<CheckoutPage />} />
+							<Route path="admin" element={<AdminPage />} />
 						</Routes>
 						<Footer />
 					</Box>

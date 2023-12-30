@@ -58,3 +58,7 @@ export type OrderProductListProps = {
 export type AddressItemProps = {
 	address: Address;
 };
+
+export type ProductDataGridProps = {
+	accessToken: string;
+};

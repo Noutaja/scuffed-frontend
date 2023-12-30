@@ -1,23 +1,23 @@
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 
-import { Category } from "../types/Types";
+import { Category } from "../types/CategoryTypes";
 
 export const categories: Category[] = [
 	{
 		id: "id1",
 		name: "Books",
-		image: "https://i.imgur.com/lauPy0D.jpeg",
+		url: "https://i.imgur.com/lauPy0D.jpeg",
 	},
 	{
 		id: "id2",
 		name: "Computers",
-		image: "https://i.imgur.com/zjLVS8N.jpeg",
+		url: "https://i.imgur.com/zjLVS8N.jpeg",
 	},
 	{
 		id: "id3",
 		name: "Clothes",
-		image: "https://i.imgur.com/xYO6uDv.jpeg",
+		url: "https://i.imgur.com/xYO6uDv.jpeg",
 	},
 ];
 const url = "http://localhost:5157/api/v1/";

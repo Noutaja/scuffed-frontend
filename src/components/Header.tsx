@@ -1,8 +1,4 @@
-import {
-	AppBar,
-	Box,
-	Stack,
-} from "@mui/material";
+import { AppBar, Box, Stack } from "@mui/material";
 import React, { useEffect } from "react";
 
 import { useAppDispatch } from "../hooks/useAppDispatch";
@@ -15,8 +11,12 @@ import StoreLogo from "./StoreLogo";
 
 export default function Header() {
 	const dispatch = useAppDispatch();
-	const accessToken = useAppSelector((state) => state.usersReducer.accessToken);
-	const currentUser = useAppSelector((state) => state.usersReducer.currentUser);
+	const accessToken = useAppSelector(
+		(state) => state.usersReducer.accessToken
+	);
+	const currentUser = useAppSelector(
+		(state) => state.usersReducer.currentUser
+	);
 
 	useEffect(() => {
 		if (accessToken !== "" && !currentUser) {
@@ -25,8 +25,12 @@ export default function Header() {
 	}, [dispatch]);
 	return (
 		<AppBar component="header">
-			<Box display="flex" flexDirection="row" justifyContent="space-between">
-				<Box component="nav">
+			<Box
+				display="flex"
+				flexDirection="row"
+				justifyContent="space-between"
+			>
+				<Box>
 					<Stack
 						component="ul"
 						display="flex"
@@ -34,11 +38,17 @@ export default function Header() {
 						maxWidth="md"
 					>
 						<UnstyledLink to={"/"}>
-							<StoreLogo/>
+							<StoreLogo />
 						</UnstyledLink>
 					</Stack>
 				</Box>
-				<Box display="flex" flexDirection="row" justifyContent="space-between">
+				<Box
+					display="flex"
+					flexDirection="row"
+					justifyContent="space-between"
+					alignItems="center"
+				>
+					<UnstyledLink to={"/admin"}>ADMIN PANEL</UnstyledLink>
 					<HeaderCart />
 					<HeaderProfile />
 				</Box>

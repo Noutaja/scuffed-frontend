@@ -1,17 +1,5 @@
 import { Product } from "./ProductTypes";
 
-export type CategoriesReducerState = {
-	categories: Category[];
-	status: "idle" | "loading";
-	error: string | undefined;
-};
-
-export type Category = {
-	id: string;
-	name: string;
-	image: string;
-};
-
 export type Image = {
 	id: string;
 	url: string;
