@@ -10,6 +10,7 @@ import {
 	GridRowModes,
 	GridRowModesModel,
 	GridRowsProp,
+	GridToolbarContainer,
 	MuiBaseEvent,
 	MuiEvent,
 } from "@mui/x-data-grid";
@@ -17,13 +18,17 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
+import AddIcon from "@mui/icons-material/Add";
+import { v4 as uuidv4 } from "uuid";
 
 import { useAppSelector } from "../hooks/useAppSelector";
-import { Product, ProductUpdate } from "../types/ProductTypes";
-import { Box, Paper } from "@mui/material";
+import { Product, ProductCreate, ProductUpdate } from "../types/ProductTypes";
+import { Box, Button, Paper } from "@mui/material";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { ProductDataGridProps } from "../types/Props";
 import {
+	createProduct,
+	deleteOneProduct,
 	fetchAllProducts,
 	updateProduct,
 } from "../redux/reducers/productsReducer";
@@ -78,6 +83,19 @@ export default function ProductDataGrid(props: ProductDataGridProps) {
 			editable: true,
 		},
 		{
+			field: "image",
+			valueGetter: (params) => {
+				if (!params.value) {
+					if (params.row.images && params.row.images[0])
+						return params.row.images[0].url;
+				}
+				return params.value;
+			},
+			headerName: "Primary Image",
+			width: 170,
+			editable: true,
+		},
+		{
 			field: "actions",
 			type: "actions",
 			headerName: "Actions",
@@ -126,6 +144,41 @@ export default function ProductDataGrid(props: ProductDataGridProps) {
 		},
 	];
 
+	interface EditToolbarProps {
+		setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
+		setRowModesModel: (
+			newModel: (oldModel: GridRowModesModel) => GridRowModesModel
+		) => void;
+	}
+
+	function EditToolbar(props: EditToolbarProps) {
+		const { setRows, setRowModesModel } = props;
+
+		const handleClick = () => {
+			const id = uuidv4();
+			setRows((oldRows) => [
+				...oldRows,
+				{ id, category: "", isNew: true },
+			]);
+			setRowModesModel((oldModel) => ({
+				...oldModel,
+				[id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
+			}));
+		};
+
+		return (
+			<GridToolbarContainer>
+				<Button
+					color="primary"
+					startIcon={<AddIcon />}
+					onClick={handleClick}
+				>
+					Add record
+				</Button>
+			</GridToolbarContainer>
+		);
+	}
+
 	function handleRowEditStop(
 		params: GridRowEditStopParams<any>,
 		event: MuiEvent<MuiBaseEvent>
@@ -155,6 +208,13 @@ export default function ProductDataGrid(props: ProductDataGridProps) {
 
 	function handleDeleteClick(id: GridRowId) {
 		return () => {
+			let tmp = rows.find((row) => row.id === id);
+			dispatch(
+				deleteOneProduct({
+					id: tmp!.id,
+					accessToken: props.accessToken,
+				})
+			);
 			setRows(rows.filter((row) => row.id !== id));
 		};
 	}
@@ -174,24 +234,37 @@ export default function ProductDataGrid(props: ProductDataGridProps) {
 	}
 
 	function processRowUpdate(newRow: GridRowModel) {
-		const updatedRow = { ...newRow };
+		const updatedRow = { ...newRow, isNew: false };
 		const c: Category = categories.find((c) => c.name === newRow.category)!;
-		updatedRow.category = c;
+		newRow.category = c;
 
-		const updatedProduct: ProductUpdate = {
-			product: {
-				title: newRow.title,
-				categoryId: c.id,
-				price: newRow.price,
-				inventory: newRow.inventory,
-				description: newRow.description,
-			},
-			id: newRow.id,
-			accessToken: props.accessToken,
-		};
-		console.log(updatedProduct);
-		let asd = dispatch(updateProduct(updatedProduct));
-		asd.unwrap().then((a) => console.log(a));
+		if (newRow.isNew) {
+			const newProduct: ProductCreate = {
+				product: {
+					title: newRow.title,
+					categoryId: c.id,
+					price: newRow.price,
+					inventory: newRow.inventory,
+					description: newRow.description,
+					images: [{ url: newRow.image, id: newRow.id }],
+				},
+				accessToken: props.accessToken,
+			};
+			dispatch(createProduct(newProduct));
+		} else {
+			const updatedProduct: ProductUpdate = {
+				product: {
+					title: newRow.title,
+					categoryId: c.id,
+					price: newRow.price,
+					inventory: newRow.inventory,
+					description: newRow.description,
+				},
+				id: newRow.id,
+				accessToken: props.accessToken,
+			};
+			dispatch(updateProduct(updatedProduct));
+		}
 		setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
 		return updatedRow;
 	}
@@ -210,12 +283,12 @@ export default function ProductDataGrid(props: ProductDataGridProps) {
 				onRowModesModelChange={handleRowModesModelChange}
 				onRowEditStop={handleRowEditStop}
 				processRowUpdate={processRowUpdate}
-				/* slots={{
+				slots={{
 					toolbar: EditToolbar,
 				}}
 				slotProps={{
 					toolbar: { setRows, setRowModesModel },
-				}} */
+				}}
 			/>
 		</Paper>
 	);

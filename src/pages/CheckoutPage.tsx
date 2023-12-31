@@ -17,6 +17,7 @@ import { createOrder } from "../redux/reducers/ordersReducer";
 import { Order, OrderCreate, OrderProductCreate } from "../types/OrderTypes";
 import { emptyCart } from "../redux/reducers/cartReducer";
 import { useNavigate } from "react-router-dom";
+import { UnstyledLink } from "../componentsCustom/UnstyledLink";
 
 export default function CheckoutPage() {
 	const cartItems = useAppSelector((state) => state.cartReducer.items);
@@ -36,6 +37,8 @@ export default function CheckoutPage() {
 	);
 
 	const [addressSelector, setAddressSelector] = useState("");
+	const [addressError, setaddressError] = useState(false);
+	const [addressErrorMessage, setAddressErrorMessage] = useState("");
 	const selectedAddress = addresses.find((a) => a.id === addressSelector);
 
 	const navigate = useNavigate();
@@ -50,6 +53,14 @@ export default function CheckoutPage() {
 	}, []);
 
 	async function handleSubmit() {
+		if (addressSelector === "") {
+			setaddressError(true);
+			setAddressErrorMessage("Address must be selected");
+			return;
+		} else {
+			setaddressError(false);
+			setAddressErrorMessage("");
+		}
 		const orderProducts: OrderProductCreate[] = [];
 		cartItems.map((ci) => {
 			orderProducts.push({
@@ -83,25 +94,54 @@ export default function CheckoutPage() {
 				<Typography variant="h5">
 					Total Price: {totalPrice} €
 				</Typography>
-				<TextField
-					select
-					label="Address"
-					value={addressSelector}
-					onChange={(e) => setAddressSelector(e.target.value)}
-					sx={{ m: 1, minWidth: 120 }}
-				>
-					{addresses.map((a) => (
-						<MenuItem key={a.id} value={a.id}>
-							{a.street}
-						</MenuItem>
-					))}
-				</TextField>
-				{selectedAddress && <AddressItem address={selectedAddress} />}
-				<Tooltip title="Place order, payment not implemented">
-					<Button variant="contained" onClick={handleSubmit}>
-						Place order
-					</Button>
-				</Tooltip>
+				{addresses.filter((address) => !address.hidden).length ? (
+					<Box>
+						<Box p={1}>
+							<TextField
+								select
+								label="Address"
+								value={addressSelector}
+								error={addressError}
+								helperText={addressErrorMessage}
+								onChange={(e) =>
+									setAddressSelector(e.target.value)
+								}
+								sx={{ m: 1, minWidth: 120 }}
+							>
+								{addresses
+									.filter((address) => !address.hidden)
+									.map((a) => (
+										<MenuItem key={a.id} value={a.id}>
+											{a.street}
+										</MenuItem>
+									))}
+							</TextField>
+							{selectedAddress && (
+								<AddressItem address={selectedAddress} />
+							)}
+						</Box>
+
+						<Tooltip title="Place order, payment not implemented">
+							<Button variant="contained" onClick={handleSubmit}>
+								Place order
+							</Button>
+						</Tooltip>
+					</Box>
+				) : (
+					<Box
+						p={2}
+						display={"flex"}
+						alignItems={"center"}
+						flexDirection="column"
+					>
+						<Typography variant="h4">
+							No addresses! Go to Profile and add some.
+						</Typography>
+						<UnstyledLink to="/profile">
+							<Button variant="contained">To profile</Button>
+						</UnstyledLink>
+					</Box>
+				)}
 			</Box>
 		</Box>
 	);

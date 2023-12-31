@@ -11,6 +11,7 @@ import ordersReducer from "./reducers/ordersReducer";
 import addressesReducer from "./reducers/addressesReducer";
 
 const preloadedUsersState: UserReducerState = {
+	users: [],
 	currentUser: undefined,
 	accessToken: localStorage.getItem("access-token") || "",
 	status: "idle",

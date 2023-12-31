@@ -8,8 +8,8 @@ export type Order = {
 	address: Address;
 	status: OrderStatus;
 	orderProducts: OrderProduct[];
-	createdAt?: Date;
-	updatedAt?: Date;
+	createdAt: Date;
+	updatedAt: Date;
 };
 
 export type OrderCreate = {

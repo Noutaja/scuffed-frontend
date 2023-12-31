@@ -3,7 +3,13 @@ import React, { useState } from "react";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { createAddress } from "../redux/reducers/addressesReducer";
 import { AddressCreate } from "../types/AddressTypes";
-import { AddressAddFormProps } from "../types/Props";
+import { User } from "../types/UserTypes";
+
+type AddressAddFormProps = {
+	accessToken: string;
+	currentUser: User | undefined;
+	onFinish: () => void;
+};
 
 export default function AddressAddForm(props: AddressAddFormProps) {
 	const shippedCountries: string[] = [
@@ -41,6 +47,7 @@ export default function AddressAddForm(props: AddressAddFormProps) {
 			accessToken: props.accessToken,
 		};
 		dispatch(createAddress(newAddress));
+		props.onFinish();
 	}
 	return (
 		<form onSubmit={handleSubmit}>

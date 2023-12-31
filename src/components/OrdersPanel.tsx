@@ -7,6 +7,7 @@ import { fetchAllOrders } from "../redux/reducers/ordersReducer";
 import { Box, Paper, Stack, Typography } from "@mui/material";
 import OrderProduct from "./OrderProduct";
 import AddressItem from "./AddressItem";
+import OrderItem from "./OrderItem";
 
 export default function OrdersPanel(props: OrdersPanelProps) {
 	const orders: Order[] = useAppSelector(
@@ -33,25 +34,11 @@ export default function OrdersPanel(props: OrdersPanelProps) {
 			<Typography variant="h4">Orders</Typography>
 			<Stack spacing={2}>
 				{orders.map((o: Order) => (
-					<Box key={o.id}>
-						<Paper>
-							<Stack spacing={1}>
-								{o.orderProducts.map((op) => (
-									<OrderProduct
-										orderProduct={op}
-										key={op.product.id}
-									/>
-								))}
-							</Stack>
-							<AddressItem address={o.address} />
-							<Typography>
-								Created on: {o.createdAt?.toString()}
-							</Typography>
-							<Typography>
-								Last Updated: {o.createdAt?.toString()}
-							</Typography>
-						</Paper>
-					</Box>
+					<OrderItem
+						order={o}
+						key={o.id}
+						accessToken={props.accessToken}
+					/>
 				))}
 			</Stack>
 		</Box>

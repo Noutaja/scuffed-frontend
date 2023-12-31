@@ -20,9 +20,14 @@ export type CategoryCreate = {
 
 export type CategoryUpdate = {
 	category: {
-		name: string;
-		url: string;
+		name?: string;
+		url?: string;
 	};
+	accessToken: string;
+	id: string;
+};
+
+export type CategoryDelete = {
 	accessToken: string;
 	id: string;
 };

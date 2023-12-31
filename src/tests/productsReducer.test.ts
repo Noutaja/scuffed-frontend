@@ -46,7 +46,9 @@ describe("productReducer async thunk", () => {
 	});
 
 	test("Should delete one product by id", async () => {
-		const result = await store.dispatch(deleteOneProduct("id1"));
+		const result = await store.dispatch(
+			deleteOneProduct({ id: "id1", accessToken: dummyAuthToken })
+		);
 		expect(result.payload).toBe("id1");
 	});
 
@@ -87,7 +89,7 @@ describe("productReducer async thunk", () => {
 			category: {
 				id: "id2",
 				name: "Electronics",
-				image: "https://i.imgur.com/uDpzwEk.jpeg",
+				url: "https://i.imgur.com/uDpzwEk.jpeg",
 			},
 		};
 		expect(action.payload).toMatchObject(testProduct);

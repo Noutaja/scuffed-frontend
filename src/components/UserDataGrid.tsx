@@ -19,84 +19,57 @@ import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
 
 import { useAppSelector } from "../hooks/useAppSelector";
-import { Box } from "@mui/material";
+import { User, UserRole, UserRoleUpdate } from "../types/UserTypes";
+import { Paper } from "@mui/material";
 import { useAppDispatch } from "../hooks/useAppDispatch";
-import { ProductDataGridProps } from "../types/Props";
-import { Order, OrderCreate, OrderUpdate } from "../types/OrderTypes";
+import { UserDataGridProps } from "../types/Props";
 import {
-	createOrder,
-	fetchAllOrders,
-	updateOrder,
-} from "../redux/reducers/ordersReducer";
+	deleteOneUser,
+	fetchAllUsers,
+	updateUserRole,
+} from "../redux/reducers/usersReducer";
+import { Category } from "../types/CategoryTypes";
 
-export default function ProductDataGrid(props: ProductDataGridProps) {
-	const orders: Order[] = useAppSelector(
-		(state) => state.ordersReducer.orders
+export default function UserDataGrid(props: UserDataGridProps) {
+	const users: User[] = useAppSelector((state) => state.usersReducer.users);
+	const categories: Category[] = useAppSelector(
+		(state) => state.categoriesReducer.categories
 	);
-	const initialRows: GridRowsProp = orders;
+	const initialRows: GridRowsProp = users;
 	const [rows, setRows] = useState(initialRows);
 	const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
-	useEffect(() => {
-		dispatch(fetchAllOrders({ accessToken: props.accessToken }));
-		const initialRows: GridRowsProp = orders;
-		setRows(orders);
-	}, []);
-
 	const dispatch = useAppDispatch();
+
+	useEffect(() => {
+		dispatch(fetchAllUsers({ accessToken: props.accessToken }));
+		setRows(users);
+	}, []);
 
 	const columns: GridColDef[] = [
 		{ field: "id", headerName: "ID", width: 100 },
 		{
-			field: "userId",
-			valueGetter: (params) => {
-				if (!params.value) {
-					return params.row.userID;
-				}
-				return params.value;
-			},
-			headerName: "UserID",
-			width: 170,
+			field: "firstName",
+			headerName: "First Name",
+			width: 150,
 		},
 		{
-			field: "street",
-			valueGetter: (params) => {
-				return params.row.address.street;
-			},
-			headerName: "Street",
-			width: 170,
+			field: "lastName",
+			headerName: "Last Name",
+			width: 150,
 		},
 		{
-			field: "city",
-			valueGetter: (params) => {
-				return params.row.address.city;
-			},
-			headerName: "City",
-			width: 170,
-		},
-		{
-			field: "zipcode",
-			valueGetter: (params) => {
-				return params.row.address.zipcode;
-			},
-			headerName: "Zipcode",
-			width: 170,
-		},
-		{
-			field: "Country",
-			valueGetter: (params) => {
-				return params.row.address.country;
-			},
-			headerName: "Url",
-			width: 170,
-		},
-		{
-			field: "status",
-			headerName: "Status",
-			width: 170,
+			field: "role",
+			headerName: "Role",
+			width: 130,
 			type: "singleSelect",
-			valueOptions: ["Pending", "Sent", "Delivered", "Cancelled"],
+			valueOptions: [UserRole.Admin, UserRole.Normal],
 			editable: true,
+		},
+		{
+			field: "avatar",
+			headerName: "Avatar Url",
+			width: 150,
 		},
 		{
 			field: "actions",
@@ -176,7 +149,16 @@ export default function ProductDataGrid(props: ProductDataGridProps) {
 
 	function handleDeleteClick(id: GridRowId) {
 		return () => {
-			setRows(rows.filter((row) => row.id !== id));
+			let tmp = rows.find((row) => row.id === id);
+			if (tmp!.role !== UserRole.Admin) {
+				dispatch(
+					deleteOneUser({
+						id: tmp!.id,
+						accessToken: props.accessToken,
+					})
+				);
+				setRows(rows.filter((row) => row.id !== id));
+			}
 		};
 	}
 
@@ -196,16 +178,15 @@ export default function ProductDataGrid(props: ProductDataGridProps) {
 
 	function processRowUpdate(newRow: GridRowModel) {
 		const updatedRow = { ...newRow };
+		const c: Category = categories.find((c) => c.name === newRow.category)!;
+		updatedRow.category = c;
 
-		const updatedOrder: OrderUpdate = {
-			order: {
-				status: newRow.status,
-			},
+		const updatedUser: UserRoleUpdate = {
+			role: newRow.role as UserRole,
 			id: newRow.id,
 			accessToken: props.accessToken,
 		};
-		dispatch(updateOrder(updatedOrder));
-
+		dispatch(updateUserRole(updatedUser));
 		setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
 		return updatedRow;
 	}
@@ -215,7 +196,7 @@ export default function ProductDataGrid(props: ProductDataGridProps) {
 	}
 
 	return (
-		<Box width={"100%"}>
+		<Paper sx={{ width: "100%" }}>
 			<DataGrid
 				rows={rows}
 				columns={columns}
@@ -225,6 +206,6 @@ export default function ProductDataGrid(props: ProductDataGridProps) {
 				onRowEditStop={handleRowEditStop}
 				processRowUpdate={processRowUpdate}
 			/>
-		</Box>
+		</Paper>
 	);
 }

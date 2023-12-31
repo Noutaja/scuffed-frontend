@@ -4,6 +4,7 @@ import axios, { AxiosError } from "axios";
 import {
 	Product,
 	ProductCreate,
+	ProductDelete,
 	ProductUpdate,
 	ProductsReducerState,
 } from "../../types/ProductTypes";
@@ -66,22 +67,30 @@ export const fetchOneProduct = createAsyncThunk<
 
 export const deleteOneProduct = createAsyncThunk<
 	string,
-	string,
+	ProductDelete,
 	{ rejectValue: string }
->("products/deleteOneProduct", async (id: string, { rejectWithValue }) => {
-	try {
-		const response = await axios.delete<boolean>(
-			`${baseUrl}products/${id}`
-		);
-		if (!response.data) {
-			throw new Error("Cannot delete");
+>(
+	"products/deleteOneProduct",
+	async (data: ProductDelete, { rejectWithValue }) => {
+		try {
+			const response = await axios.delete<boolean>(
+				`${baseUrl}products/${data.id}`,
+				{
+					headers: {
+						Authorization: `Bearer ${data.accessToken}`,
+					},
+				}
+			);
+			if (!response.data) {
+				throw new Error("Cannot delete");
+			}
+			return data.id!;
+		} catch (e) {
+			const error = e as AxiosError;
+			return rejectWithValue(error.message);
 		}
-		return id;
-	} catch (e) {
-		const error = e as AxiosError;
-		return rejectWithValue(error.message);
 	}
-});
+);
 
 export const createProduct = createAsyncThunk<
 	Product,

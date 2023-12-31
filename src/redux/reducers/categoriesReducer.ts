@@ -6,6 +6,7 @@ import {
 	CategoryCreate,
 	CategoryUpdate,
 	CategoriesReducerState,
+	CategoryDelete,
 } from "../../types/CategoryTypes";
 
 import { PaginationOptions } from "../../types/Types";
@@ -66,22 +67,30 @@ export const fetchOneCategory = createAsyncThunk<
 
 export const deleteOneCategory = createAsyncThunk<
 	string,
-	string,
+	CategoryDelete,
 	{ rejectValue: string }
->("categories/deleteOneCategory", async (id: string, { rejectWithValue }) => {
-	try {
-		const response = await axios.delete<boolean>(
-			`${baseUrl}categories/${id}`
-		);
-		if (!response.data) {
-			throw new Error("Cannot delete");
+>(
+	"categories/deleteOneCategory",
+	async (data: CategoryDelete, { rejectWithValue }) => {
+		try {
+			const response = await axios.delete<boolean>(
+				`${baseUrl}categories/${data.id}`,
+				{
+					headers: {
+						Authorization: `Bearer ${data.accessToken}`,
+					},
+				}
+			);
+			if (!response.data) {
+				throw new Error("Cannot delete");
+			}
+			return data.id!;
+		} catch (e) {
+			const error = e as AxiosError;
+			return rejectWithValue(error.message);
 		}
-		return id;
-	} catch (e) {
-		const error = e as AxiosError;
-		return rejectWithValue(error.message);
 	}
-});
+);
 
 export const createCategory = createAsyncThunk<
 	Category,

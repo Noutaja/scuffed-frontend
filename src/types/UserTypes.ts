@@ -16,6 +16,32 @@ export type UserCreate = {
 	avatar: string;
 };
 
+export type UserUpdate = {
+	user: {
+		firstName?: string;
+		lastName?: string;
+		avatar?: string;
+	};
+	accessToken: string;
+	id: string;
+};
+
+export type UserRoleUpdate = {
+	role: UserRole;
+	accessToken: string;
+	id: string;
+};
+
+export type UserGet = {
+	accessToken: string;
+	id?: string | null;
+};
+
+export type UserDelete = {
+	accessToken: string;
+	id: string;
+};
+
 export enum UserRole {
 	Normal = "Normal",
 	Admin = "Admin",
@@ -27,6 +53,7 @@ export type UserCredentials = {
 };
 
 export type UserReducerState = {
+	users: User[];
 	status: "idle" | "loading";
 	currentUser: User | undefined;
 	accessToken: string;

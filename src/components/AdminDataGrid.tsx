@@ -3,8 +3,8 @@ import { useAppSelector } from "../hooks/useAppSelector";
 import ProductDataGrid from "./ProductDataGrid";
 import { Box, Tab, Tabs } from "@mui/material";
 import CategoryDataGrid from "./CategoryDataGrid";
-import OrderDataGrid from "./OrderDataGrid";
 import OrderTable from "./OrderTable";
+import UserDataGrid from "./UserDataGrid";
 
 interface TabPanelProps {
 	children?: React.ReactNode;
@@ -44,6 +44,7 @@ export default function AdminDataGrid() {
 					<Tab label="Products" />
 					<Tab label="Categories" />
 					<Tab label="Orders" />
+					<Tab label="Users" />
 				</Tabs>
 			</Box>
 			<CustomTabPanel value={selectedTab} index={0}>
@@ -54,6 +55,9 @@ export default function AdminDataGrid() {
 			</CustomTabPanel>
 			<CustomTabPanel value={selectedTab} index={2}>
 				<OrderTable accessToken={accessToken} />
+			</CustomTabPanel>
+			<CustomTabPanel value={selectedTab} index={3}>
+				<UserDataGrid accessToken={accessToken} />
 			</CustomTabPanel>
 		</Box>
 	);

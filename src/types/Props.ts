@@ -32,16 +32,6 @@ export type SearchProps = {
 	set: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export type AddressPanelProps = {
-	accessToken: string;
-	currentUser: User | undefined;
-};
-
-export type AddressAddFormProps = {
-	accessToken: string;
-	currentUser: User | undefined;
-};
-
 export type OrdersPanelProps = {
 	accessToken: string;
 	currentUser: User | undefined;
@@ -55,10 +45,18 @@ export type OrderProductListProps = {
 	cartItems: CartItem[];
 };
 
-export type AddressItemProps = {
-	address: Address;
+export type ProductDataGridProps = {
+	accessToken: string;
 };
 
-export type ProductDataGridProps = {
+export type UserDataGridProps = {
+	accessToken: string;
+};
+
+export type CategoryDataGridProps = {
+	accessToken: string;
+};
+
+export type OrderTableProps = {
 	accessToken: string;
 };

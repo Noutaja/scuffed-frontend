@@ -40,6 +40,11 @@ export type ProductUpdate = {
 	id: string;
 };
 
+export type ProductDelete = {
+	accessToken: string;
+	id: string;
+};
+
 export type ProductsReducerState = {
 	products: Product[];
 	status: "idle" | "loading";

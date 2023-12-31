@@ -23,19 +23,9 @@ import AddIcon from "@mui/icons-material/Add";
 import { v4 as uuidv4 } from "uuid";
 
 import { useAppSelector } from "../hooks/useAppSelector";
-import {
-	Product,
-	ProductCreate,
-	ProductLite,
-	ProductUpdate,
-} from "../types/ProductTypes";
 import { Box, Button, Paper } from "@mui/material";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { ProductDataGridProps } from "../types/Props";
-import {
-	fetchAllProducts,
-	updateProduct,
-} from "../redux/reducers/productsReducer";
 import {
 	Category,
 	CategoryCreate,
@@ -43,6 +33,7 @@ import {
 } from "../types/CategoryTypes";
 import {
 	createCategory,
+	deleteOneCategory,
 	fetchAllCategories,
 	updateCategory,
 } from "../redux/reducers/categoriesReducer";
@@ -181,6 +172,13 @@ export default function ProductDataGrid(props: ProductDataGridProps) {
 
 	function handleDeleteClick(id: GridRowId) {
 		return () => {
+			let tmp = rows.find((row) => row.id === id);
+			dispatch(
+				deleteOneCategory({
+					id: tmp!.id,
+					accessToken: props.accessToken,
+				})
+			);
 			setRows(rows.filter((row) => row.id !== id));
 		};
 	}

@@ -24,12 +24,15 @@ export default function ProductInfo(props: ProductItemProps) {
 	const currentUser = useAppSelector(
 		(state) => state.usersReducer.currentUser
 	);
+	const accessToken = useAppSelector(
+		(state) => state.usersReducer.accessToken
+	);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const p = props.product;
 
 	function onDeleteClicked() {
-		dispatch(deleteOneProduct(p.id));
+		dispatch(deleteOneProduct({ id: p.id, accessToken: accessToken }));
 		navigate("/");
 	}
 	return (

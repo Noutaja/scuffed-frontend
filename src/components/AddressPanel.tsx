@@ -1,12 +1,18 @@
 import { Box, Button, Paper, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
+
 import { useAppSelector } from "../hooks/useAppSelector";
 import { Address } from "../types/AddressTypes";
-import { AddressPanelProps } from "../types/Props";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { fetchAllAddresses } from "../redux/reducers/addressesReducer";
 import AddressItem from "./AddressItem";
 import AddressAddForm from "./AddressAddForm";
+import { User } from "../types/UserTypes";
+
+type AddressPanelProps = {
+	accessToken: string;
+	currentUser: User | undefined;
+};
 
 export default function AddressPanel(props: AddressPanelProps) {
 	const addresses: Address[] = useAppSelector(
@@ -24,6 +30,10 @@ export default function AddressPanel(props: AddressPanelProps) {
 		);
 	}, []);
 
+	function onAddingDone() {
+		setIsAdding(false);
+	}
+
 	return (
 		<Box
 			display="flex"
@@ -33,15 +43,24 @@ export default function AddressPanel(props: AddressPanelProps) {
 			margin="auto"
 		>
 			<Typography variant="h4">Addresses</Typography>
-			<Stack spacing={2}>
-				{addresses.map((a: Address) => (
-					<AddressItem address={a} key={a.id} />
-				))}
+			<Stack>
+				{addresses
+					.filter((address) => !address.hidden)
+					.map((a: Address) => (
+						<Box p={2} key={a.id}>
+							<AddressItem
+								address={a}
+								deleteVisible={true}
+								accessToken={props.accessToken}
+							/>
+						</Box>
+					))}
 			</Stack>
 			{isAdding ? (
 				<AddressAddForm
 					currentUser={props.currentUser}
 					accessToken={props.accessToken}
+					onFinish={onAddingDone}
 				/>
 			) : (
 				<Button

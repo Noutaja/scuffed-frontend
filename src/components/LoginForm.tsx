@@ -180,9 +180,9 @@ export default function LoginForm() {
 					{isRegistering && (
 						<TextField
 							variant="filled"
-							id="register-firstname"
+							id="register-lastname"
 							type="text"
-							label="First name"
+							label="Last name"
 							required
 							value={lastNameText}
 							onChange={(e) => setLastNameText(e.target.value)}

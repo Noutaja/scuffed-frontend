@@ -4,6 +4,7 @@ import axios, { AxiosError } from "axios";
 import {
 	Address,
 	AddressCreate,
+	AddressDelete,
 	AddressGet,
 	AddressUpdate,
 	AddressesReducerState,
@@ -23,8 +24,14 @@ export const fetchAllAddresses = createAsyncThunk(
 	"addresses/fetchAllAddresses",
 	async (options: AddressGet, { rejectWithValue }) => {
 		try {
+			let searchUrl = "";
+			if (options.ownerID) searchUrl += `OwnerID=${options.ownerID}`;
+
+			if (searchUrl.length) searchUrl = "?" + searchUrl;
+			else searchUrl = "/";
+
 			const response = await axios.get(
-				`${baseUrl}addresses?OwnerID=${options.ownerID}`,
+				`${baseUrl}addresses${searchUrl}`,
 				{
 					headers: {
 						Authorization: `Bearer ${options.accessToken}`,
@@ -49,6 +56,7 @@ export const fetchAddressesWithPagination = createAsyncThunk(
 				`${baseUrl}addresses?offset=${options.offset}&limit=${options.limit}`
 			);
 			const addresses = await response.data;
+			console.log(addresses);
 			return addresses;
 		} catch (e) {
 			const error = e as AxiosError;
@@ -76,22 +84,30 @@ export const fetchOneAddress = createAsyncThunk<
 
 export const deleteOneAddress = createAsyncThunk<
 	string,
-	string,
+	AddressDelete,
 	{ rejectValue: string }
->("addresses/deleteOneAddress", async (id: string, { rejectWithValue }) => {
-	try {
-		const response = await axios.delete<boolean>(
-			`${baseUrl}addresses/${id}`
-		);
-		if (!response.data) {
-			throw new Error("Cannot delete");
+>(
+	"addresses/deleteOneAddress",
+	async (data: AddressDelete, { rejectWithValue }) => {
+		try {
+			const response = await axios.delete<boolean>(
+				`${baseUrl}addresses/${data.id}`,
+				{
+					headers: {
+						Authorization: `Bearer ${data.accessToken}`,
+					},
+				}
+			);
+			if (!response.data) {
+				throw new Error("Cannot delete");
+			}
+			return data.id;
+		} catch (e) {
+			const error = e as AxiosError;
+			return rejectWithValue(error.message);
 		}
-		return id;
-	} catch (e) {
-		const error = e as AxiosError;
-		return rejectWithValue(error.message);
 	}
-});
+);
 
 export const createAddress = createAsyncThunk<
 	Address,

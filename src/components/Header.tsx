@@ -8,6 +8,7 @@ import HeaderProfile from "./HeaderProfile";
 import HeaderCart from "./HeaderCart";
 import { UnstyledLink } from "../componentsCustom/UnstyledLink";
 import StoreLogo from "./StoreLogo";
+import { UserRole } from "../types/UserTypes";
 
 export default function Header() {
 	const dispatch = useAppDispatch();
@@ -48,7 +49,9 @@ export default function Header() {
 					justifyContent="space-between"
 					alignItems="center"
 				>
-					<UnstyledLink to={"/admin"}>ADMIN PANEL</UnstyledLink>
+					{currentUser?.role === UserRole.Admin && (
+						<UnstyledLink to={"/admin"}>ADMIN PANEL</UnstyledLink>
+					)}
 					<HeaderCart />
 					<HeaderProfile />
 				</Box>
