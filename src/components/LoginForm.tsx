@@ -62,7 +62,7 @@ export default function LoginForm() {
 				avatar: "https://i.pravatar.cc/300", //placeholder url "https://i.pravatar.cc/300"
 			};
 			const user = await dispatch(createUser(newUser));
-			if (user.payload) {
+			if (user.meta.requestStatus === "fulfilled") {
 				await dispatch(
 					loginWithCredentials({
 						email: emailText,
