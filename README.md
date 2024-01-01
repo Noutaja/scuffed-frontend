@@ -66,6 +66,11 @@ Editing and adding a product is a modal
 
 Shopping cart checks if the user is logged in before checking out
 
+![Admin dashboard](images/Admin-dashboard.png)
+
+Admin dashboard allows viewing, editing and adding of Products, Categories,\
+User and Orders.
+
 ## Using the site
 
 Using the site as a user is intuitive and doesn't need much explanation.\
