@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAppSelector } from "../hooks/useAppSelector";
 import ProductDataGrid from "./ProductDataGrid";
-import { Box, Tab, Tabs } from "@mui/material";
+import { Box, Tab, Tabs, Typography } from "@mui/material";
 import CategoryDataGrid from "./CategoryDataGrid";
 import OrderTable from "./OrderTable";
 import UserDataGrid from "./UserDataGrid";
@@ -33,6 +33,7 @@ export default function AdminDataGrid() {
 		(state) => state.usersReducer.accessToken
 	);
 	const [selectedTab, setSelectedTab] = useState(0);
+	const productError = useAppSelector((state) => state.productsReducer.error);
 
 	return (
 		<Box sx={{ width: "100%" }}>
@@ -47,6 +48,11 @@ export default function AdminDataGrid() {
 					<Tab label="Users" />
 				</Tabs>
 			</Box>
+			{productError && (
+				<Typography color={"error"} sx={{ textAlign: "center" }}>
+					{productError}
+				</Typography>
+			)}
 			<CustomTabPanel value={selectedTab} index={0}>
 				<ProductDataGrid accessToken={accessToken} />
 			</CustomTabPanel>

@@ -21,6 +21,7 @@ import { fetchAllCategories } from "../redux/reducers/categoriesReducer";
 import {
 	createProduct,
 	fetchOneProduct,
+	setProductsError,
 	updateProduct,
 } from "../redux/reducers/productsReducer";
 
@@ -92,6 +93,12 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 				},
 				accessToken: accessToken,
 			};
+			if (images.length < 1) {
+				dispatch(
+					setProductsError("Product must have at least one image")
+				);
+				return;
+			}
 			dispatch(createProduct(input));
 			navigate("/");
 		}
