@@ -11,8 +11,9 @@ import {
 } from "../../types/AddressTypes";
 
 import { PaginationOptions } from "../../types/Types";
+import { baseUrl } from "../../shared/shared";
 
-const baseUrl = "http://localhost:5157/api/v1/";
+const Url = baseUrl;
 
 const initialState: AddressesReducerState = {
 	addresses: [],
@@ -30,14 +31,11 @@ export const fetchAllAddresses = createAsyncThunk(
 			if (searchUrl.length) searchUrl = "?" + searchUrl;
 			else searchUrl = "/";
 
-			const response = await axios.get(
-				`${baseUrl}addresses${searchUrl}`,
-				{
-					headers: {
-						Authorization: `Bearer ${options.accessToken}`,
-					},
-				}
-			);
+			const response = await axios.get(`${Url}addresses${searchUrl}`, {
+				headers: {
+					Authorization: `Bearer ${options.accessToken}`,
+				},
+			});
 			const addresses = await response.data;
 
 			return addresses;
@@ -53,10 +51,9 @@ export const fetchAddressesWithPagination = createAsyncThunk(
 	async (options: PaginationOptions, { rejectWithValue }) => {
 		try {
 			const response = await axios.get(
-				`${baseUrl}addresses?offset=${options.offset}&limit=${options.limit}`
+				`${Url}addresses?offset=${options.offset}&limit=${options.limit}`
 			);
 			const addresses = await response.data;
-			console.log(addresses);
 			return addresses;
 		} catch (e) {
 			const error = e as AxiosError;
@@ -71,10 +68,9 @@ export const fetchOneAddress = createAsyncThunk<
 	{ rejectValue: string }
 >("addresses/fetchOneAddress", async (id: string, { rejectWithValue }) => {
 	try {
-		const response = await axios.get(`${baseUrl}addresses/${id}`);
+		const response = await axios.get(`${Url}addresses/${id}`);
 		const address = await response.data;
 		const arr = [address];
-		console.log(arr);
 		return arr;
 	} catch (e) {
 		const error = e as AxiosError;
@@ -91,7 +87,7 @@ export const deleteOneAddress = createAsyncThunk<
 	async (data: AddressDelete, { rejectWithValue }) => {
 		try {
 			const response = await axios.delete<boolean>(
-				`${baseUrl}addresses/${data.id}`,
+				`${Url}addresses/${data.id}`,
 				{
 					headers: {
 						Authorization: `Bearer ${data.accessToken}`,
@@ -118,7 +114,7 @@ export const createAddress = createAsyncThunk<
 	async (data: AddressCreate, { rejectWithValue }) => {
 		try {
 			const response = await axios.post<Address>(
-				`${baseUrl}addresses/`,
+				`${Url}addresses/`,
 				data.address,
 				{
 					headers: {
@@ -143,7 +139,7 @@ export const updateAddress = createAsyncThunk<
 	async (data: AddressUpdate, { rejectWithValue }) => {
 		try {
 			const response = await axios.patch<Address>(
-				`${baseUrl}addresses/${data.id}`,
+				`${Url}addresses/${data.id}`,
 				data.address,
 				{
 					headers: {

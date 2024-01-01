@@ -2,6 +2,7 @@ import { rest } from "msw";
 import { setupServer } from "msw/node";
 
 import { Category } from "../types/CategoryTypes";
+import { baseUrl } from "../shared/shared";
 
 export const categories: Category[] = [
 	{
@@ -20,7 +21,7 @@ export const categories: Category[] = [
 		url: "https://i.imgur.com/xYO6uDv.jpeg",
 	},
 ];
-const url = "http://localhost:5157/api/v1/";
+const url = baseUrl;
 
 export const handlers = [
 	rest.get(`${url}categories`, (req, res, ctx) => {

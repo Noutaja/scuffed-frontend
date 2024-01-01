@@ -75,7 +75,6 @@ export default function CheckoutPage() {
 			},
 			accessToken: accessToken,
 		};
-		console.log(newOrder);
 		await dispatch(createOrder(newOrder));
 		dispatch(emptyCart());
 		navigate("/");

@@ -98,9 +98,11 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 	}
 
 	function handleUrlChange(text: string, id: number) {
-		let tmp = images[id];
-		tmp.url = text;
-		setImages([...images.slice(0, id), tmp, ...images.slice(id + 1)]);
+		setImages((prevImages) =>
+			prevImages.map((img, index) =>
+				index === id ? { ...img, url: text } : img
+			)
+		);
 	}
 
 	function handleImageDeletion(index: number) {
@@ -183,7 +185,7 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 						setImages([
 							...images,
 							{
-								url: "https://picsum.photos/200",
+								url: "",
 								id: uuidv4(),
 								fromDB: false,
 							},

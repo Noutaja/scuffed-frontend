@@ -2,8 +2,9 @@ import { rest } from "msw";
 import { setupServer } from "msw/node";
 
 import { User, UserCreate, UserRole } from "../types/UserTypes";
+import { baseUrl } from "../shared/shared";
 
-const url = "http://localhost:5157/api/v1/";
+const url = baseUrl;
 export const users: User[] = [
 	{
 		id: "id1",

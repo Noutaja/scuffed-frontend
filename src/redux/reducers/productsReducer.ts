@@ -8,10 +8,10 @@ import {
 	ProductUpdate,
 	ProductsReducerState,
 } from "../../types/ProductTypes";
-
 import { PaginationOptions } from "../../types/Types";
+import { baseUrl } from "../../shared/shared";
 
-const baseUrl = "http://localhost:5157/api/v1/";
+const Url = baseUrl;
 
 const initialState: ProductsReducerState = {
 	products: [],
@@ -23,7 +23,7 @@ export const fetchAllProducts = createAsyncThunk(
 	"products/fetchAllProducts",
 	async (_, { rejectWithValue }) => {
 		try {
-			const response = await axios.get(`${baseUrl}products`);
+			const response = await axios.get(`${Url}products`);
 			const products = await response.data;
 			return products;
 		} catch (e) {
@@ -38,7 +38,7 @@ export const fetchProductsWithPagination = createAsyncThunk(
 	async (options: PaginationOptions, { rejectWithValue }) => {
 		try {
 			const response = await axios.get(
-				`${baseUrl}products?offset=${options.offset}&limit=${options.limit}`
+				`${Url}products?offset=${options.offset}&limit=${options.limit}`
 			);
 			const products = await response.data;
 			return products;
@@ -55,7 +55,7 @@ export const fetchOneProduct = createAsyncThunk<
 	{ rejectValue: string }
 >("products/fetchOneProduct", async (id: string, { rejectWithValue }) => {
 	try {
-		const response = await axios.get(`${baseUrl}products/${id}`);
+		const response = await axios.get(`${Url}products/${id}`);
 		const product = await response.data;
 		const arr = [product];
 		return arr;
@@ -74,7 +74,7 @@ export const deleteOneProduct = createAsyncThunk<
 	async (data: ProductDelete, { rejectWithValue }) => {
 		try {
 			const response = await axios.delete<boolean>(
-				`${baseUrl}products/${data.id}`,
+				`${Url}products/${data.id}`,
 				{
 					headers: {
 						Authorization: `Bearer ${data.accessToken}`,
@@ -101,7 +101,7 @@ export const createProduct = createAsyncThunk<
 	async (data: ProductCreate, { rejectWithValue }) => {
 		try {
 			const response = await axios.post<Product>(
-				`${baseUrl}products/`,
+				`${Url}products/`,
 				data.product,
 				{
 					headers: {
@@ -126,7 +126,7 @@ export const updateProduct = createAsyncThunk<
 	async (data: ProductUpdate, { rejectWithValue }) => {
 		try {
 			const response = await axios.patch<Product>(
-				`${baseUrl}products/${data.id}`,
+				`${Url}products/${data.id}`,
 				data.product,
 				{
 					headers: {

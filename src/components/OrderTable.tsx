@@ -48,7 +48,6 @@ function Row(props: { row: Order; accessToken: string }) {
 			id: row.id,
 			accessToken: props.accessToken,
 		};
-		console.log(updatedOrder);
 		dispatch(updateOrder(updatedOrder));
 		setIsEditing(false);
 	}

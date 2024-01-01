@@ -60,7 +60,7 @@ export default function LoginForm() {
 					password: passwordText,
 					firstName: firstNameText,
 					lastName: lastNameText,
-					avatar: "https://i.pravatar.cc/300", //placeholder url
+					avatar: "", //placeholder url "https://i.pravatar.cc/300"
 				})
 			);
 			if (user.payload) {

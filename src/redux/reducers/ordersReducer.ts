@@ -9,8 +9,9 @@ import {
 	OrdersReducerState,
 } from "../../types/OrderTypes";
 import { PaginationOptions } from "../../types/Types";
+import { baseUrl } from "../../shared/shared";
 
-const baseUrl = "http://localhost:5157/api/v1/";
+const Url = baseUrl;
 
 const initialState: OrdersReducerState = {
 	orders: [],
@@ -28,7 +29,7 @@ export const fetchAllOrders = createAsyncThunk(
 			if (searchUrl.length) searchUrl = "?" + searchUrl;
 			else searchUrl = "/";
 
-			const response = await axios.get(`${baseUrl}orders${searchUrl}`, {
+			const response = await axios.get(`${Url}orders${searchUrl}`, {
 				headers: {
 					Authorization: `Bearer ${options.accessToken}`,
 				},
@@ -47,7 +48,7 @@ export const fetchOrdersWithPagination = createAsyncThunk(
 	async (options: PaginationOptions, { rejectWithValue }) => {
 		try {
 			const response = await axios.get(
-				`${baseUrl}orders?offset=${options.offset}&limit=${options.limit}`
+				`${Url}orders?offset=${options.offset}&limit=${options.limit}`
 			);
 			const orders = await response.data;
 			return orders;
@@ -64,10 +65,9 @@ export const fetchOneOrder = createAsyncThunk<
 	{ rejectValue: string }
 >("orders/fetchOneOrder", async (id: string, { rejectWithValue }) => {
 	try {
-		const response = await axios.get(`${baseUrl}orders/${id}`);
+		const response = await axios.get(`${Url}orders/${id}`);
 		const order = await response.data;
 		const arr = [order];
-		console.log(arr);
 		return arr;
 	} catch (e) {
 		const error = e as AxiosError;
@@ -81,7 +81,7 @@ export const deleteOneOrder = createAsyncThunk<
 	{ rejectValue: string }
 >("orders/deleteOneOrder", async (id: string, { rejectWithValue }) => {
 	try {
-		const response = await axios.delete<boolean>(`${baseUrl}orders/${id}`);
+		const response = await axios.delete<boolean>(`${Url}orders/${id}`);
 		if (!response.data) {
 			throw new Error("Cannot delete");
 		}
@@ -98,15 +98,11 @@ export const createOrder = createAsyncThunk<
 	{ rejectValue: string }
 >("orders/createOrder", async (data: OrderCreate, { rejectWithValue }) => {
 	try {
-		const response = await axios.post<Order>(
-			`${baseUrl}orders/`,
-			data.order,
-			{
-				headers: {
-					Authorization: `Bearer ${data.accessToken}`,
-				},
-			}
-		);
+		const response = await axios.post<Order>(`${Url}orders/`, data.order, {
+			headers: {
+				Authorization: `Bearer ${data.accessToken}`,
+			},
+		});
 		return response.data;
 	} catch (e) {
 		const error = e as AxiosError;
@@ -121,7 +117,7 @@ export const updateOrder = createAsyncThunk<
 >("orders/updateOrder", async (data: OrderUpdate, { rejectWithValue }) => {
 	try {
 		const response = await axios.patch<Order>(
-			`${baseUrl}orders/${data.id}`,
+			`${Url}orders/${data.id}`,
 			data.order,
 			{
 				headers: {

@@ -12,8 +12,9 @@ import {
 	UserUpdate,
 } from "../../types/UserTypes";
 import { PaginationOptions } from "../../types/Types";
+import { baseUrl } from "../../shared/shared";
 
-const baseUrl = "http://localhost:5157/api/v1/";
+const Url = baseUrl;
 
 const initialState: UserReducerState = {
 	users: [],
@@ -50,12 +51,8 @@ export const authWithCredentials = createAsyncThunk<
 	"users/authWithCredentials",
 	async (credentials: UserCredentials, { rejectWithValue }) => {
 		try {
-			const response = await axios.post(
-				`${baseUrl}auth/login`,
-				credentials
-			);
+			const response = await axios.post(`${Url}auth/login`, credentials);
 			const accessToken = response.data.accessToken;
-			//console.log(response);
 			if (accessToken === "" || !accessToken) {
 				throw Error("Failed to fetch access token!");
 			} else {
@@ -76,7 +73,7 @@ export const fetchProfileWithToken = createAsyncThunk<
 	"users/fetchProfileWithToken",
 	async (accessToken: string, { rejectWithValue }) => {
 		try {
-			const response = await axios.get(`${baseUrl}auth/profile`, {
+			const response = await axios.get(`${Url}auth/profile`, {
 				headers: {
 					Authorization: `Bearer ${accessToken}`,
 				},
@@ -101,14 +98,11 @@ export const deleteProfileWithToken = createAsyncThunk<
 	"users/deleteProfileWithToken",
 	async (accessToken: string, { rejectWithValue }) => {
 		try {
-			const response = await axios.delete(
-				`${baseUrl}auth/profile/delete`,
-				{
-					headers: {
-						Authorization: `Bearer ${accessToken}`,
-					},
-				}
-			);
+			const response = await axios.delete(`${Url}auth/profile/delete`, {
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			});
 			if (!response.data) {
 				throw new Error("Cannot delete");
 			}
@@ -128,10 +122,7 @@ export const createUser = createAsyncThunk<
 	"users/createUser",
 	async (newUser: UserCreate, { dispatch, rejectWithValue }) => {
 		try {
-			const response = await axios.post<User>(
-				`${baseUrl}users/`,
-				newUser
-			);
+			const response = await axios.post<User>(`${Url}users/`, newUser);
 			const userProfile = response.data;
 			await dispatch(
 				authWithCredentials({
@@ -157,7 +148,7 @@ export const fetchAllUsers = createAsyncThunk(
 			if (searchUrl.length) searchUrl = "?" + searchUrl;
 			else searchUrl = "/";
 
-			const response = await axios.get(`${baseUrl}users${searchUrl}`, {
+			const response = await axios.get(`${Url}users${searchUrl}`, {
 				headers: {
 					Authorization: `Bearer ${options.accessToken}`,
 				},
@@ -176,7 +167,7 @@ export const fetchUsersWithPagination = createAsyncThunk(
 	async (options: PaginationOptions, { rejectWithValue }) => {
 		try {
 			const response = await axios.get(
-				`${baseUrl}users?offset=${options.offset}&limit=${options.limit}`
+				`${Url}users?offset=${options.offset}&limit=${options.limit}`
 			);
 			const users = await response.data;
 			return users;
@@ -193,10 +184,9 @@ export const fetchOneUser = createAsyncThunk<
 	{ rejectValue: string }
 >("users/fetchOneUser", async (id: string, { rejectWithValue }) => {
 	try {
-		const response = await axios.get(`${baseUrl}users/${id}`);
+		const response = await axios.get(`${Url}users/${id}`);
 		const user = await response.data;
 		const arr = [user];
-		console.log(arr);
 		return arr;
 	} catch (e) {
 		const error = e as AxiosError;
@@ -210,15 +200,11 @@ export const deleteOneUser = createAsyncThunk<
 	{ rejectValue: string }
 >("users/deleteOneUser", async (data: UserDelete, { rejectWithValue }) => {
 	try {
-		console.log(data);
-		const response = await axios.delete<boolean>(
-			`${baseUrl}users/${data.id}`,
-			{
-				headers: {
-					Authorization: `Bearer ${data.accessToken}`,
-				},
-			}
-		);
+		const response = await axios.delete<boolean>(`${Url}users/${data.id}`, {
+			headers: {
+				Authorization: `Bearer ${data.accessToken}`,
+			},
+		});
 		if (!response.data) {
 			throw new Error("Cannot delete");
 		}
@@ -236,7 +222,7 @@ export const updateUser = createAsyncThunk<
 >("users/updateUser", async (data: UserUpdate, { rejectWithValue }) => {
 	try {
 		const response = await axios.patch<User>(
-			`${baseUrl}users/${data.id}`,
+			`${Url}users/${data.id}`,
 			data.user,
 			{
 				headers: {
@@ -258,7 +244,7 @@ export const updateUserRole = createAsyncThunk<
 >("users/updateUserRole", async (data: UserRoleUpdate, { rejectWithValue }) => {
 	try {
 		const response = await axios.patch<User>(
-			`${baseUrl}users/role/${data.id}?userRole=${data.role}`,
+			`${Url}users/role/${data.id}?userRole=${data.role}`,
 			null,
 			{
 				headers: {

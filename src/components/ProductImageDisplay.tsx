@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Box, Paper, Stack } from "@mui/material";
 
 import { ProductImageDisplayProps } from "../types/Props";
-//import addIdsToList from "../helpers/addIdsToList";
 
 export default function ProductImageDisplay(props: ProductImageDisplayProps) {
 	const images = props.images;

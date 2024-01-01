@@ -8,6 +8,7 @@ import {
 	ProductUpdate,
 } from "../types/ProductTypes";
 import { Category } from "../types/CategoryTypes";
+import { baseUrl } from "../shared/shared";
 
 const products: Product[] = [
 	{
@@ -67,7 +68,7 @@ const categories: Category[] = [
 		url: "https://i.imgur.com/xYO6uDv.jpeg",
 	},
 ];
-const url = "http://localhost:5157/api/v1/";
+const url = baseUrl;
 export const dummyAuthToken = "auth-me";
 
 export const handlers = [

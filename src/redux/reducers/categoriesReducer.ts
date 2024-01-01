@@ -8,10 +8,10 @@ import {
 	CategoriesReducerState,
 	CategoryDelete,
 } from "../../types/CategoryTypes";
-
 import { PaginationOptions } from "../../types/Types";
+import { baseUrl } from "../../shared/shared";
 
-const baseUrl = "http://localhost:5157/api/v1/";
+const Url = baseUrl;
 
 const initialState: CategoriesReducerState = {
 	categories: [],

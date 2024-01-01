@@ -50,7 +50,12 @@ export default function Header() {
 					alignItems="center"
 				>
 					{currentUser?.role === UserRole.Admin && (
-						<UnstyledLink to={"/admin"}>ADMIN PANEL</UnstyledLink>
+						<UnstyledLink
+							sx={{ display: { xs: "none", md: "block" }, mr: 1 }}
+							to={"/admin"}
+						>
+							ADMIN PANEL
+						</UnstyledLink>
 					)}
 					<HeaderCart />
 					<HeaderProfile />
