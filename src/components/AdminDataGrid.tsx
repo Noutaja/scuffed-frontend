@@ -5,6 +5,8 @@ import { Box, Tab, Tabs, Typography } from "@mui/material";
 import CategoryDataGrid from "./CategoryDataGrid";
 import OrderTable from "./OrderTable";
 import UserDataGrid from "./UserDataGrid";
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { fetchAllUsers } from "../redux/reducers/usersReducer";
 
 interface TabPanelProps {
 	children?: React.ReactNode;
@@ -34,6 +36,9 @@ export default function AdminDataGrid() {
 	);
 	const [selectedTab, setSelectedTab] = useState(0);
 	const productError = useAppSelector((state) => state.productsReducer.error);
+
+	const dispatch = useAppDispatch();
+	dispatch(fetchAllUsers({ accessToken: accessToken })); //Bandaid to fix users not being ready the first time.
 
 	return (
 		<Box sx={{ width: "100%" }}>
