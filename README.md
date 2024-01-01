@@ -8,22 +8,21 @@ It is still a work in progress with critical features, like checking out not imp
 
 ## Table of contents
 
-
-- [Getting started](#getting-started)
-  - [Development](#development)
-  - [Deploying the site](#deploying-the-site)
-- [Usage](#usage)
-  - [Features](#features)
-  - [Using the site](#using-the-site)
-  - [Scripts](#scripts)
-- [Architechture and design](#architecture-and-design)
-  - [Technologies](#technologies)
-  - [File structure](#file-structure)
-  - [Design and Structure](#design-and-structure)
-- [Testing](#testing)
-- [Assignment](#assignment)
-  - [Features and todo list](#features-and-todo-list)
-- [Online version](#online-version)
+-   [Getting started](#getting-started)
+    -   [Development](#development)
+    -   [Deploying the site](#deploying-the-site)
+-   [Usage](#usage)
+    -   [Features](#features)
+    -   [Using the site](#using-the-site)
+    -   [Scripts](#scripts)
+-   [Architechture and design](#architecture-and-design)
+    -   [Technologies](#technologies)
+    -   [File structure](#file-structure)
+    -   [Design and Structure](#design-and-structure)
+-   [Testing](#testing)
+-   [Assignment](#assignment)
+    -   [Features and todo list](#features-and-todo-list)
+-   [Online version](#online-version)
 
 # Getting started
 
@@ -37,10 +36,10 @@ It is still a work in progress with critical features, like checking out not imp
 
 1. Use `npm install` if you haven't already
 2. Edit `"homepage": "https://noutaja.github.io/fs16_6-frontend-project/"`\
-to match your profile- and repository name. **IMPORTANT!**
+   to match your profile- and repository name. **IMPORTANT!**
 3. Use `npm run deploy`
 4. Edit your github pages setting:
-![Github settings](images/Github settings.png)
+   ![Github settings](images/Github settings.png)
 
 # Usage
 
@@ -128,13 +127,13 @@ Use this if you want to publish the site somewhere not Github Pages. It may requ
 
 ## Technologies
 
-- TypeScript
-- React
-  - React-router-dom
-- Redux
-- Jest
-- MSW
-- Material UI
+-   TypeScript
+-   React
+    -   React-router-dom
+-   Redux
+-   Jest
+-   MSW
+-   Material UI
 
 ## File Structure
 
@@ -215,76 +214,74 @@ Reducers diagram
 
 Handles the cart. Mostly complete.
 
-- Synchronous functions
-  1. `addOneItem(Product):void`
-  2. `removeOneItem(number):void`
-    - Is provided the id of the item
-  3. `emptyCart():void`
+-   Synchronous functions
+    1. `addOneItem(Product):void`
+    2. `removeOneItem(number):void`
+    -   Is provided the id of the item
+    3. `emptyCart():void`
 
 ##### CategoriesReducer
 
 Holds the categories fetched from the API. Only basic functionality present.
 
-- Asynchronous functions
-  1. `fetchAllCategories():Category[]`
-
+-   Asynchronous functions
+    1. `fetchAllCategories():Category[]`
 
 ##### ProductsReducer
 
 The core of the website. Keeps all products fetched from the API. Finished.
 
-- Synchronous functions
-  1. `setProductsError(string):void`
-    - Used to clear errors
-- Asynchronous functions
-  1. `fetchAllProducts():Product[]`
-  2. `fetchProductsWithPagination(PaginationOptions):Product[]`
-    - Currently unused, used in the future
-  3. `fetchOneProduct(number):Product[]`
-    - Id provided as a parameter
-    - Returns the product IN AN ARRAY
-  4. `deleteOneProduct(number):number`
-    - Id provided as a parameter
-    - Returns the Id back if successful
-  5. `createProduct(ProductCreate):Product`
-  6. `updateProduct(ProductUpdate):Product`
-    - ProductUpdate is a Partial, meaning any number of fields can be omitted
+-   Synchronous functions
+    1. `setProductsError(string):void`
+    -   Used to clear errors
+-   Asynchronous functions
+    1. `fetchAllProducts():Product[]`
+    2. `fetchProductsWithPagination(PaginationOptions):Product[]`
+    -   Currently unused, used in the future
+    3. `fetchOneProduct(number):Product[]`
+    -   Id provided as a parameter
+    -   Returns the product IN AN ARRAY
+    4. `deleteOneProduct(number):number`
+    -   Id provided as a parameter
+    -   Returns the Id back if successful
+    5. `createProduct(ProductCreate):Product`
+    6. `updateProduct(ProductUpdate):Product`
+    -   ProductUpdate is a Partial, meaning any number of fields can be omitted
 
 ##### UiReducer
 
 Holds variables for the UI.
 
-- Synchronous functions
-  1. `setSearchText(string):void`
-    - Current search text
-  2. `setPaginPage(number):void`
-    - Pagination page number
-  3. `setPaginPerPage(number):void`
-    - Number of items on a search page
-  4. `setSortBy(UISortBy):void`
-    - Sorting parameter
-  5. `setSortDirection(UiSortDirection):void`
-    - Sorting direction
-  6. `setCategoryFilter(string):void`
-    - Category filtering. The search box provides one additional category\
-    to show all categories.
+-   Synchronous functions
+    1. `setSearchText(string):void`
+    -   Current search text
+    2. `setPaginPage(number):void`
+    -   Pagination page number
+    3. `setPaginPerPage(number):void`
+    -   Number of items on a search page
+    4. `setSortBy(UISortBy):void`
+    -   Sorting parameter
+    5. `setSortDirection(UiSortDirection):void`
+    -   Sorting direction
+    6. `setCategoryFilter(string):void`
+    -   Category filtering. The search box provides one additional category\
+        to show all categories.
 
 ##### UsersReducer
 
 Handles users and authentication. Currently mostly authentication.
 
-- Synchronous functions
-  1. `logoutUser():void`
-  2. `setUsersError(string):void`
-- Asynchronous functions
-  1. `authWithCredentials(UserCredentials):string`
-    - Checks email and password against the API. Returns an access token if valid.
-  2. `fetchProfileWithToken(string): User`
-    - Takes the token from above, checks it with the API and returns a User if valid.
-  3. `LoginWithCredentials(UserCredentials):User`
-    - Calls the two functions above. Does nothing more.
-  4. `createUser(UserCreate):User`
-
+-   Synchronous functions
+    1. `logoutUser():void`
+    2. `setUsersError(string):void`
+-   Asynchronous functions
+    1. `authWithCredentials(UserCredentials):string`
+    -   Checks email and password against the API. Returns an access token if valid.
+    2. `fetchProfileWithToken(string): User`
+    -   Takes the token from above, checks it with the API and returns a User if valid.
+    3. `LoginWithCredentials(UserCredentials):User`
+    -   Calls the two functions above. Does nothing more.
+    4. `createUser(UserCreate):User`
 
 ### Page Structure
 
@@ -309,17 +306,19 @@ with a few exceptions. UsersReducer is tested to not log in with incorrect crede
 ## Requirements
 
 1. Use the API endpoint https://fakeapi.platzi.com/ to create an e-commerce website.\
-Read the documentation and learn how to use the different endpoints.
+   Read the documentation and learn how to use the different endpoints.
 2. Create at least 4 pages (can be more if you want): Page for all products, product page,\
-profile page (only available if user logins), and cart page (cart page could be a page or a modal)
+   profile page (only available if user logins), and cart page (cart page could be a page or a modal)
 3. Create Redux store for following features:
-  - product reducer: get all products, find a single products, filter products by categories,\
-  sort products by price. Create, update and delete a product\
-  (enable create, update and delete features only for admin of the webapp)
-  - user reducer: register and login
-  - cart reducer: add product to cart, remove products, update products's quantity in cart
+
+-   product reducer: get all products, find a single products, filter products by categories,\
+    sort products by price. Create, update and delete a product\
+    (enable create, update and delete features only for admin of the webapp)
+-   user reducer: register and login
+-   cart reducer: add product to cart, remove products, update products's quantity in cart
+
 4. When adding routers to your application, programatically set certain routes to be private.\
-For example, route to user profile page should not be accessible if user has not logged in.
+   For example, route to user profile page should not be accessible if user has not logged in.
 5. Implement unit testing for the reducers
 6. Deploy the application and rewrite README file.
 
@@ -333,90 +332,90 @@ For example, route to user profile page should not be accessible if user has not
 
 ### Complete
 
-- Basic responsiveness
-  - Elements resize and hide with narrower screens
-- Custom theme
-- API
-  - Products
-    - Create
-    - Read
-    - Update
-    - Delete
-  - Categories
-    - Read
-  - Users
-    - Create
-    - Authenticate
-- Pages
-  - Products search
-  - Single product
-  - Cart
-  - Login and register
-  - Profile
-- Products page features
-  - Filtering
-    - Category
-    - Name
-  - Sorting
-    - Price
-    - Ascending and descending
-  - Client-side pagination
-  - Adding products to cart
-  - ADMIN: Add new product
-- Single Product page features
-  - Carousel
-  - ADMIN: Edit product
-  - ADMIN: Delete product
-- Cart page features
-  - Cart contents
-  - Increase and decrease product quantity
-  - Empty cart
-  - Login check for checkout
-- Login and register page features
-  - Form validation
-- Profile page features
-  - Basic information
-  - Gated from unregistered users
+-   Basic responsiveness
+    -   Elements resize and hide with narrower screens
+-   Custom theme
+-   API
+    -   Products
+        -   Create
+        -   Read
+        -   Update
+        -   Delete
+    -   Categories
+        -   Read
+    -   Users
+        -   Create
+        -   Authenticate
+-   Pages
+    -   Products search
+    -   Single product
+    -   Cart
+    -   Login and register
+    -   Profile
+-   Products page features
+    -   Filtering
+        -   Category
+        -   Name
+    -   Sorting
+        -   Price
+        -   Ascending and descending
+    -   Client-side pagination
+    -   Adding products to cart
+    -   ADMIN: Add new product
+-   Single Product page features
+    -   Carousel
+    -   ADMIN: Edit product
+    -   ADMIN: Delete product
+-   Cart page features
+    -   Cart contents
+    -   Increase and decrease product quantity
+    -   Empty cart
+    -   Login check for checkout
+-   Login and register page features
+    -   Form validation
+-   Profile page features
+    -   Basic information
+    -   Gated from unregistered users
 
 ### Todo
 
-- Optimizations
-  -useMemo for selectors
-- Proper responsiveness
-  - Menu for nav bar
-  - Do fonts better
-  - Fix various bugs
-- API
-  - Categories
-    - Create
-    - Update
-    - Delete
-  - Users
-    - Read
-    - Update
-    - Delete
-  - Google authentication
-  - Payment processing
-- Pages
-  - Checkout page
-  - Admin dashboard
-- Products page features
-  - Filtering
-    - Price
-  - Sorting
-    - Name
-  - Server-side pagination
-    - API might not support it
-- Cart page features
-  - Checkout details sidebar
-- Login and register page features
-  - Fix bugs
-  - Possibly split into two
-- Profile page features
-  - Updating information
-  - Order history
-  - Visual upgrades
-- **REFACTORING THE WHOLE THING**
+-   Optimizations
+    -useMemo for selectors
+-   Proper responsiveness
+    -   Menu for nav bar
+    -   Do fonts better
+    -   Fix various bugs
+-   API
+    -   Categories
+        -   Create
+        -   Update
+        -   Delete
+    -   Users
+        -   Read
+        -   Update
+        -   Delete
+    -   Google authentication
+    -   Payment processing
+-   Pages
+    -   Checkout page
+    -   Admin dashboard
+-   Products page features
+    -   Filtering
+        -   Price
+    -   Sorting
+        -   Name
+    -   Server-side pagination
+        -   API might not support it
+-   Cart page features
+    -   Checkout details sidebar
+-   Login and register page features
+    -   Fix bugs
+    -   Possibly split into two
+-   Profile page features
+    -   Updating information
+    -   Order history
+    -   Visual upgrades
+-   **REFACTORING THE WHOLE THING**
 
 # Online version
 

@@ -113,6 +113,10 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 	}
 
 	function handleImageDeletion(index: number) {
+		if (images.length === 1) {
+			dispatch(setProductsError("Last image can't be deleted"));
+			return;
+		}
 		const img: Image = images[index];
 		if (img.fromDB) setDeletedImages([...deletedImages, img.id]);
 		setImages([...images.slice(0, index), ...images.slice(index + 1)]);
