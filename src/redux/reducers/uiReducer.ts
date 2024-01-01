@@ -23,6 +23,7 @@ const uiSlice = createSlice({
 		},
 		setPaginPerPage: (state, action: PayloadAction<number>) => {
 			state.paginPerPage = action.payload;
+			state.paginPage = 1;
 		},
 		setSortBy: (state, action: PayloadAction<UiSortBy>) => {
 			state.sortBy = action.payload;
