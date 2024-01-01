@@ -17,8 +17,11 @@ export function validateEmail(
 	}
 }
 
-export function validatePassword(isRegistering: boolean, field: PasswordFieldValidationObject) {
-	if(isRegistering){
+export function validatePassword(
+	isRegistering: boolean,
+	field: PasswordFieldValidationObject
+) {
+	if (isRegistering) {
 		if (field.text.length < 8) {
 			field.setIsValid(false);
 			field.setValidationMessage("Password is too short!");

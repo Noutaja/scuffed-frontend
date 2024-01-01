@@ -44,6 +44,12 @@ export default function CheckoutPage() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
+		if (!cartItems.length || !currentUser) {
+			navigate("/");
+		}
+	}, []);
+
+	useEffect(() => {
 		dispatch(
 			fetchAllAddresses({
 				ownerID: currentUser?.id!,
