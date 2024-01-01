@@ -48,7 +48,7 @@ function ProductList() {
 			<Pagination
 				page={paginPage}
 				onChange={(e, v) => dispatch(setPaginPage(v))}
-				count={Math.floor(products.length / 20)}
+				count={Math.ceil(products.length / paginPerPage)}
 				defaultPage={1}
 				sx={{ margin: 1, marginLeft: "auto", marginRight: "auto" }}
 			/>
@@ -73,7 +73,7 @@ function ProductList() {
 			<Pagination
 				page={paginPage}
 				onChange={(e, v) => dispatch(setPaginPage(v))}
-				count={Math.floor(products.length / 20)}
+				count={Math.ceil(products.length / paginPerPage)}
 				defaultPage={1}
 				sx={{
 					marginTop: "1rem",
