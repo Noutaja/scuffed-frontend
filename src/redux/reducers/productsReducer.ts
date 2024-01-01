@@ -28,7 +28,7 @@ export const fetchAllProducts = createAsyncThunk(
 			return products;
 		} catch (e) {
 			const error = e as AxiosError;
-			return rejectWithValue(error.message);
+			return rejectWithValue(error.response?.data as string);
 		}
 	}
 );
@@ -44,7 +44,7 @@ export const fetchProductsWithPagination = createAsyncThunk(
 			return products;
 		} catch (e) {
 			const error = e as AxiosError;
-			return rejectWithValue(error.message);
+			return rejectWithValue(error.response?.data as string);
 		}
 	}
 );
@@ -61,7 +61,7 @@ export const fetchOneProduct = createAsyncThunk<
 		return arr;
 	} catch (e) {
 		const error = e as AxiosError;
-		return rejectWithValue(error.message);
+		return rejectWithValue(error.response?.data as string);
 	}
 });
 
@@ -87,7 +87,7 @@ export const deleteOneProduct = createAsyncThunk<
 			return data.id!;
 		} catch (e) {
 			const error = e as AxiosError;
-			return rejectWithValue(error.message);
+			return rejectWithValue(error.response?.data as string);
 		}
 	}
 );
@@ -112,7 +112,7 @@ export const createProduct = createAsyncThunk<
 			return response.data;
 		} catch (e) {
 			const error = e as AxiosError;
-			return rejectWithValue(error.message);
+			return rejectWithValue(error.response?.data as string);
 		}
 	}
 );
@@ -137,7 +137,7 @@ export const updateProduct = createAsyncThunk<
 			return response.data;
 		} catch (e) {
 			const error = e as AxiosError;
-			return rejectWithValue(error.message);
+			return rejectWithValue(error.response?.data as string);
 		}
 	}
 );

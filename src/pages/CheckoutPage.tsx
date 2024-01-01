@@ -77,7 +77,7 @@ export default function CheckoutPage() {
 		};
 		await dispatch(createOrder(newOrder));
 		dispatch(emptyCart());
-		navigate("/");
+		navigate("/profile");
 	}
 
 	return (

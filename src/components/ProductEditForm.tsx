@@ -66,7 +66,8 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 				},
 			};
 			if (title.length) input.product.title = title;
-			if (price.length) input.product.price = Number(price);
+			if (price.length && !isNaN(+price))
+				input.product.price = Number(price);
 			if (description.length) input.product.description = description;
 			if (categoryId.length) input.product.categoryId = categoryId;
 			if (images.length) {
@@ -83,6 +84,16 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 			dispatch(fetchOneProduct(p.id));
 			props.onClose();
 		} else {
+			if (isNaN(+price)) {
+				dispatch(setProductsError("Price must be a number"));
+				return;
+			}
+			if (images.length < 1) {
+				dispatch(
+					setProductsError("Product must have at least one image")
+				);
+				return;
+			}
 			const input: ProductCreate = {
 				product: {
 					title: title,
@@ -93,12 +104,7 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 				},
 				accessToken: accessToken,
 			};
-			if (images.length < 1) {
-				dispatch(
-					setProductsError("Product must have at least one image")
-				);
-				return;
-			}
+
 			dispatch(createProduct(input));
 			navigate("/");
 		}

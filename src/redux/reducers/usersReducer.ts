@@ -35,10 +35,13 @@ export const loginWithCredentials = createAsyncThunk<
 			const authResponse = await dispatch(
 				authWithCredentials(credentials)
 			);
+			if (authResponse.meta.requestStatus === "rejected") {
+				throw Error("Failed to fetch access token!");
+			}
 			await dispatch(fetchProfileWithToken(authResponse.payload));
 		} catch (e) {
 			const error = e as AxiosError;
-			return rejectWithValue(error.message);
+			return rejectWithValue(error.response?.data as string);
 		}
 	}
 );
@@ -60,7 +63,7 @@ export const authWithCredentials = createAsyncThunk<
 			}
 		} catch (e) {
 			const error = e as AxiosError;
-			return rejectWithValue(error.message);
+			return rejectWithValue(error.response?.data as string);
 		}
 	}
 );
@@ -85,7 +88,7 @@ export const fetchProfileWithToken = createAsyncThunk<
 			}
 		} catch (e) {
 			const error = e as AxiosError;
-			return rejectWithValue(error.message);
+			return rejectWithValue(error.response?.data as string);
 		}
 	}
 );
@@ -109,7 +112,7 @@ export const deleteProfileWithToken = createAsyncThunk<
 			return response.data.toString();
 		} catch (e) {
 			const error = e as AxiosError;
-			return rejectWithValue(error.message);
+			return rejectWithValue(error.response?.data as string);
 		}
 	}
 );
@@ -126,14 +129,14 @@ export const createUser = createAsyncThunk<
 			const userProfile = response.data;
 			await dispatch(
 				authWithCredentials({
-					email: userProfile.email,
-					password: userProfile.password,
+					email: newUser.email,
+					password: newUser.password,
 				})
 			);
 			return userProfile;
 		} catch (e) {
 			const error = e as AxiosError;
-			return rejectWithValue(error.message);
+			return rejectWithValue(error.response?.data as string);
 		}
 	}
 );
@@ -157,7 +160,7 @@ export const fetchAllUsers = createAsyncThunk(
 			return users;
 		} catch (e) {
 			const error = e as AxiosError;
-			return rejectWithValue(error.message);
+			return rejectWithValue(error.response?.data as string);
 		}
 	}
 );
@@ -173,7 +176,7 @@ export const fetchUsersWithPagination = createAsyncThunk(
 			return users;
 		} catch (e) {
 			const error = e as AxiosError;
-			return rejectWithValue(error.message);
+			return rejectWithValue(error.response?.data as string);
 		}
 	}
 );
@@ -190,7 +193,7 @@ export const fetchOneUser = createAsyncThunk<
 		return arr;
 	} catch (e) {
 		const error = e as AxiosError;
-		return rejectWithValue(error.message);
+		return rejectWithValue(error.response?.data as string);
 	}
 });
 
@@ -211,7 +214,7 @@ export const deleteOneUser = createAsyncThunk<
 		return data.id!;
 	} catch (e) {
 		const error = e as AxiosError;
-		return rejectWithValue(error.message);
+		return rejectWithValue(error.response?.data as string);
 	}
 });
 
@@ -233,7 +236,7 @@ export const updateUser = createAsyncThunk<
 		return response.data;
 	} catch (e) {
 		const error = e as AxiosError;
-		return rejectWithValue(error.message);
+		return rejectWithValue(error.response?.data as string);
 	}
 });
 
@@ -255,7 +258,7 @@ export const updateUserRole = createAsyncThunk<
 		return response.data;
 	} catch (e) {
 		const error = e as AxiosError;
-		return rejectWithValue(error.message);
+		return rejectWithValue(error.response?.data as string);
 	}
 });
 

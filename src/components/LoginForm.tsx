@@ -54,15 +54,14 @@ export default function LoginForm() {
 	async function handleRegister(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		if (passwordText === confirmPwText) {
-			const user = await dispatch(
-				createUser({
-					email: emailText,
-					password: passwordText,
-					firstName: firstNameText,
-					lastName: lastNameText,
-					avatar: "https://i.pravatar.cc/300", //placeholder url "https://i.pravatar.cc/300"
-				})
-			);
+			const newUser = {
+				email: emailText,
+				password: passwordText,
+				firstName: firstNameText,
+				lastName: lastNameText,
+				avatar: "https://i.pravatar.cc/300", //placeholder url "https://i.pravatar.cc/300"
+			};
+			const user = await dispatch(createUser(newUser));
 			if (user.payload) {
 				await dispatch(
 					loginWithCredentials({

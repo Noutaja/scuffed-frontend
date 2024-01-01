@@ -59,6 +59,11 @@ export default function UserDataGrid(props: UserDataGridProps) {
 			width: 150,
 		},
 		{
+			field: "email",
+			headerName: "Email",
+			width: 150,
+		},
+		{
 			field: "role",
 			headerName: "Role",
 			width: 130,
