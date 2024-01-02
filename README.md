@@ -4,7 +4,7 @@
 
 This project uses React and Redux (among other things) to provide a web store frontend\
 with https://noutaja-scuffed-webstore.azurewebsites.net/ serving as the backend. Its\
-repo can be found over at https://github.com/Noutaja/scuffed-webstore
+repo can be found over at https://github.com/Noutaja/scuffed-webstore \
 It is still a work in progress.
 
 ## Table of contents
