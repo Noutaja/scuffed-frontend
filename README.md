@@ -3,7 +3,7 @@
 ## Introduction
 
 This project uses React and Redux (among other things) to provide a web store frontend\
-with https://noutaja-scuffed-webstore.azurewebsites.net/ serving as the backend
+with https://noutaja-scuffed-webstore.azurewebsites.net/ serving as the backend.
 It is still a work in progress.
 
 ## Table of contents
