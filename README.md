@@ -3,8 +3,8 @@
 ## Introduction
 
 This project uses React and Redux (among other things) to provide a web store frontend\
-with https://fakeapi.platzi.com/ serving as the backend
-It is still a work in progress with critical features, like checking out not implemented.
+with https://noutaja-scuffed-webstore.azurewebsites.net/ serving as the backend
+It is still a work in progress.
 
 ## Table of contents
 
@@ -221,7 +221,7 @@ Handles the cart. Mostly complete.
 
 -   Synchronous functions
     1. `addOneItem(Product):void`
-    2. `removeOneItem(number):void`
+    2. `removeOneItem(uuid):void`
     -   Is provided the id of the item
     3. `emptyCart():void`
 
@@ -231,6 +231,19 @@ Holds the categories fetched from the API. Only basic functionality present.
 
 -   Asynchronous functions
     1. `fetchAllCategories():Category[]`
+    2. `fetchCategoriesWithPagination():Category[]`
+    -   Currently unused, used in the future
+    3. `fetchOneCategory(uuid):Category[]`
+    -   Is provided the id of the item
+    -   Returns the category IN AN ARRAY
+    4. `deleteOneCategory(uuid):uuid`
+    -   Is provided the id of the item
+    -   Returns the Id back if successful
+    5. `createCategory(CategoryCreate):Category`
+    -   Is provided the new category, and a Bearer authorization token
+    -   Returns the new category
+    6. `updateCategory(CategoryUpdate):Category`
+    -   Is provided the updated category, its id, and a Bearer authorization token
 
 ##### ProductsReducer
 
@@ -243,15 +256,17 @@ The core of the website. Keeps all products fetched from the API. Finished.
     1. `fetchAllProducts():Product[]`
     2. `fetchProductsWithPagination(PaginationOptions):Product[]`
     -   Currently unused, used in the future
-    3. `fetchOneProduct(number):Product[]`
-    -   Id provided as a parameter
+    3. `fetchOneProduct(uuid):Product[]`
+    -   Is provided the id of the item
     -   Returns the product IN AN ARRAY
-    4. `deleteOneProduct(number):number`
-    -   Id provided as a parameter
+    4. `deleteOneProduct(uuid):uuid`
+    -   Is provided the id of the item
     -   Returns the Id back if successful
     5. `createProduct(ProductCreate):Product`
+    -   Is provided the new product, and a Bearer authorization token
+    -   Returns the new product
     6. `updateProduct(ProductUpdate):Product`
-    -   ProductUpdate is a Partial, meaning any number of fields can be omitted
+    -   Is provided the updated product, its id, and a Bearer authorization token
 
 ##### UiReducer
 
@@ -287,6 +302,24 @@ Handles users and authentication. Currently mostly authentication.
     3. `LoginWithCredentials(UserCredentials):User`
     -   Calls the two functions above. Does nothing more.
     4. `createUser(UserCreate):User`
+    -   Is provided the new user
+    -   Returns the new user
+    5. `fetchAllUsers(UserGet):User[]`
+    -   Is provided a Bearer authorization token
+    6. `fetchUsersWithPagination(PaginationOptions):User[]`
+    -   Currently unused, used in the future
+    7. `fetchOneUser(uuid):User[]`
+    -   Is provided the id of the item
+    -   Returns the user IN AN ARRAY
+    8. `deleteOneUser(uuid):uuid`
+    -   Is provided the id of the item, and a Bearer authorization token
+    -   Returns the Id back if successful
+    9. `updateUser(UserUpdate):User`
+    -   Is provided the updated item, its id, and a Bearer authorization token
+    -   Returns the User
+    10. `updateUserRole(UserRoleUpdate):User`
+    -   Is provided the updated role, its id, and a Bearer authorization token
+    -   Returns the user
 
 ### Page Structure
 

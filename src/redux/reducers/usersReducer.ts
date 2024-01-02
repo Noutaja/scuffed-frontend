@@ -145,11 +145,7 @@ export const fetchAllUsers = createAsyncThunk(
 	"users/fetchAllUsers",
 	async (options: UserGet, { rejectWithValue }) => {
 		try {
-			let searchUrl = "";
-			if (options.id) searchUrl += `OwnerID=${options.id}`;
-
-			if (searchUrl.length) searchUrl = "?" + searchUrl;
-			else searchUrl = "/";
+			let searchUrl = "/";
 
 			const response = await axios.get(`${Url}users${searchUrl}`, {
 				headers: {

@@ -34,7 +34,6 @@ export type UserRoleUpdate = {
 
 export type UserGet = {
 	accessToken: string;
-	id?: string | null;
 };
 
 export type UserDelete = {
