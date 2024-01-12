@@ -72,6 +72,7 @@ export default function UserProfileInfo() {
 			alignItems="center"
 			maxWidth="md"
 			margin="auto"
+			padding={1}
 		>
 			<Typography variant="h3">
 				{currentUser?.firstName} {currentUser?.lastName}

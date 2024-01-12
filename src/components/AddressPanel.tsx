@@ -41,6 +41,7 @@ export default function AddressPanel(props: AddressPanelProps) {
 			alignItems="center"
 			maxWidth="md"
 			margin="auto"
+			padding={1}
 		>
 			<Typography variant="h4">Addresses</Typography>
 			<Stack>

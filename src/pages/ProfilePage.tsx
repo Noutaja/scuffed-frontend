@@ -24,15 +24,20 @@ export default function ProfilePage() {
 	}, [currentUser]);
 
 	return (
-		<Box component="main" sx={{ mt: "5rem" }} display={"flex"}>
-			<Box sx={{ flex: 1 }}>
+		<Box
+			component="main"
+			sx={{ mt: "5rem" }}
+			display={"flex"}
+			flexWrap={"wrap"}
+		>
+			<Box sx={{ flex: 1, flexBasis: 300 }}>
 				<UserProfileInfo />
 				<AddressPanel
 					accessToken={accessToken}
 					currentUser={currentUser}
 				/>
 			</Box>
-			<Box sx={{ flex: 1 }}>
+			<Box sx={{ flex: 1, flexBasis: 300 }}>
 				<OrdersPanel
 					accessToken={accessToken}
 					currentUser={currentUser}

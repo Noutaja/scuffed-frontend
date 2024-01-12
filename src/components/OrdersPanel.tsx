@@ -30,6 +30,7 @@ export default function OrdersPanel(props: OrdersPanelProps) {
 			alignItems="center"
 			maxWidth="md"
 			margin="auto"
+			padding={1}
 		>
 			<Typography variant="h4">Orders</Typography>
 			<Stack spacing={2}>
