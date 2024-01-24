@@ -55,7 +55,7 @@ export default function UserProfileInfo() {
 	}
 
 	async function handleDelete() {
-		if (currentUser?.role == UserRole.Admin) {
+		if (currentUser?.role === UserRole.Admin) {
 			setDeleteErrorMessage("Admin profiles can't be deleted!");
 			return;
 		}
